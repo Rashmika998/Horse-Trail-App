@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
-import { Card } from "react-bootstrap";
+import { Button, Card } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 
 const colors = {
@@ -16,6 +16,7 @@ const styles = {
 };
 
 export default function DisplayTrail() {
+  const [userID, setUserID] = useState("AAAAAAA");
   const [trailID, setTrailID] = useState(null);
 
   const [trailDetails, setTrailDetails] = useState({});
@@ -24,9 +25,22 @@ export default function DisplayTrail() {
   const stars = Array(5).fill(0);
 
   const [reviewResult, setReviewResult] = useState("");
+  const [checkIn, setCheckInResult] = useState("");
 
   const [ratings, setRatings] = useState([]);
 
+  function addCheckIn(e) {
+    setCheckInResult("Waiting");
+
+    e.preventDefault();
+    FireStoreService.addCheckins(userID, trailID)
+      .then(() => {
+        setCheckInResult("Success");
+      })
+      .catch((e) => {
+        setCheckInResult("Error");
+      });
+  }
   const handleClick = (value) => {
     setCurrentValue(value);
     FireStoreService.addRatings(trailID, value)
@@ -47,6 +61,7 @@ export default function DisplayTrail() {
   };
 
   useEffect(() => {
+    
     var url = document.location.href;
     var id = url.toString().split("/")[4];
     setTrailID(id);
@@ -821,7 +836,10 @@ export default function DisplayTrail() {
           <br></br>
           <form className="needs-validation">
             <div className="row">
-              <div className="form-radio" style={{ marginBottom: "15px" }}>
+              <div
+                className="form-radio col-md-7"
+                style={{ marginBottom: "15px" }}
+              >
                 <label style={{ marginBottom: "5px" }}>
                   <h4>Rate the Trail</h4>(submit the rate by clicking the
                   required stars)
@@ -852,6 +870,25 @@ export default function DisplayTrail() {
                 {reviewResult ? (
                   <div class="alert alert-info" role="alert">
                     {reviewResult}
+                  </div>
+                ) : null}
+              </div>
+              <div className="col-md-5">
+                <button className="btn btn-primary" onClick={addCheckIn}>
+                  Check In
+                </button>
+                &nbsp; &nbsp; &nbsp; &nbsp;
+                {checkIn == "Waiting" ? (
+                  <div class="spinner-border text-primary " role="status"></div>
+                ) : null}
+                {checkIn == "Success" ? (
+                  <div class="alert alert-success mt-4" role="alert">
+                    Checked In Successfully
+                  </div>
+                ) : null}
+                {checkIn == "Error" ? (
+                  <div class="alert alert-danger mt-4" role="alert">
+                    Error occurred! Please try again.
                   </div>
                 ) : null}
               </div>

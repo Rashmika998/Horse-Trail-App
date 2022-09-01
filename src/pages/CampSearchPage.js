@@ -54,7 +54,6 @@ function SearchPage() {
     });
   };
 
-
   const getSearchList = async () => {
     const data = await FireStoreService.searchCamps(
       inputs.inputCampType,
@@ -355,15 +354,12 @@ function SearchPage() {
               aria-labelledby="profile-tab"
             >
               {camps.length == 0 ? "No Camps Found" : ""}
-              <div className="row">
-                <div className="col-3">
+              <div className="row text-center">
                   {camps.map((camp) => {
                     // getImageURL(camp);
-
-                    return (
+                      return (
                       <Col xs={12} md={6} lg={4} key={camp.id}>
                         <Card
-                          style={{ width: "25rem" }}
                           key={camp.id}
                           className="mt-5 ms-3"
                         >
@@ -388,9 +384,8 @@ function SearchPage() {
                           </Card.Body>
                         </Card>
                       </Col>
-                    );
+                      );
                   })}
-                </div>
               </div>
             </div>
           </div>

@@ -1,5 +1,10 @@
 import firebase from "firebase/app";
-import { getStorage, ref, getDownloadURL } from "firebase/firebase-storage";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  documentId,
+} from "firebase/firebase-storage";
 import { db } from "../../firestore";
 import "firebase/storage";
 import "firebase/firestore";
@@ -169,12 +174,29 @@ function getTrail(id) {
       .get()
       .then((trail) => {
         resolve(trail);
-      }).catch((e) => {
-        reject(e);
-
       })
+      .catch((e) => {
+        reject(e);
+      });
   });
 }
+
+function getTrailsList(idArr) {
+  return new Promise((resolve, reject) => {
+    console.log(idArr);
+    db.collection("trails")
+      .where(documentId(), "in", idArr)
+      .get()
+      .then((trailList) => {
+        resolve(trailList);
+        
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 
 function addRatings(id, rate) {
   return new Promise((resolve, reject) => {
@@ -193,7 +215,6 @@ function addRatings(id, rate) {
   });
 }
 
-
 function getRating(id) {
   return new Promise((resolve, reject) => {
     var query = db.collection("trailsRatings");
@@ -202,16 +223,12 @@ function getRating(id) {
       .get()
       .then((ratings) => {
         resolve(ratings);
-        })
+      })
       .catch((e) => {
         reject(e);
       });
   });
 }
-
-
-
-
 
 function searchTrails(
   trailType,
@@ -280,7 +297,123 @@ function getTrailImages(name, imageName) {
   });
 }
 
+function addCheckins(uid, trailID) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      uID: uid,
+      trailID: trailID,
+      status: "Checked-In",
+      favourite: false,
+    };
+    db.collection("trailCheckIns")
+      .add(data)
+      .then((docRef) => {
+        resolve(docRef);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
 
+function getTrailIDsList(type, userId) {
+
+  return new Promise((resolve, reject) => {
+    
+    var query = db.collection("trailCheckIns");
+    query = query.where("uID", "==", userId);
+
+    if (type == "favourites") {
+      query = query
+        .where("status", "==", "Completed")
+        .where("favourite", "==", true);
+    }
+    else if (type == "completed") {
+      query = query.where("status", "==", "Completed");
+    }
+    else if (type == "checkedIn") {
+      query = query.where("status", "==", "Checked-In");
+    }
+    query
+      .get()
+      .then((trailsList) => {
+        resolve(trailsList);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function updateTrailCheckinState(trailID, newState) {
+  return new Promise((resolve, reject) => {
+    db.collection("trailCheckIns")
+      .where("trailID", "==", trailID)
+      .get()
+      .then((snapshots) => {
+        if (snapshots.size > 0) {
+          snapshots.forEach((trail) => {
+            db.collection("trailCheckIns")
+              .doc(trail.id)
+              .update({ status: newState })
+              .then((trailState) => {
+                resolve(trailState);
+                console.log(trailState);
+              })
+              .catch((e) => {
+                reject(e);
+              });
+          });
+        }
+      }).catch((e) => { 
+        reject(e);
+      });
+   
+      
+  });
+}
+
+function setTrailFavourite(trailID) {
+  return new Promise((resolve, reject) => {
+    db.collection("trailCheckIns")
+      .where("trailID", "==", trailID)
+      .get()
+      .then((snapshots) => {
+        if (snapshots.size > 0) {
+          snapshots.forEach((trail) => {
+            db.collection("trailCheckIns")
+              .doc(trail.id)
+              .update({ favourite: true })
+              .then((trailState) => {
+                resolve(trailState);
+              })
+              .catch((e) => {
+                reject(e);
+              });
+          });
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+
+function getMyTrails(userId) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trails");
+    query = query.where("userId", "==", userId);
+    query
+      .get()
+      .then((trailsList) => {
+        resolve(trailsList);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
 export default {
   addRatings,
   addTrail,
@@ -293,4 +426,10 @@ export default {
   getTrailImageURL,
   getTrail,
   searchTrails,
+  addCheckins,
+  getTrailsList,
+  getTrailIDsList,
+  updateTrailCheckinState,
+  setTrailFavourite,
+  getMyTrails,
 };

@@ -17,6 +17,12 @@ import CampSearchPage from "./pages/CampSearchPage";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
+import MyTrails from "./pages/MyTrails";
+import MyTrailsList from "./pages/MyTrailsList";
+import MyCamps from "./pages/MyCamps";
+import MyCampsList from "./pages/MyCampsList";
+import AddedTrails from "./pages/AddedTrails";
+import AddedCamps from "./pages/AddedCamps";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,6 +39,12 @@ root.render(
         <Route exact path="/display-camp/:id" element={<DisplayCamp />} />
         <Route path="/trails" exact element={<TrailSearchPage />} />
         <Route path="/camps" exact element={<CampSearchPage />} />
+        <Route path="/my-trails" exact element={<MyTrails />} />
+        <Route path="/my-trails-list/:type" exact element={<MyTrailsList />} />
+        <Route path="/my-camps" exact element={<MyCamps />} />
+        <Route path="/my-camps-list/:type" exact element={<MyCampsList />} />
+        <Route path="/added-camps" exact element={<AddedCamps />} />
+        <Route path="/added-trails" exact element={<AddedTrails />} />
       </Routes>
       <Footer />
     </Router>

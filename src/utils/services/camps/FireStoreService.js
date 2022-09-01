@@ -243,7 +243,117 @@ function searchCamps(
       });
   });
 }
+function getCampIDsList(type, userId) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campCheckIns");
+    query = query.where("uID", "==", userId);
 
+    if (type == "favourites") {
+      query = query
+        .where("status", "==", "Completed")
+        .where("favourite", "==", true);
+    } else if (type == "completed") {
+      query = query.where("status", "==", "Completed");
+    } else if (type == "checkedIn") {
+      query = query.where("status", "==", "Checked-In");
+    }
+    query
+      .get()
+      .then((campsList) => {
+        resolve(campsList);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function updateCampCheckinState(campID, newState) {
+  return new Promise((resolve, reject) => {
+    db.collection("campCheckIns")
+      .where("campID", "==", campID)
+      .get()
+      .then((snapshots) => {
+        if (snapshots.size > 0) {
+          snapshots.forEach((camp) => {
+            db.collection("campCheckIns")
+              .doc(camp.id)
+              .update({ status: newState })
+              .then((campState) => {
+                resolve(campState);
+                console.log(campState);
+              })
+              .catch((e) => {
+                reject(e);
+              });
+          });
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function setCampFavourite(campID) {
+  return new Promise((resolve, reject) => {
+    db.collection("campCheckIns")
+      .where("campID", "==", campID)
+      .get()
+      .then((snapshots) => {
+        if (snapshots.size > 0) {
+          snapshots.forEach((camp) => {
+            db.collection("campCheckIns")
+              .doc(camp.id)
+              .update({ favourite: true })
+              .then((campState) => {
+                resolve(campState);
+              })
+              .catch((e) => {
+                reject(e);
+              });
+          });
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function addCheckins(uid, campID) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      uID: uid,
+      campID: campID,
+      status: "Checked-In",
+      favourite: false,
+    };
+    db.collection("campCheckIns")
+      .add(data)
+      .then((docRef) => {
+        resolve(docRef);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function getMyCamps(userId) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("camps");
+    query = query.where("userId", "==", userId);
+    query
+      .get()
+      .then((campsList) => {
+        resolve(campsList);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
 export default {
   addCamp,
   addCampImages,
@@ -253,4 +363,9 @@ export default {
   getCampImages,
   getRating,
   searchCamps,
+  getCampIDsList,
+  updateCampCheckinState,
+  setCampFavourite,
+  addCheckins,
+  getMyCamps,
 };

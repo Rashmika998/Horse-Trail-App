@@ -58,7 +58,7 @@ function SearchPage() {
       if (!markers.includes(marker)) {
         markers.push(marker);
       }
-    });
+    },[]);
   };
 
   const getImageURL = async (trail) => {
