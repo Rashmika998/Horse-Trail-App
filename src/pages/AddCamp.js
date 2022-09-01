@@ -109,6 +109,12 @@ export default function AddTrail() {
     }
   };
 
+  function validateLatLng(lat, lng) {
+    let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
+
+    return pattern.test(lat) && pattern.test(lng);
+  }
+
   function onSubmit(e) {
     e.preventDefault();
     if (
@@ -203,53 +209,88 @@ export default function AddTrail() {
                                   }
                                   const amenitiesCheck = {};
                                   amenitiesCheck.amenities = tempObj;
-                                  console.log(tempObj);
-                                  FireStoreService.addCamp(
-                                    amenitiesCheck,
-                                    banner.name,
-                                    bestSeasonsCheck,
-                                    campDescription,
-                                    campName,
-                                    campNotes,
-                                    campSiteTypesCheck,
-                                    campType,
-                                    city,
-                                    costPerNight,
-                                    description,
-                                    email,
-                                    facebook,
-                                    horseSite,
-                                    imageGal1.name,
-                                    imageGal2.name,
-                                    imageGal3.name,
-                                    instagram,
-                                    keywords,
-                                    longitude,
-                                    latitude,
-                                    paperworkRequired,
-                                    parkName,
-                                    parkingImage.name,
-                                    petPolicy,
-                                    phone,
-                                    reservation,
-                                    reservationCall,
-                                    reservationDescription,
-                                    reservationEmail,
-                                    reservationLink,
-                                    resOrPricing,
-                                    restrictions,
-                                    roadToCamp,
-                                    state,
-                                    twitter,
-                                    website
-                                  )
-                                    .then(() => {
-                                      alert("Done");
-                                    })
-                                    .catch((e) => {
-                                      setError("Error occured: " + e.message);
-                                      console.log(e);
-                                    });
+
+                                  var rePhone = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                                  /* Allowed phn number formats
+                                  (123) 456-7890. (123)456-7890, 123-456-7890, 1234567890 */
+                                  if (
+                                    rePhone.test(phone) &&
+                                    rePhone.test(reservationCall)
+                                  ) {
+                                    var reEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                                    if (
+                                      reEmail.test(email) &&
+                                      reEmail.test(reservationEmail)
+                                    ) {
+                                      if (
+                                        validateLatLng(
+                                          parseFloat(latitude),
+                                          parseFloat(longitude)
+                                        )
+                                      ) {
+                                        FireStoreService.addCamp(
+                                          amenitiesCheck,
+                                          banner.name,
+                                          bestSeasonsCheck,
+                                          campDescription,
+                                          campName,
+                                          campNotes,
+                                          campSiteTypesCheck,
+                                          campType,
+                                          city,
+                                          costPerNight,
+                                          description,
+                                          email,
+                                          facebook,
+                                          horseSite,
+                                          imageGal1.name,
+                                          imageGal2.name,
+                                          imageGal3.name,
+                                          instagram,
+                                          keywords,
+                                          longitude,
+                                          latitude,
+                                          paperworkRequired,
+                                          parkName,
+                                          parkingImage.name,
+                                          petPolicy,
+                                          phone,
+                                          reservation,
+                                          reservationCall,
+                                          reservationDescription,
+                                          reservationEmail,
+                                          reservationLink,
+                                          resOrPricing,
+                                          restrictions,
+                                          roadToCamp,
+                                          state,
+                                          twitter,
+                                          website
+                                        )
+                                          .then(() => {
+                                            alert("Done");
+                                          })
+                                          .catch((e) => {
+                                            setError(
+                                              "Error occured: " + e.message
+                                            );
+                                            console.log(e);
+                                          });
+                                      } else {
+                                        setError(
+                                          "Error! Entered longitude and latitude values are invalid"
+                                        );
+                                      }
+                                    } else {
+                                      setError(
+                                        "Error! Entered email address format is invalid"
+                                      );
+                                    }
+                                  } else {
+                                    setError(
+                                      "Error! Entered phone number or reservation call format is invalid"
+                                    );
+                                  }
                                 })
                                 .catch((e) => {
                                   setError("Error occured!");
