@@ -45,6 +45,12 @@ export default function AddTrail() {
   const [parkingImage, setParkingImage] = useState("");
   const [trailMapImage, setTrailMapImage] = useState("");
 
+  function validateLatLng(lat, lng) {
+    let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
+
+    return pattern.test(lat) && pattern.test(lng);
+  }
+
   function onSubmit(e) {
     e.preventDefault();
     if (
@@ -116,49 +122,60 @@ export default function AddTrail() {
                                             trailMapImage
                                           )
                                             .then(() => {
-                                              FireStoreService.addTrail(
-                                                atvOrOffroad,
-                                                banner.name,
-                                                bestSeasonsCheck,
-                                                bikers,
-                                                city,
-                                                country,
-                                                description,
-                                                dogs,
-                                                elevationGain,
-                                                gpx.name,
-                                                hikers,
-                                                imageGal1.name,
-                                                imageGal2.name,
-                                                imageGal3.name,
-                                                keywords,
-                                                longitude,
-                                                latitude,
-                                                miles,
-                                                obstaclesCheck,
-                                                parkName,
-                                                parkingImage.name,
-                                                parkingNotes,
-                                                parkingSpots,
-                                                restrictions,
-                                                state,
-                                                trailHeadCheck,
-                                                trailMap,
-                                                trailMapImage.name,
-                                                trailName,
-                                                trailNotes,
-                                                trailType,
-                                                userId
-                                              )
-                                                .then(() => {
-                                                  alert("Done");
-                                                })
-                                                .catch((e) => {
-                                                  setError(
-                                                    "Error occured: " +
-                                                      e.message
-                                                  );
-                                                });
+                                              if (
+                                                validateLatLng(
+                                                  parseFloat(latitude),
+                                                  parseFloat(longitude)
+                                                )
+                                              ) {
+                                                FireStoreService.addTrail(
+                                                  atvOrOffroad,
+                                                  banner.name,
+                                                  bestSeasonsCheck,
+                                                  bikers,
+                                                  city,
+                                                  country,
+                                                  description,
+                                                  dogs,
+                                                  elevationGain,
+                                                  gpx.name,
+                                                  hikers,
+                                                  imageGal1.name,
+                                                  imageGal2.name,
+                                                  imageGal3.name,
+                                                  keywords,
+                                                  longitude,
+                                                  latitude,
+                                                  miles,
+                                                  obstaclesCheck,
+                                                  parkName,
+                                                  parkingImage.name,
+                                                  parkingNotes,
+                                                  parkingSpots,
+                                                  restrictions,
+                                                  state,
+                                                  trailHeadCheck,
+                                                  trailMap,
+                                                  trailMapImage.name,
+                                                  trailName,
+                                                  trailNotes,
+                                                  trailType,
+                                                  userId
+                                                )
+                                                  .then(() => {
+                                                    alert("Done");
+                                                  })
+                                                  .catch((e) => {
+                                                    setError(
+                                                      "Error occured: " +
+                                                        e.message
+                                                    );
+                                                  });
+                                              } else {
+                                                setError(
+                                                  "Error! Entered longitude and latitude values are invalid"
+                                                );
+                                              }
                                             })
                                             .catch((e) => {
                                               setError(
@@ -192,25 +209,25 @@ export default function AddTrail() {
                       setError("Error occured: " + e.message);
                     });
                 } else {
-                  setError("Uploaded image format is invalid!");
+                  setError("Uploaded parking image format is invalid!");
                 }
               } else {
-                setError("Uploaded image format is invalid!");
+                setError("Uploaded trail map image format is invalid!");
               }
             } else {
-              setError("Uploaded image format is invalid!");
+              setError("Uploaded galllery image format is invalid!");
             }
           } else {
-            setError("Uploaded image format is invalid!");
+            setError("Uploaded gallery format is invalid!");
           }
         } else {
-          setError("Uploaded image format is invalid!");
+          setError("Uploaded gallery format is invalid!");
         }
       } else {
         setError("Uploaded gpx format is invalid!");
       }
     } else {
-      setError("Uploaded image format is invalid!");
+      setError("Uploaded banner image format is invalid!");
     }
   }
 
