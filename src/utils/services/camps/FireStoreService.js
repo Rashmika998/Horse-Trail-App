@@ -389,6 +389,98 @@ function deleteCamp(id) {
   });
 }
 
+function updateCamp(
+  id,
+  amenitiesCheck,
+  bannerName,
+  bestSeasonsCheck,
+  campDescription,
+  campName,
+  campNotes,
+  campSiteTypesCheck,
+  campType,
+  city,
+  costPerNight,
+  description,
+  email,
+  facebook,
+  horseSite,
+  imageGal1Name,
+  imageGal2Name,
+  imageGal3Name,
+  instagram,
+  keywords,
+  longitude,
+  latitude,
+  paperworkRequired,
+  parkingImageName,
+  parkName,
+  petPolicy,
+  phone,
+  reservation,
+  reservationCall,
+  reservationDescription,
+  reservationEmail,
+  reservationLink,
+  resOrPricing,
+  restrictions,
+  roadToCamp,
+  state,
+  twitter,
+  website
+) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      amenitiesCheck: amenitiesCheck,
+      bannerName: bannerName,
+      bestSeasonsCheck: bestSeasonsCheck,
+      campDescription: campDescription,
+      campName: campName,
+      campNotes: campNotes,
+      campSiteTypesCheck: campSiteTypesCheck,
+      campType: campType,
+      city: city,
+      costPerNight: costPerNight,
+      description: description,
+      email: email,
+      facebook: facebook,
+      horseSite: horseSite,
+      imageGal1Name: imageGal1Name,
+      imageGal2Name: imageGal2Name,
+      imageGal3Name: imageGal3Name,
+      instagram: instagram,
+      keywords: keywords,
+      longitude: longitude,
+      latitude: latitude,
+      paperworkRequired: paperworkRequired,
+      parkingImageName: parkingImageName,
+      parkName: parkName,
+      petPolicy: petPolicy,
+      phone: phone,
+      reservation: reservation,
+      reservationCall: reservationCall,
+      reservationDescription: reservationDescription,
+      reservationEmail: reservationEmail,
+      reservationLink: reservationLink,
+      resOrPricing: resOrPricing,
+      restrictions: restrictions,
+      roadToCamp: roadToCamp,
+      state: state,
+      twitter: twitter,
+      website: website,
+    };
+    db.collection("camps")
+      .doc(id)
+      .update(data)
+      .then((docRef) => {
+        resolve(docRef);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addCamp,
   addCampImages,
@@ -401,6 +493,7 @@ export default {
   getRating,
   searchCamps,
   getCampIDsList,
+  updateCamp,
   updateCampCheckinState,
   setCampFavourite,
   addCheckins,

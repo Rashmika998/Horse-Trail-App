@@ -441,6 +441,89 @@ function deleteTrail(id) {
   });
 }
 
+function updateTrail(
+  id,
+  atvOrOffroad,
+  bannerName,
+  bestSeasonsCheck,
+  bikers,
+  city,
+  country,
+  description,
+  dogs,
+  elevationGain,
+  gpxName,
+  hikers,
+  imageGal1Name,
+  imageGal2Name,
+  imageGal3Name,
+  keywords,
+  longitude,
+  latitude,
+  miles,
+  obstaclesCheck,
+  parkName,
+  parkingImageName,
+  parkingNotes,
+  parkingSpots,
+  restrictions,
+  state,
+  trailHeadCheck,
+  trailMap,
+  trailMapName,
+  trailName,
+  trailNotes,
+  trailType,
+  userId
+) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      atvOrOffroad: atvOrOffroad,
+      bannerName: bannerName,
+      bestSeasonsCheck: bestSeasonsCheck,
+      bikers: bikers,
+      city: city,
+      country: country,
+      description: description,
+      dogs: dogs,
+      elevationGain: elevationGain,
+      gpxName: gpxName,
+      hikers: hikers,
+      imageGal1Name: imageGal1Name,
+      imageGal2Name: imageGal2Name,
+      imageGal3Name: imageGal3Name,
+      keywords: keywords,
+      longitude: longitude,
+      latitude: latitude,
+      miles: parseFloat(miles),
+      obstaclesCheck: obstaclesCheck,
+      parkName: parkName,
+      parkingImageName: parkingImageName,
+      parkingNotes: parkingNotes,
+      parkingSpots: parkingSpots,
+      restrictions: restrictions,
+      state: state,
+      trailHeadCheck: trailHeadCheck,
+      trailMap: trailMap,
+      trailMapName: trailMapName,
+      trailName: trailName,
+      trailNotes: trailNotes,
+      trailType: trailType,
+      userId: userId,
+    };
+
+    db.collection("trails")
+      .doc(id)
+      .update(data)
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addRatings,
   addTrail,
@@ -458,6 +541,7 @@ export default {
   addCheckins,
   getTrailsList,
   getTrailIDsList,
+  updateTrail,
   updateTrailCheckinState,
   setTrailFavourite,
   getMyTrails,
