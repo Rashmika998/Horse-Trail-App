@@ -189,14 +189,12 @@ function getTrailsList(idArr) {
       .get()
       .then((trailList) => {
         resolve(trailList);
-        
       })
       .catch((e) => {
         reject(e);
       });
   });
 }
-
 
 function addRatings(id, rate) {
   return new Promise((resolve, reject) => {
@@ -317,9 +315,7 @@ function addCheckins(uid, trailID) {
 }
 
 function getTrailIDsList(type, userId) {
-
   return new Promise((resolve, reject) => {
-    
     var query = db.collection("trailCheckIns");
     query = query.where("uID", "==", userId);
 
@@ -327,11 +323,9 @@ function getTrailIDsList(type, userId) {
       query = query
         .where("status", "==", "Completed")
         .where("favourite", "==", true);
-    }
-    else if (type == "completed") {
+    } else if (type == "completed") {
       query = query.where("status", "==", "Completed");
-    }
-    else if (type == "checkedIn") {
+    } else if (type == "checkedIn") {
       query = query.where("status", "==", "Checked-In");
     }
     query
@@ -365,11 +359,10 @@ function updateTrailCheckinState(trailID, newState) {
               });
           });
         }
-      }).catch((e) => { 
+      })
+      .catch((e) => {
         reject(e);
       });
-   
-      
   });
 }
 
@@ -399,7 +392,6 @@ function setTrailFavourite(trailID) {
   });
 }
 
-
 function getMyTrails(userId) {
   return new Promise((resolve, reject) => {
     var query = db.collection("trails");
@@ -414,6 +406,25 @@ function getMyTrails(userId) {
       });
   });
 }
+
+function addReview(userId, trailId, review) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      userId: userId,
+      trailId: trailId,
+      review: review,
+    };
+    db.collection("trailsReviews")
+      .add(data)
+      .then((docRef) => {
+        resolve(docRef);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addRatings,
   addTrail,
@@ -422,6 +433,7 @@ export default {
   getAllTrails,
   getGpxFiles,
   getRating,
+  addReview,
   getTrailImages,
   getTrailImageURL,
   getTrail,

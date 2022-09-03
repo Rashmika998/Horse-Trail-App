@@ -354,10 +354,30 @@ function getMyCamps(userId) {
       });
   });
 }
+
+function addReview(userId, campId, review) {
+  return new Promise((resolve, reject) => {
+    const data = {
+      userId: userId,
+      campId: campId,
+      review: review,
+    };
+    db.collection("campsReviews")
+      .add(data)
+      .then((docRef) => {
+        resolve(docRef);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addCamp,
   addCampImages,
   addRatings,
+  addReview,
   getAllCamps,
   getCamp,
   getCampImages,

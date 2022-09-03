@@ -21,26 +21,18 @@ export default function DisplayCamp() {
   const [campID, setCampID] = useState(null);
 
   const [campDetails, setCampDetails] = useState({});
+
+  const [ratings, setRatings] = useState([]);
+  const [checkIn, setCheckInResult] = useState("");
   const [currentValue, setCurrentValue] = useState(0);
   const [hoverValue, setHoverValue] = useState(undefined);
   const stars = Array(5).fill(0);
 
   const [reviewResult, setReviewResult] = useState("");
-  const [ratings, setRatings] = useState([]);
-  const [checkIn, setCheckInResult] = useState("");
-
-  function addCheckIn(e) {
-    setCheckInResult("Waiting");
-
-    e.preventDefault();
-    FireStoreService.addCheckins(userID, campID)
-      .then(() => {
-        setCheckInResult("Success");
-      })
-      .catch((e) => {
-        setCheckInResult("Error");
-      });
-  }
+  const [review, setReview] = useState("");
+  const [checkedIn, setChekedIn] = useState(true); //checked in state
+  const [completed, setCompleted] = useState(true); //completed state
+  const [fav, setFav] = useState(false); //fav state
 
   const handleClick = (value) => {
     setCurrentValue(value);
@@ -60,6 +52,19 @@ export default function DisplayCamp() {
   const handleMouseLeave = () => {
     setHoverValue(undefined);
   };
+
+  function addCheckIn(e) {
+    setCheckInResult("Waiting");
+
+    e.preventDefault();
+    FireStoreService.addCheckins(userID, campID)
+      .then(() => {
+        setCheckInResult("Success");
+      })
+      .catch((e) => {
+        setCheckInResult("Error");
+      });
+  }
 
   useEffect(() => {
     var url = document.location.href;
@@ -330,6 +335,16 @@ export default function DisplayCamp() {
     var overall = tot / ratings.length;
     const starRate = document.getElementById("starRate");
     isNaN(overall) ? (starRate.innerHTML = 0) : (starRate.innerHTML = overall);
+  }
+
+  function submitReview() {
+    FireStoreService.addReview(userID, campID, review)
+      .then(() => {
+        setReviewResult("Review submitted successfully");
+      })
+      .catch((e) => {
+        setReviewResult("Error occurred! Please try again.");
+      });
   }
 
   return (
@@ -951,66 +966,124 @@ export default function DisplayCamp() {
             </Card>
           </div>
           <br></br>
-          <form className="needs-validation">
-            <div className="row">
-              <div
-                className="form-radio col-md-7"
-                style={{ marginBottom: "15px" }}
-              >
-                <label style={{ marginBottom: "5px" }}>
-                  <h4>Rate the Camp</h4>(submit the rate by clicking the
-                  required stars)
-                </label>
-                <div style={styles.stars}>
-                  {stars.map((_, index) => {
-                    return (
-                      <FaStar
-                        key={index}
-                        size={24}
-                        onClick={() => handleClick(index + 1)}
-                        onMouseOver={() => handleMouseOver(index + 1)}
-                        onMouseLeave={handleMouseLeave}
-                        color={
-                          (hoverValue || currentValue) > index
-                            ? colors.orange
-                            : colors.grey
-                        }
-                        style={{
-                          marginRight: 10,
-                          cursor: "pointer",
-                        }}
-                      />
-                    );
-                  })}
+          <div>
+            {checkedIn ? (
+              <div>
+                {
+                  completed ? (
+                    <div>
+                      {fav ? null /**display it as a fav */ : (
+                        <div>
+                          <form className="needs-validation">
+                            <div className="row">
+                              <div
+                                className="form-radio col-md-5"
+                                style={{ marginBottom: "15px" }}
+                              >
+                                <label style={{ marginBottom: "5px" }}>
+                                  <h4>Rate the Trail</h4>(submit the rate by
+                                  clicking the required stars)
+                                </label>
+                                <div style={styles.stars}>
+                                  {stars.map((_, index) => {
+                                    return (
+                                      <FaStar
+                                        key={index}
+                                        size={24}
+                                        onClick={() => handleClick(index + 1)}
+                                        onMouseOver={() =>
+                                          handleMouseOver(index + 1)
+                                        }
+                                        onMouseLeave={handleMouseLeave}
+                                        color={
+                                          (hoverValue || currentValue) > index
+                                            ? colors.orange
+                                            : colors.grey
+                                        }
+                                        style={{
+                                          marginRight: 10,
+                                          cursor: "pointer",
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                                <br></br>
+                                {reviewResult ? (
+                                  <div class="alert alert-info" role="alert">
+                                    {reviewResult}
+                                  </div>
+                                ) : null}
+                              </div>
+                              <div className="col-md-7">
+                                <div
+                                  className="form-group"
+                                  style={{ marginBottom: "15px" }}
+                                >
+                                  <label style={{ marginBottom: "5px" }}>
+                                    Add Review
+                                  </label>
+                                  <textarea
+                                    name="review"
+                                    className="form-control"
+                                    onChange={(e) => {
+                                      setReview(e.target.value);
+                                    }}
+                                  ></textarea>
+                                </div>
+
+                                <div className="d-grid">
+                                  <button
+                                    className="btn btn-block"
+                                    type="submit"
+                                    style={{
+                                      marginTop: "15px",
+                                      backgroundColor: "#071c2f",
+                                      color: "white",
+                                    }}
+                                    onSubmit={submitReview}
+                                  >
+                                    Add Review
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      )}
+                    </div>
+                  ) : null /**display it as checked in */
+                }
+              </div>
+            ) : (
+              <form className="needs-validation">
+                <div className="row">
+                  <div className="col-md-5">
+                    <button className="btn btn-primary" onClick={addCheckIn}>
+                      Check In
+                    </button>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    {checkIn == "Waiting" ? (
+                      <div
+                        class="spinner-border text-primary "
+                        role="status"
+                      ></div>
+                    ) : null}
+                    {checkIn == "Success" ? (
+                      <div class="alert alert-success mt-4" role="alert">
+                        Checked In Successfully
+                      </div>
+                    ) : null}
+                    {checkIn == "Error" ? (
+                      <div class="alert alert-danger mt-4" role="alert">
+                        Error occurred! Please try again.
+                      </div>
+                    ) : null}
+                  </div>
                 </div>
-                <br></br>
-                {reviewResult ? (
-                  <div class="alert alert-info" role="alert">
-                    {reviewResult}
-                  </div>
-                ) : null}
-              </div>
-              <div className="col-md-5">
-                <button className="btn btn-primary" onClick={addCheckIn}>
-                  Check In
-                </button>
-                &nbsp; &nbsp; &nbsp; &nbsp;
-                {checkIn == "Waiting" ? (
-                  <div class="spinner-border text-primary " role="status"></div>
-                ) : null}
-                {checkIn == "Success" ? (
-                  <div class="alert alert-success mt-4" role="alert">
-                    Checked In Successfully
-                  </div>
-                ) : null}
-                {checkIn == "Error" ? (
-                  <div class="alert alert-danger mt-4" role="alert">
-                    Error occurred! Please try again.
-                  </div>
-                ) : null}
-              </div>
-            </div>
-          </form>
+              </form>
+            )}
+          </div>
         </Card.Body>
       </Card>
     </div>
