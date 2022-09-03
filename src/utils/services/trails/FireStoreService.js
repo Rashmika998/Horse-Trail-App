@@ -425,11 +425,28 @@ function addReview(userId, trailId, review) {
   });
 }
 
+function deleteTrail(id) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trails");
+    query = query.where("id", "==", id);
+    query
+      .doc(id)
+      .delete()
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addRatings,
   addTrail,
   addTrailImages,
   addGpxFiles,
+  deleteTrail,
   getAllTrails,
   getGpxFiles,
   getRating,
