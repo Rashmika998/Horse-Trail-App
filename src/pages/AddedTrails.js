@@ -7,6 +7,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 function AddedTrails() {
   const [userID, setUserID] = useState("nwdjBJLDJLNW");
   const [trails, setTrailsList] = useState([]);
+  const [show, setShow] = useState(false);
 
   const getList = async () => {
     const data = await FireStoreService.getMyTrails(userID);
@@ -17,13 +18,26 @@ function AddedTrails() {
     getList();
   }, []);
 
+  const onDelete = (id) => {
+    FireStoreService.deleteTrail(id)
+      .then(() => {
+        alert("Done");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const handleClose = () => setShow(false);
+  function handleShowDelete() {
+    setShow(true);
+  }
+
   return (
     <BodyContent>
       <div className="text-center">
         <h3>My Trails</h3>
         {trails.length == 0 ? (
           <div className="mt-5">
-            <div class="spinner-border" role="status"></div>&nbsp;&nbsp;
             <div class="spinner-grow" role="status"></div>
           </div>
         ) : (
@@ -61,9 +75,38 @@ function AddedTrails() {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="btn btn-danger" style={{ width: "100%" }}>
+                      <div
+                        className="btn btn-danger"
+                        style={{ width: "100%" }}
+                        onClick={handleShowDelete}
+                      >
                         <FaTrash /> &nbsp;Delete
                       </div>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header
+                          closeButton
+                          style={{
+                            backgroundColor: "#C41E3A",
+                            color: "white",
+                          }}
+                        >
+                          <Modal.Title> Delete Trail</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ textAlign: "center" }}>
+                          Delete this trail?
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button
+                            variant="danger"
+                            onClick={() => onDelete(trail.id)}
+                          >
+                            Yes
+                          </Button>
+                          <Button variant="secondary" onClick={handleClose}>
+                            No
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </div>
                   </div>
                 </Card.Body>

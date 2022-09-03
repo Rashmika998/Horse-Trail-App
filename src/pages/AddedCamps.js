@@ -7,6 +7,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 function AddedCamps() {
   const [userID, setUserID] = useState("nwdjBJLDJLNW");
   const [camps, setCampsList] = useState([]);
+  const [show, setShow] = useState(false);
 
   const getList = async () => {
     const data = await FireStoreService.getMyCamps(userID);
@@ -16,6 +17,20 @@ function AddedCamps() {
   useEffect(() => {
     getList();
   }, []);
+
+  const onDelete = (id) => {
+    FireStoreService.deleteCamp(id)
+      .then(() => {
+        alert("Done");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+  const handleClose = () => setShow(false);
+  function handleShowDelete() {
+    setShow(true);
+  }
 
   return (
     <BodyContent>
@@ -61,9 +76,38 @@ function AddedCamps() {
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <div className="btn btn-danger" style={{ width: "100%" }}>
+                      <div
+                        className="btn btn-danger"
+                        style={{ width: "100%" }}
+                        onClick={handleShowDelete}
+                      >
                         <FaTrash /> &nbsp;Delete
                       </div>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header
+                          closeButton
+                          style={{
+                            backgroundColor: "#C41E3A",
+                            color: "white",
+                          }}
+                        >
+                          <Modal.Title> Delete Camp</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body style={{ textAlign: "center" }}>
+                          Delete this camp?
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button
+                            variant="danger"
+                            onClick={() => onDelete(camp.id)}
+                          >
+                            Yes
+                          </Button>
+                          <Button variant="secondary" onClick={handleClose}>
+                            No
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </div>
                   </div>
                 </Card.Body>
