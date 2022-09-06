@@ -23,9 +23,16 @@ import MyCamps from "./pages/MyCamps";
 import MyCampsList from "./pages/MyCampsList";
 import AddedTrails from "./pages/AddedTrails";
 import AddedCamps from "./pages/AddedCamps";
+import { AuthProvider } from "./contexts/AuthContext";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import PrivateRoute from "./pages/PrivateRoute";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <AuthProvider>
   <React.StrictMode>
     <Router>
       <GlobalStyle />
@@ -45,10 +52,15 @@ root.render(
         <Route path="/my-camps-list/:type" exact element={<MyCampsList />} />
         <Route path="/added-camps" exact element={<AddedCamps />} />
         <Route path="/added-trails" exact element={<AddedTrails />} />
+        <Route path="/login" exact element={<Login />} />
+        <Route path="/register" exact element={<Signup />} />
+        <Route path="/forgotPassword" exact element={<ForgotPassword />} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
       </Routes>
       <Footer />
     </Router>
   </React.StrictMode>
+  </AuthProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
