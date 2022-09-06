@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
 
-export default function AddTrail() {
+export default function AddCamp() {
+  const [userID, setUserID] = useState("AAAAAAA");
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");
   const [campType, setCampType] = useState("Any Camp Type");
   const [city, setCity] = useState("");
   const [costPerNight, setCostPerNight] = useState("");
-  const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [facebook, setFacebook] = useState("");
   const [horseSite, setHorseSite] = useState("");
@@ -239,7 +239,6 @@ export default function AddTrail() {
                                           campType,
                                           city,
                                           costPerNight,
-                                          description,
                                           email,
                                           facebook,
                                           horseSite,
@@ -265,6 +264,7 @@ export default function AddTrail() {
                                           roadToCamp,
                                           state,
                                           twitter,
+                                          userID,
                                           website
                                         )
                                           .then(() => {
@@ -1117,19 +1117,6 @@ export default function AddTrail() {
               ></input>
             </div>
           </div>
-        </div>
-        <div className="form-group" style={{ marginBottom: "15px" }}>
-          <label style={{ marginBottom: "5px" }}>
-            Trail Description/Comments
-          </label>
-          <textarea
-            className="form-control"
-            name="description"
-            onChange={(e) => {
-              setDescription(e.target.value);
-            }}
-          ></textarea>
-          <br></br>
         </div>
         {error ? (
           <div className="alert alert-danger" role="alert">

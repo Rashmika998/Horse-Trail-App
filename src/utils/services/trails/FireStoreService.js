@@ -441,10 +441,9 @@ function deleteTrail(id) {
   });
 }
 
-function updateTrail(
+function updateTrailDetails(
   id,
   atvOrOffroad,
-  bannerName,
   bestSeasonsCheck,
   bikers,
   city,
@@ -452,25 +451,19 @@ function updateTrail(
   description,
   dogs,
   elevationGain,
-  gpxName,
   hikers,
-  imageGal1Name,
-  imageGal2Name,
-  imageGal3Name,
   keywords,
   longitude,
   latitude,
   miles,
   obstaclesCheck,
   parkName,
-  parkingImageName,
   parkingNotes,
   parkingSpots,
   restrictions,
   state,
   trailHeadCheck,
   trailMap,
-  trailMapName,
   trailName,
   trailNotes,
   trailType,
@@ -479,7 +472,6 @@ function updateTrail(
   return new Promise((resolve, reject) => {
     const data = {
       atvOrOffroad: atvOrOffroad,
-      bannerName: bannerName,
       bestSeasonsCheck: bestSeasonsCheck,
       bikers: bikers,
       city: city,
@@ -487,30 +479,120 @@ function updateTrail(
       description: description,
       dogs: dogs,
       elevationGain: elevationGain,
-      gpxName: gpxName,
       hikers: hikers,
-      imageGal1Name: imageGal1Name,
-      imageGal2Name: imageGal2Name,
-      imageGal3Name: imageGal3Name,
       keywords: keywords,
       longitude: longitude,
       latitude: latitude,
       miles: parseFloat(miles),
       obstaclesCheck: obstaclesCheck,
       parkName: parkName,
-      parkingImageName: parkingImageName,
       parkingNotes: parkingNotes,
       parkingSpots: parkingSpots,
       restrictions: restrictions,
       state: state,
       trailHeadCheck: trailHeadCheck,
       trailMap: trailMap,
-      trailMapName: trailMapName,
       trailName: trailName,
       trailNotes: trailNotes,
       trailType: trailType,
       userId: userId,
     };
+    console.log(data);
+
+    db.collection("trails")
+      .doc(id)
+      .update(data)
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function updateTrailImages(id, imageType, imageName, trailName, file) {
+  return new Promise((resolve, reject) => {
+    var data = {};
+    if (imageType === "banner") {
+      data = {
+        bannerName: imageName,
+      };
+      storage
+        .ref(`trails/images/banners/${trailName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "parking") {
+      data = {
+        parkingImageName: imageName,
+      };
+      storage
+        .ref(`trails/images/parking/${trailName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "gal01") {
+      data = {
+        imageGal1Name: imageName,
+      };
+      storage
+        .ref(`trails/images/gallery/${trailName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "gal02") {
+      data = {
+        imageGal2Name: imageName,
+      };
+      storage
+        .ref(`trails/images/gallery/${trailName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "gal03") {
+      data = {
+        imageGal3Name: imageName,
+      };
+      storage
+        .ref(`trails/images/gallery/${trailName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "map") {
+      data = {
+        trailMapName: imageName,
+      };
+      storage
+        .ref(`trails/images/trailMap/${trailName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    }
 
     db.collection("trails")
       .doc(id)
@@ -541,7 +623,8 @@ export default {
   addCheckins,
   getTrailsList,
   getTrailIDsList,
-  updateTrail,
+  updateTrailDetails,
+  updateTrailImages,
   updateTrailCheckinState,
   setTrailFavourite,
   getMyTrails,
