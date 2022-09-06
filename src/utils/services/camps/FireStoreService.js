@@ -29,7 +29,6 @@ function addCamp(
   campType,
   city,
   costPerNight,
-  description,
   email,
   facebook,
   horseSite,
@@ -55,6 +54,7 @@ function addCamp(
   roadToCamp,
   state,
   twitter,
+  userID,
   website
 ) {
   return new Promise((resolve, reject) => {
@@ -69,7 +69,6 @@ function addCamp(
       campType: campType,
       city: city,
       costPerNight: costPerNight,
-      description: description,
       email: email,
       facebook: facebook,
       horseSite: horseSite,
@@ -95,8 +94,10 @@ function addCamp(
       roadToCamp: roadToCamp,
       state: state,
       twitter: twitter,
+      userID: userID,
       website: website,
     };
+    console.log(data);
     db.collection("camps")
       .add(data)
       .then((docRef) => {
@@ -389,10 +390,9 @@ function deleteCamp(id) {
   });
 }
 
-function updateCamp(
+function updateCampDetails(
   id,
   amenitiesCheck,
-  bannerName,
   bestSeasonsCheck,
   campDescription,
   campName,
@@ -401,19 +401,14 @@ function updateCamp(
   campType,
   city,
   costPerNight,
-  description,
   email,
   facebook,
   horseSite,
-  imageGal1Name,
-  imageGal2Name,
-  imageGal3Name,
   instagram,
   keywords,
   longitude,
   latitude,
   paperworkRequired,
-  parkingImageName,
   parkName,
   petPolicy,
   phone,
@@ -427,12 +422,12 @@ function updateCamp(
   roadToCamp,
   state,
   twitter,
+  userID,
   website
 ) {
   return new Promise((resolve, reject) => {
     const data = {
       amenitiesCheck: amenitiesCheck,
-      bannerName: bannerName,
       bestSeasonsCheck: bestSeasonsCheck,
       campDescription: campDescription,
       campName: campName,
@@ -441,19 +436,14 @@ function updateCamp(
       campType: campType,
       city: city,
       costPerNight: costPerNight,
-      description: description,
       email: email,
       facebook: facebook,
       horseSite: horseSite,
-      imageGal1Name: imageGal1Name,
-      imageGal2Name: imageGal2Name,
-      imageGal3Name: imageGal3Name,
       instagram: instagram,
       keywords: keywords,
       longitude: longitude,
       latitude: latitude,
       paperworkRequired: paperworkRequired,
-      parkingImageName: parkingImageName,
       parkName: parkName,
       petPolicy: petPolicy,
       phone: phone,
@@ -467,6 +457,7 @@ function updateCamp(
       roadToCamp: roadToCamp,
       state: state,
       twitter: twitter,
+      userID: userID,
       website: website,
     };
     db.collection("camps")
@@ -474,6 +465,88 @@ function updateCamp(
       .update(data)
       .then((docRef) => {
         resolve(docRef);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function updateCampImages(id, imageType, imageName, campName, file) {
+  return new Promise((resolve, reject) => {
+    var data = {};
+    if (imageType === "banner") {
+      data = {
+        bannerName: imageName,
+      };
+      storage
+        .ref(`camps/images/banners/${campName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "parking") {
+      data = {
+        parkingImageName: imageName,
+      };
+      storage
+        .ref(`camps/images/parking/${campName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "gal01") {
+      data = {
+        imageGal1Name: imageName,
+      };
+      storage
+        .ref(`camps/images/gallery/${campName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "gal02") {
+      data = {
+        imageGal2Name: imageName,
+      };
+      storage
+        .ref(`camps/images/gallery/${campName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    } else if (imageType === "gal03") {
+      data = {
+        imageGal3Name: imageName,
+      };
+      storage
+        .ref(`camps/images/gallery/${campName}/${file.name}`)
+        .put(file)
+        .then((docRef) => {
+          resolve(docRef);
+        })
+        .catch((e) => {
+          reject(e);
+        });
+    }
+
+    db.collection("camps")
+      .doc(id)
+      .update(data)
+      .then(() => {
+        resolve();
       })
       .catch((e) => {
         reject(e);
@@ -493,7 +566,8 @@ export default {
   getRating,
   searchCamps,
   getCampIDsList,
-  updateCamp,
+  updateCampDetails,
+  updateCampImages,
   updateCampCheckinState,
   setCampFavourite,
   addCheckins,
