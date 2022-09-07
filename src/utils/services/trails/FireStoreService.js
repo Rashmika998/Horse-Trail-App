@@ -441,6 +441,21 @@ function deleteTrail(id) {
   });
 }
 
+function getReviews(id) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trailsReviews");
+    query = query.where("trailId", "==", id);
+    query
+      .get()
+      .then((reviews) => {
+        resolve(reviews);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 function updateTrailDetails(
   id,
   atvOrOffroad,
@@ -615,6 +630,7 @@ export default {
   getAllTrails,
   getGpxFiles,
   getRating,
+  getReviews,
   addReview,
   getTrailImages,
   getTrailImageURL,

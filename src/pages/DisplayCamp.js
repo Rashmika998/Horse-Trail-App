@@ -31,6 +31,7 @@ export default function DisplayCamp() {
   const [rateResult, setRateResult] = useState("");
   const [reviewResult, setReviewResult] = useState("");
   const [review, setReview] = useState("");
+  const [allReviews, getAllReviews] = useState([]);
   const [checkedIn, setChekedIn] = useState(true); //checked in state
   const [completed, setCompleted] = useState(true); //completed state
   const [fav, setFav] = useState(false); //fav state
@@ -74,6 +75,15 @@ export default function DisplayCamp() {
     FireStoreService.getCamp(campID)
       .then((response) => {
         setCampDetails(response.data());
+        FireStoreService.getReviews(campID)
+          .then((res) => {
+            getAllReviews(
+              res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            );
+          })
+          .catch((e) => {
+            console.log(e);
+          });
         const website = document.getElementById("website");
         website.setAttribute("href", campDetails.website);
         const fb = document.getElementById("fb");
@@ -788,6 +798,7 @@ export default function DisplayCamp() {
                 </Card.Body>
               </Card>
             </div>
+
             <div className="col md-3">
               <Card style={{ border: "none" }}>
                 <Card.Body>
@@ -798,9 +809,9 @@ export default function DisplayCamp() {
                       borderRadius: "5px",
                     }}
                   >
-                    Reviews
+                    Reservations and Pricing
                   </Card.Title>
-                  <div>{campDetails.reviews}</div>
+                  <div>{campDetails.resPricing}</div>
                 </Card.Body>
               </Card>
             </div>
@@ -817,9 +828,14 @@ export default function DisplayCamp() {
                       borderRadius: "5px",
                     }}
                   >
-                    Reservations and Pricing
+                    Camp Reviews
                   </Card.Title>
-                  <div>{campDetails.resPricing}</div>
+                  <ul>
+                    {console.log(allReviews)}
+                    {allReviews.map((value, key) => (
+                      <li>{value.review}</li>
+                    ))}
+                  </ul>
                 </Card.Body>
               </Card>
             </div>

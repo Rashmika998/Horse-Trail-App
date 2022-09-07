@@ -30,6 +30,7 @@ export default function DisplayTrail() {
   const [reviewResult, setReviewResult] = useState("");
   const [rateResult, setRateResult] = useState("");
   const [review, setReview] = useState("");
+  const [allReviews, getAllReviews] = useState([]);
   const [checkedIn, setChekedIn] = useState(true); //checked in state
   const [completed, setCompleted] = useState(true); //completed state
   const [fav, setFav] = useState(false); //fav state
@@ -74,6 +75,15 @@ export default function DisplayTrail() {
       .then((response) => {
         console.log(response.data());
         setTrailDetails(response.data());
+        FireStoreService.getReviews(trailID)
+          .then((res) => {
+            getAllReviews(
+              res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            );
+          })
+          .catch((e) => {
+            console.log(e);
+          });
         const pathBanner = trailDetails.trailName;
         FireStoreService.getTrailImages(
           "banners/" + pathBanner,
@@ -730,6 +740,30 @@ export default function DisplayTrail() {
                 </Card.Body>
               </Card>
             </div>
+          </div>
+          <br></br>
+          <div className="row text-center">
+            <div className="col md-4">
+              <Card style={{ border: "none" }}>
+                <Card.Body>
+                  <Card.Title
+                    style={{
+                      backgroundColor: "#101522",
+                      color: "white",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    Trail Reviews
+                  </Card.Title>
+                  <ul>
+                    {console.log(allReviews)}
+                    {allReviews.map((value, key) => (
+                      <li>{value.review}</li>
+                    ))}
+                  </ul>
+                </Card.Body>
+              </Card>
+            </div>
             <div className="col md-4">
               <Card style={{ border: "none" }}>
                 <Card.Body>
@@ -747,7 +781,6 @@ export default function DisplayTrail() {
               </Card>
             </div>
           </div>
-          <br></br>
           <div className="row text-center">
             <Card style={{ border: "none" }}>
               <Card.Body>
@@ -910,6 +943,7 @@ export default function DisplayTrail() {
                                     Add Review
                                   </label>
                                   <textarea
+                                    required
                                     name="review"
                                     className="form-control"
                                     onChange={(e) => {
