@@ -374,6 +374,21 @@ function addReview(userId, campId, review) {
   });
 }
 
+function getReviews(id) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campsReviews");
+    query = query.where("campId", "==", id);
+    query
+      .get()
+      .then((reviews) => {
+        resolve(reviews);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 function deleteCamp(id) {
   return new Promise((resolve, reject) => {
     var query = db.collection("camps");
@@ -564,6 +579,7 @@ export default {
   getCamp,
   getCampImages,
   getRating,
+  getReviews,
   searchCamps,
   getCampIDsList,
   updateCampDetails,
