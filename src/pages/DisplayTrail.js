@@ -28,6 +28,7 @@ export default function DisplayTrail() {
   const stars = Array(5).fill(0);
 
   const [reviewResult, setReviewResult] = useState("");
+  const [rateResult, setRateResult] = useState("");
   const [review, setReview] = useState("");
   const [checkedIn, setChekedIn] = useState(true); //checked in state
   const [completed, setCompleted] = useState(true); //completed state
@@ -37,10 +38,10 @@ export default function DisplayTrail() {
     setCurrentValue(value);
     FireStoreService.addRatings(trailID, value)
       .then(() => {
-        setReviewResult("Rate submitted successfully");
+        setRateResult("Rate submitted successfully");
       })
       .catch((e) => {
-        setReviewResult("Error occurred! Please try again.");
+        setRateResult("Error occurred! Please try again.");
       });
   };
 
@@ -355,13 +356,15 @@ export default function DisplayTrail() {
     isNaN(overall) ? (starRate.innerHTML = 0) : (starRate.innerHTML = overall);
   }
 
-  function submitReview() {
+  function submitReview(e) {
+    e.preventDefault();
     FireStoreService.addReview(userID, trailID, review)
       .then(() => {
         setReviewResult("Review submitted successfully");
       })
       .catch((e) => {
         setReviewResult("Error occurred! Please try again.");
+        console.log(e);
       });
   }
 
@@ -856,48 +859,49 @@ export default function DisplayTrail() {
                     <div>
                       {fav ? null /**display it as a fav */ : (
                         <div>
-                          <form className="needs-validation">
-                            <div className="row">
-                              <div
-                                className="form-radio col-md-5"
-                                style={{ marginBottom: "15px" }}
-                              >
-                                <label style={{ marginBottom: "5px" }}>
-                                  <h4>Rate the Trail</h4>(submit the rate by
-                                  clicking the required stars)
-                                </label>
-                                <div style={styles.stars}>
-                                  {stars.map((_, index) => {
-                                    return (
-                                      <FaStar
-                                        key={index}
-                                        size={24}
-                                        onClick={() => handleClick(index + 1)}
-                                        onMouseOver={() =>
-                                          handleMouseOver(index + 1)
-                                        }
-                                        onMouseLeave={handleMouseLeave}
-                                        color={
-                                          (hoverValue || currentValue) > index
-                                            ? colors.orange
-                                            : colors.grey
-                                        }
-                                        style={{
-                                          marginRight: 10,
-                                          cursor: "pointer",
-                                        }}
-                                      />
-                                    );
-                                  })}
-                                </div>
-                                <br></br>
-                                {reviewResult ? (
-                                  <div class="alert alert-info" role="alert">
-                                    {reviewResult}
-                                  </div>
-                                ) : null}
+                          <div className="row">
+                            <div
+                              className="form-radio col-md-5"
+                              style={{ marginBottom: "15px" }}
+                            >
+                              <label style={{ marginBottom: "5px" }}>
+                                <h4>Rate the Trail</h4>(submit the rate by
+                                clicking the required stars)
+                              </label>
+                              <div style={styles.stars}>
+                                {stars.map((_, index) => {
+                                  return (
+                                    <FaStar
+                                      key={index}
+                                      size={24}
+                                      onClick={() => handleClick(index + 1)}
+                                      onMouseOver={() =>
+                                        handleMouseOver(index + 1)
+                                      }
+                                      onMouseLeave={handleMouseLeave}
+                                      color={
+                                        (hoverValue || currentValue) > index
+                                          ? colors.orange
+                                          : colors.grey
+                                      }
+                                      style={{
+                                        marginRight: 10,
+                                        cursor: "pointer",
+                                      }}
+                                    />
+                                  );
+                                })}
                               </div>
-                              <div className="col-md-7">
+                              <br></br>
+                              {rateResult ? (
+                                <div class="alert alert-info" role="alert">
+                                  {rateResult}
+                                </div>
+                              ) : null}
+                            </div>
+
+                            <div className="col-md-7">
+                              <form className="needs-validation">
                                 <div
                                   className="form-group"
                                   style={{ marginBottom: "15px" }}
@@ -913,7 +917,11 @@ export default function DisplayTrail() {
                                     }}
                                   ></textarea>
                                 </div>
-
+                                {reviewResult ? (
+                                  <div class="alert alert-info" role="alert">
+                                    {reviewResult}
+                                  </div>
+                                ) : null}
                                 <div className="d-grid">
                                   <button
                                     className="btn btn-block"
@@ -923,14 +931,14 @@ export default function DisplayTrail() {
                                       backgroundColor: "#071c2f",
                                       color: "white",
                                     }}
-                                    onSubmit={submitReview()}
+                                    onClick={submitReview}
                                   >
                                     Add Review
                                   </button>
                                 </div>
-                              </div>
+                              </form>
                             </div>
-                          </form>
+                          </div>
                         </div>
                       )}
                     </div>
