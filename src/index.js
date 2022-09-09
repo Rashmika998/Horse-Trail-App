@@ -29,6 +29,7 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./pages/PrivateRoute";
 import ForgotPassword from "./pages/ForgotPassword";
+import MyProfile from "./pages/MyProfile";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -52,6 +53,7 @@ root.render(
         <Route path="/my-camps-list/:type" exact element={<MyCampsList />} />
         <Route path="/added-camps" exact element={<AddedCamps />} />
         <Route path="/added-trails" exact element={<AddedTrails />} />
+        <Route path="/my-profile" exact element={<PrivateRoute><MyProfile /></PrivateRoute>} />
         <Route path="/login" exact element={<Login />} />
         <Route path="/register" exact element={<Signup />} />
         <Route path="/forgotPassword" exact element={<ForgotPassword />} />
