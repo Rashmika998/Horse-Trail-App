@@ -32,6 +32,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import MyProfile from "./pages/MyProfile";
 import EditTrail from "./pages/EditTrail";
 import EditCamp from "./pages/EditCamp";
+import Logout from "./pages/Logout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -81,6 +82,7 @@ root.render(
           ></Route>
           <Route exact path="/edit-trail/:id" element={<EditTrail />} />
           <Route exact path="/edit-camp/:id" element={<EditCamp />} />
+          <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>}></Route>
         </Routes>
         <Footer />
       </Router>

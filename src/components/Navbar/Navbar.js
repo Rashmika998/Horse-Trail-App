@@ -13,13 +13,38 @@ import {
   NavItem,
 } from "./NavbarStyles.js";
 import { useLocation, useNavigate } from "react-router-dom";
-import { data } from "../../data/NavbarData";
-
+import { data, data2 } from "../../data/NavbarData";
+import { useAuth } from "../../contexts/AuthContext"
 const Navbar = () => {
   const [show, setShow] = useState(false);
-
   let navigate = useNavigate();
   let location = useLocation();
+
+  const { currentUser} = useAuth()
+  let navMenu;
+
+  if(currentUser){
+    navMenu = <NavMenu show={show}>
+    {data2.map((el, index) => (
+      <NavItem key={index}>
+        <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
+          {el.text}
+        </NavLinks>
+      </NavItem>
+    ))}
+  </NavMenu>
+  }
+  else{
+    navMenu = <NavMenu show={show}>
+    {data.map((el, index) => (
+      <NavItem key={index}>
+        <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
+          {el.text}
+        </NavLinks>
+      </NavItem>
+    ))}
+  </NavMenu>
+  }
 
   const handleClick = () => {
     setShow(!show);
@@ -53,15 +78,7 @@ const Navbar = () => {
           <MobileIcon onClick={handleClick}>
             {show ? <FaTimes /> : <CgMenuRight />}
           </MobileIcon>
-          <NavMenu show={show}>
-            {data.map((el, index) => (
-              <NavItem key={index}>
-                <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
-                  {el.text}
-                </NavLinks>
-              </NavItem>
-            ))}
-          </NavMenu>
+          {navMenu}
         </NavbarContainer>
       </Nav>
     </IconContext.Provider>
