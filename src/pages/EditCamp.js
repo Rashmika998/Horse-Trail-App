@@ -33,6 +33,7 @@ export default function EditCamp() {
   const [website, setWebsite] = useState("");
   const [errorCampDetails, setErrorCampDetails] = useState("");
   const [campID, setCampID] = useState("");
+  const [stateChange, setStateChange] = useState(false);
 
   const [campDetails, setCampDetails] = useState({});
 
@@ -44,6 +45,7 @@ export default function EditCamp() {
       .then((response) => {
         setCampDetails(response.data());
         console.log(response.data());
+        setStateChange(true);
         setCampDescription(campDetails.campDescription);
         setCampName(campDetails.campName);
         setCampNotes(campDetails.campNotes);
@@ -146,7 +148,7 @@ export default function EditCamp() {
       .catch((e) => {
         console.log(e);
       });
-  }, []);
+  }, [stateChange]);
 
   const [campSiteTypesCheck, setCampSiteTypes] = useState({
     campSiteTypes: [],
@@ -577,6 +579,7 @@ export default function EditCamp() {
             website
           )
             .then(() => {
+              stateChange ? setStateChange(false) : setStateChange(true);
               alert("Done");
             })
             .catch((e) => {
@@ -615,6 +618,7 @@ export default function EditCamp() {
         banner
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Banner Image updated");
         })
         .catch((e) => {
@@ -641,6 +645,7 @@ export default function EditCamp() {
         parkingImage
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Parking Image updated");
         })
         .catch((e) => {
@@ -666,6 +671,7 @@ export default function EditCamp() {
         imageGal1
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Gallery Image 01 updated");
         })
         .catch((e) => {
@@ -691,6 +697,7 @@ export default function EditCamp() {
         imageGal2
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Gallery Image 02 updated");
         })
         .catch((e) => {
@@ -716,6 +723,7 @@ export default function EditCamp() {
         imageGal3
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Gallery Image 03 updated");
         })
         .catch((e) => {

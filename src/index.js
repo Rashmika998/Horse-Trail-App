@@ -30,38 +30,61 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./pages/PrivateRoute";
 import ForgotPassword from "./pages/ForgotPassword";
 import MyProfile from "./pages/MyProfile";
+import EditTrail from "./pages/EditTrail";
+import EditCamp from "./pages/EditCamp";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <AuthProvider>
-  <React.StrictMode>
-    <Router>
-      <GlobalStyle />
-      <Navbar />
-      <Routes>
-        <Route path="/" exact element={<Home />} />
-        <Route path="/about" exact element={<About />} />
-        <Route exact path="/add-trail" element={<AddTrail />} />
-        <Route exact path="/add-camp" element={<AddCamp />} />
-        <Route exact path="/display-trail/:id" element={<DisplayTrail />} />
-        <Route exact path="/display-camp/:id" element={<DisplayCamp />} />
-        <Route path="/trails" exact element={<TrailSearchPage />} />
-        <Route path="/camps" exact element={<CampSearchPage />} />
-        <Route path="/my-trails" exact element={<MyTrails />} />
-        <Route path="/my-trails-list/:type" exact element={<MyTrailsList />} />
-        <Route path="/my-camps" exact element={<MyCamps />} />
-        <Route path="/my-camps-list/:type" exact element={<MyCampsList />} />
-        <Route path="/added-camps" exact element={<AddedCamps />} />
-        <Route path="/added-trails" exact element={<AddedTrails />} />
-        <Route path="/my-profile" exact element={<PrivateRoute><MyProfile /></PrivateRoute>} />
-        <Route path="/login" exact element={<Login />} />
-        <Route path="/register" exact element={<Signup />} />
-        <Route path="/forgotPassword" exact element={<ForgotPassword />} />
-        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
-      </Routes>
-      <Footer />
-    </Router>
-  </React.StrictMode>
+    <React.StrictMode>
+      <Router>
+        <GlobalStyle />
+        <Navbar />
+        <Routes>
+          <Route path="/" exact element={<Home />} />
+          <Route path="/about" exact element={<About />} />
+          <Route exact path="/add-trail" element={<AddTrail />} />
+          <Route exact path="/add-camp" element={<AddCamp />} />
+          <Route exact path="/display-trail/:id" element={<DisplayTrail />} />
+          <Route exact path="/display-camp/:id" element={<DisplayCamp />} />
+          <Route path="/trails" exact element={<TrailSearchPage />} />
+          <Route path="/camps" exact element={<CampSearchPage />} />
+          <Route path="/my-trails" exact element={<MyTrails />} />
+          <Route
+            path="/my-trails-list/:type"
+            exact
+            element={<MyTrailsList />}
+          />
+          <Route path="/my-camps" exact element={<MyCamps />} />
+          <Route path="/my-camps-list/:type" exact element={<MyCampsList />} />
+          <Route path="/added-camps" exact element={<AddedCamps />} />
+          <Route path="/added-trails" exact element={<AddedTrails />} />
+          <Route
+            path="/my-profile"
+            exact
+            element={
+              <PrivateRoute>
+                <MyProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route path="/login" exact element={<Login />} />
+          <Route path="/register" exact element={<Signup />} />
+          <Route path="/forgotPassword" exact element={<ForgotPassword />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          ></Route>
+          <Route exact path="/edit-trail/:id" element={<EditTrail />} />
+          <Route exact path="/edit-camp/:id" element={<EditCamp />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </React.StrictMode>
   </AuthProvider>
 );
 

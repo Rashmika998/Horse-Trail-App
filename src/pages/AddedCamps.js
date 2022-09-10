@@ -68,12 +68,17 @@ function AddedCamps() {
                   </Card.Text>
                   <div className="row">
                     <div className="col-md-6">
-                      <div
-                        className="btn btn-warning"
-                        style={{ width: "100%" }}
+                      <a
+                        href={"/edit-camp/" + trail.id}
+                        style={{ textDecoration: "none", color: "black" }}
                       >
-                        <FaEdit /> &nbsp;Update
-                      </div>
+                        <div
+                          className="btn btn-warning"
+                          style={{ width: "100%" }}
+                        >
+                          <FaEdit /> &nbsp;Update
+                        </div>
+                      </a>
                     </div>
                     <div className="col-md-6">
                       <div
