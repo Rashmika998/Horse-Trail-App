@@ -621,6 +621,73 @@ function updateTrailImages(id, imageType, imageName, trailName, file) {
   });
 }
 
+function check_ChekedIn(userID, trailID) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trailCheckIns");
+    query = query
+      .where("trailID", "==", trailID)
+      .where("uID", "==", userID)
+      .where("status", "==", "Checked-In");
+    query
+      .get()
+      .then((snapshots) => {
+        if (!snapshots.empty) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function check_Completed(userID, trailID) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trailCheckIns");
+    query = query
+      .where("trailID", "==", trailID)
+      .where("uID", "==", userID)
+      .where("status", "==", "Completed");
+    query
+      .get()
+      .then((snapshots) => {
+        if (!snapshots.empty) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function check_Favourite(userID, trailID) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trailCheckIns");
+    query = query
+      .where("trailID", "==", trailID)
+      .where("uID", "==", userID)
+      .where("status", "==", "Completed")
+      .where("favourite", "==", true);
+    query
+      .get()
+      .then((snapshots) => {
+        if (!snapshots.empty) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addRatings,
   addTrail,
@@ -644,4 +711,7 @@ export default {
   updateTrailCheckinState,
   setTrailFavourite,
   getMyTrails,
+  check_ChekedIn,
+  check_Completed,
+  check_Favourite,
 };

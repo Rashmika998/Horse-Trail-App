@@ -1,7 +1,8 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Button, Card } from "react-bootstrap";
-import { FaStar } from "react-icons/fa";
+import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
+import GetNearbyPlaces from "./GetNearbyPlaces";
 
 const colors = {
   orange: "#FFBA5A",
@@ -31,8 +32,8 @@ export default function DisplayTrail() {
   const [rateResult, setRateResult] = useState("");
   const [review, setReview] = useState("");
   const [allReviews, getAllReviews] = useState([]);
-  const [checkedIn, setChekedIn] = useState(true); //checked in state
-  const [completed, setCompleted] = useState(true); //completed state
+  const [checkedIn, setChekedIn] = useState(false); //checked in state
+  const [completed, setCompleted] = useState(false); //completed state
   const [fav, setFav] = useState(false); //fav state
 
   const handleClick = (value) => {
@@ -67,10 +68,28 @@ export default function DisplayTrail() {
       });
   }
 
+  const onClickAddFavourite = async (event, trailid) => {
+    FireStoreService.setTrailFavourite(trailid);
+     
+  };
+
+  const setCheckInStates = async (trailId) => {
+    const data1 = await FireStoreService.check_ChekedIn(userID, trailId);
+    setChekedIn(data1);
+    const data2 = await FireStoreService.check_Completed(userID, trailId);
+    setCompleted(data2);
+    console.log(data2);
+    const data3 = await FireStoreService.check_Favourite(userID, trailId);
+    setFav(data3);
+  };
+
+  
+
   useEffect(() => {
     var url = document.location.href;
     var id = url.toString().split("/")[4];
     setTrailID(id);
+    setCheckInStates(id);
     FireStoreService.getTrail(trailID)
       .then((response) => {
         console.log(response.data());
@@ -179,7 +198,7 @@ export default function DisplayTrail() {
         trailMapLink.setAttribute("href", trailDetails.trailMapLink);
       })
       .catch((e) => console.log(e));
-  }, []);
+  },[]);
 
   function displayTrailUsers(name, value) {
     const hikers = document.getElementById("hikers");
@@ -383,6 +402,10 @@ export default function DisplayTrail() {
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
+      <p>Checked In : {checkedIn.toString()}</p>
+      <p>Complteted : {completed.toString()}</p>
+      <p>Fav : {fav.toString()}</p>
+
       <Card style={{ border: "none" }}>
         <Card.Body>
           <Card.Title>
@@ -776,7 +799,10 @@ export default function DisplayTrail() {
                   >
                     Nearby Horse Camping
                   </Card.Title>
-                  <div>{trailDetails.nearByHorseCamp}</div>
+
+                  <div>
+                    <GetNearbyPlaces id={trailID} type="trail" />
+                  </div>
                 </Card.Body>
               </Card>
             </div>
@@ -885,96 +911,94 @@ export default function DisplayTrail() {
           </div>
           <br></br>
           <div>
-            {checkedIn ? (
+            {checkedIn == false ? (
               <div>
                 {
                   completed ? (
                     <div>
-                      {fav ? null /**display it as a fav */ : (
-                        <div>
-                          <div className="row">
-                            <div
-                              className="form-radio col-md-5"
-                              style={{ marginBottom: "15px" }}
-                            >
-                              <label style={{ marginBottom: "5px" }}>
-                                <h4>Rate the Trail</h4>(submit the rate by
-                                clicking the required stars)
-                              </label>
-                              <div style={styles.stars}>
-                                {stars.map((_, index) => {
-                                  return (
-                                    <FaStar
-                                      key={index}
-                                      size={24}
-                                      onClick={() => handleClick(index + 1)}
-                                      onMouseOver={() =>
-                                        handleMouseOver(index + 1)
-                                      }
-                                      onMouseLeave={handleMouseLeave}
-                                      color={
-                                        (hoverValue || currentValue) > index
-                                          ? colors.orange
-                                          : colors.grey
-                                      }
-                                      style={{
-                                        marginRight: 10,
-                                        cursor: "pointer",
-                                      }}
-                                    />
-                                  );
-                                })}
+                      <div>
+                        <div className="row">
+                          <div
+                            className="form-radio col-md-5"
+                            style={{ marginBottom: "15px" }}
+                          >
+                            <label style={{ marginBottom: "5px" }}>
+                              <h4>Rate the Trail</h4>(submit the rate by
+                              clicking the required stars)
+                            </label>
+                            <div style={styles.stars}>
+                              {stars.map((_, index) => {
+                                return (
+                                  <FaStar
+                                    key={index}
+                                    size={24}
+                                    onClick={() => handleClick(index + 1)}
+                                    onMouseOver={() =>
+                                      handleMouseOver(index + 1)
+                                    }
+                                    onMouseLeave={handleMouseLeave}
+                                    color={
+                                      (hoverValue || currentValue) > index
+                                        ? colors.orange
+                                        : colors.grey
+                                    }
+                                    style={{
+                                      marginRight: 10,
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                );
+                              })}
+                            </div>
+                            <br></br>
+                            {rateResult ? (
+                              <div class="alert alert-info" role="alert">
+                                {rateResult}
                               </div>
-                              <br></br>
-                              {rateResult ? (
+                            ) : null}
+                          </div>
+
+                          <div className="col-md-7">
+                            <form className="needs-validation">
+                              <div
+                                className="form-group"
+                                style={{ marginBottom: "15px" }}
+                              >
+                                <label style={{ marginBottom: "5px" }}>
+                                  Add Review
+                                </label>
+                                <textarea
+                                  required
+                                  name="review"
+                                  className="form-control"
+                                  onChange={(e) => {
+                                    setReview(e.target.value);
+                                  }}
+                                ></textarea>
+                              </div>
+                              {reviewResult ? (
                                 <div class="alert alert-info" role="alert">
-                                  {rateResult}
+                                  {reviewResult}
                                 </div>
                               ) : null}
-                            </div>
-
-                            <div className="col-md-7">
-                              <form className="needs-validation">
-                                <div
-                                  className="form-group"
-                                  style={{ marginBottom: "15px" }}
+                              <div className="d-grid">
+                                <button
+                                  className="btn btn-block"
+                                  type="submit"
+                                  style={{
+                                    marginTop: "15px",
+                                    backgroundColor: "#071c2f",
+                                    color: "white",
+                                  }}
+                                  onClick={submitReview}
                                 >
-                                  <label style={{ marginBottom: "5px" }}>
-                                    Add Review
-                                  </label>
-                                  <textarea
-                                    required
-                                    name="review"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      setReview(e.target.value);
-                                    }}
-                                  ></textarea>
-                                </div>
-                                {reviewResult ? (
-                                  <div class="alert alert-info" role="alert">
-                                    {reviewResult}
-                                  </div>
-                                ) : null}
-                                <div className="d-grid">
-                                  <button
-                                    className="btn btn-block"
-                                    type="submit"
-                                    style={{
-                                      marginTop: "15px",
-                                      backgroundColor: "#071c2f",
-                                      color: "white",
-                                    }}
-                                    onClick={submitReview}
-                                  >
-                                    Add Review
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
+                                  Add Review
+                                </button>
+                              </div>
+                            </form>
                           </div>
                         </div>
-                      )}
+                      </div>
                     </div>
                   ) : null /**display it as checked in */
                 }
@@ -1006,6 +1030,27 @@ export default function DisplayTrail() {
                   </div>
                 </div>
               </form>
+            )}
+
+            {fav == false && completed == true ? (
+              <div
+                className="btn btn-danger col-lg-3 mx-2 mt-1"
+                onClick={(event) => onClickAddFavourite(event, trailID)}
+              >
+                <FaHeart /> Add to Fav
+              </div>
+            ) : (
+              ""
+            )}
+            {fav == true && completed == true ? (
+              <div
+                className="btn btn-danger col-lg-3 mx-2 mt-1"
+                disabled={true}
+              >
+                <FaHeart /> Added to Favourites
+              </div>
+            ) : (
+              ""
             )}
           </div>
         </Card.Body>

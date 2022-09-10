@@ -5,7 +5,7 @@ import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 function AddedTrails() {
-  const [userID, setUserID] = useState("nwdjBJLDJLNW");
+  const [userID, setUserID] = useState("AAAAAAA");
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
 
