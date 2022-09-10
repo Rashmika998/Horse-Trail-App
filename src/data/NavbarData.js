@@ -1,9 +1,5 @@
 export const data = [
   {
-    to: "/about",
-    text: "About",
-  },
-  {
     to: "/trails",
     text: "Trails",
   },
@@ -20,20 +16,16 @@ export const data = [
     text: "Reviews",
   },
   {
-    to: "/sign-in",
+    to: "/login",
     text: "Sign In",
   },
   {
-    to: "/sign-up",
+    to: "/register",
     text: "Sign Up",
   },
 ];
 
 export const data2 = [
-  {
-    to: "/about",
-    text: "About",
-  },
   {
     to: "/trails",
     text: "Trails",
@@ -55,4 +47,3 @@ export const data2 = [
     text: "Logout",
   },
 ];
-

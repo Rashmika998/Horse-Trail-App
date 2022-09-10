@@ -7,7 +7,6 @@ import Navbar from "./components/Navbar/Navbar";
 import "bootstrap/dist/css/bootstrap.css";
 import Home from "./pages/Home";
 import Footer from "./components/Footer/Footer";
-import About from "./pages/About";
 import AddTrail from "./pages/AddTrail";
 import AddCamp from "./pages/AddCamp";
 import DisplayTrail from "./pages/DisplayTrail";
@@ -43,7 +42,6 @@ root.render(
         <Navbar />
         <Routes>
           <Route path="/" exact element={<Home />} />
-          <Route path="/about" exact element={<About />} />
           <Route exact path="/add-trail" element={<AddTrail />} />
           <Route exact path="/add-camp" element={<AddCamp />} />
           <Route exact path="/display-trail/:id" element={<DisplayTrail />} />
@@ -82,7 +80,14 @@ root.render(
           ></Route>
           <Route exact path="/edit-trail/:id" element={<EditTrail />} />
           <Route exact path="/edit-camp/:id" element={<EditCamp />} />
-          <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>}></Route>
+          <Route
+            path="/logout"
+            element={
+              <PrivateRoute>
+                <Logout />
+              </PrivateRoute>
+            }
+          ></Route>
         </Routes>
         <Footer />
       </Router>
