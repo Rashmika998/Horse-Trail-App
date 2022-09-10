@@ -69,7 +69,7 @@ function AddedCamps() {
                   <div className="row">
                     <div className="col-md-6">
                       <a
-                        href={"/edit-camp/" + trail.id}
+                        href={"/edit-camp/" + camp.id}
                         style={{ textDecoration: "none", color: "black" }}
                       >
                         <div
