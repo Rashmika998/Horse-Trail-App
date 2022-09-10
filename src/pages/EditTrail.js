@@ -46,6 +46,7 @@ export default function EditTrail() {
 
   const [trailDetails, setTrailDetails] = useState({});
   const [trailID, setTrailID] = useState("");
+  const [stateChange, setStateChange] = useState(false);
 
   useEffect(() => {
     var url = document.location.href;
@@ -54,6 +55,7 @@ export default function EditTrail() {
     FireStoreService.getTrail(trailID)
       .then((response) => {
         setTrailDetails(response.data());
+        setStateChange(true);
         console.log(response.data());
         setAtvOrOffroad(trailDetails.atvOrOffroad);
         setBanner(trailDetails.bannerName);
@@ -163,7 +165,7 @@ export default function EditTrail() {
           });
       })
       .catch((e) => {});
-  }, []);
+  }, [stateChange]);
 
   function validateLatLng(lat, lng) {
     let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
@@ -522,6 +524,7 @@ export default function EditTrail() {
       )
         .then(() => {
           alert("Updated");
+          stateChange ? setStateChange(false) : setStateChange(true);
         })
         .catch((e) => {
           setErrorTrailDetails("Error occured");
@@ -551,6 +554,7 @@ export default function EditTrail() {
         banner
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Banner Image updated");
         })
         .catch((e) => {
@@ -577,6 +581,7 @@ export default function EditTrail() {
         parkingImage
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Parking Image updated");
         })
         .catch((e) => {
@@ -602,6 +607,7 @@ export default function EditTrail() {
         imageGal1
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Gallery Image 01 updated");
         })
         .catch((e) => {
@@ -627,6 +633,7 @@ export default function EditTrail() {
         imageGal2
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Gallery Image 02 updated");
         })
         .catch((e) => {
@@ -652,6 +659,7 @@ export default function EditTrail() {
         imageGal3
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Gallery Image 03 updated");
         })
         .catch((e) => {
@@ -677,6 +685,7 @@ export default function EditTrail() {
         trailMapImage
       )
         .then(() => {
+          stateChange ? setStateChange(false) : setStateChange(true);
           alert("Trail Map Image updated");
         })
         .catch((e) => {
