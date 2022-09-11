@@ -19,6 +19,8 @@ function MyTrailsList() {
   const [markCompleted, setMarkCompleted] = useState(false);
 
   const [addRating, setAddRating] = useState(false);
+    const [imageURL, setImageURL] = useState({});
+
   const getList = async (trailsType) => {
     const data = await FireStoreService.getTrailIDsList(trailsType, userID);
     const IDarr = data.docs.map((doc) => doc.data().trailID);
@@ -37,9 +39,26 @@ function MyTrailsList() {
       }
     });
 
+     await snapshot.docs.map(async (doc) => {
+       const ImgURL = await getImageURL(
+         doc.data().trailName,
+         doc.data().bannerName
+       );
+       setImageURL((imageURL) => ({
+         ...imageURL,
+         [doc.id]: ImgURL,
+       }));
+     });
+
     setTrailsList(trailsArr);
     setfavTrailsList(favourites);
   };
+
+  const getImageURL = async (trailName, bannerName) => {
+    const url = await FireStoreService.getTrailImageURL(trailName, bannerName);
+    return url;
+  };
+
 
   useEffect(() => {
     var url = document.location.href;
@@ -93,7 +112,6 @@ function MyTrailsList() {
         {trailsType == "favourites" ? <h3>Favourite Trails</h3> : ""}
         {trails.length == 0 ? (
           <div className="mt-5">
-            <div class="spinner-border" role="status"></div>&nbsp;&nbsp;
             <div class="spinner-grow" role="status"></div>
           </div>
         ) : (
@@ -152,7 +170,11 @@ function MyTrailsList() {
           return (
             <Col xs={12} md={6} lg={4} key={trail.id}>
               <Card key={trail.id} className="mt-5 ms-3">
-                <Card.Img variant="top" src="" />
+                <Card.Img
+                  variant="top"
+                  src={imageURL[trail.id]}
+                  height="300vh"
+                />
                 <Card.Body>
                   <Card.Title>
                     <a
@@ -185,7 +207,7 @@ function MyTrailsList() {
                       >
                         <FaStar /> &nbsp;Add Rating
                       </div>
- 
+
                       <div
                         className="btn btn-secondary col-lg-4 mx-2 mt-1"
                         onClick={(event) => onClickAddReview(event, trail.id)}

@@ -8,11 +8,27 @@ function AddedCamps() {
   const [userID, setUserID] = useState("nwdjBJLDJLNW");
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
+  const [imageURL, setImageURL] = useState({});
 
   const getList = async () => {
     const data = await FireStoreService.getMyCamps(userID);
     setCampsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    await data.docs.map(async (doc) => {
+      const ImgURL = await getImageURL(
+        doc.data().campName,
+        doc.data().bannerName
+      );
+      setImageURL((imageURL) => ({
+        ...imageURL,
+        [doc.id]: ImgURL,
+      }));
+    });
   };
+
+   const getImageURL = async (campName, bannerName) => {
+     const url = await FireStoreService.getCampImageURL(campName, bannerName);
+     return url;
+   };
 
   useEffect(() => {
     getList();
@@ -47,11 +63,14 @@ function AddedCamps() {
 
       <div className="row text-center">
         {camps.map((camp) => {
-          //   getImageURL(trail);
           return (
             <Col xs={12} md={6} lg={4} key={camp.id}>
               <Card key={camp.id} className="mt-5 ms-3">
-                <Card.Img variant="top" src="" />
+                <Card.Img
+                  variant="top"
+                  src={imageURL[camp.id]}
+                  height="300vh"
+                />
                 <Card.Body>
                   <Card.Title>
                     <a
