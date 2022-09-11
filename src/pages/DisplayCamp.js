@@ -3,6 +3,7 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import DataTable from "react-data-table-component";
+import GetNearbyPlaces from "./GetNearbyPlaces";
 
 const colors = {
   orange: "#FFBA5A",
@@ -945,8 +946,8 @@ export default function DisplayCamp() {
                   >
                     Nearby Places to Ride
                   </Card.Title>
-                  <div>{campDetails.nearbyPlaces}</div>
                 </Card.Body>
+                <GetNearbyPlaces id={campID} type="camp" />
               </Card>
             </div>
             <div className="col md-4">

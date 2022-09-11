@@ -26,20 +26,21 @@ function GetNearbyPlaces(props) {
     return dist;
   }
 
-  const [id, setId] = useState([]);
+  const [id, setId] = useState(null);
   const [type, setType] = useState([]);
   const [items, setItems] = useState([]);
   const [poslng, setLong] = useState();
   const [poslat, setLat] = useState();
+  var count = 0;
 
-  const setPosition = async () => {
+  const setPosition = async (itemID) => {
     if (type == "trail") {
-      FireStoreServiceTrails.getTrail(id).then((response) => {
+      FireStoreServiceTrails.getTrail(itemID).then((response) => {
         setLong(response.data().longitude);
         setLat(response.data().latitude);
       });
     } else if (type == "camp") {
-      FireStoreServiceCamps.getCamp(id).then((response) => {
+      FireStoreServiceCamps.getCamp(itemID).then((response) => {
         setLong(response.data().longitude);
         setLat(response.data().latitude);
       });
@@ -58,17 +59,18 @@ function GetNearbyPlaces(props) {
   useEffect(() => {
     setId(props.id);
     setType(props.type);
-    setPosition();
+    setPosition(props.id);
     getList();
   }, [props]);
 
   return (
     <div>
-      {items.length == 0 ? <p>No Nearby Places</p> : ""}
       {items.map((item) => {
         if (
-          distance(poslat, poslng, item.latitude, item.longitude, "K") <= 10
+          distance(poslat, poslng, item.latitude, item.longitude, "K") <= 0.5
         ) {
+
+          count=count+1;
           if (type == "trail") {
             return (
               <a
@@ -90,6 +92,8 @@ function GetNearbyPlaces(props) {
           }
         }
       })}
+
+      {count == 0 ? <p>No Nearby Places</p> : ""}
     </div>
   );
 }
