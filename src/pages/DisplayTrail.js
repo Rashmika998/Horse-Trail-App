@@ -3,6 +3,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Button, Card } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
 import GetNearbyPlaces from "./GetNearbyPlaces";
+import DataTable from "react-data-table-component";
 
 const colors = {
   orange: "#FFBA5A",
@@ -70,7 +71,6 @@ export default function DisplayTrail() {
 
   const onClickAddFavourite = async (event, trailid) => {
     FireStoreService.setTrailFavourite(trailid);
-     
   };
 
   const setCheckInStates = async (trailId) => {
@@ -82,8 +82,6 @@ export default function DisplayTrail() {
     const data3 = await FireStoreService.check_Favourite(userID, trailId);
     setFav(data3);
   };
-
-  
 
   useEffect(() => {
     var url = document.location.href;
@@ -198,7 +196,7 @@ export default function DisplayTrail() {
         trailMapLink.setAttribute("href", trailDetails.trailMapLink);
       })
       .catch((e) => console.log(e));
-  },[]);
+  }, []);
 
   function displayTrailUsers(name, value) {
     const hikers = document.getElementById("hikers");
@@ -397,15 +395,100 @@ export default function DisplayTrail() {
       });
   }
 
+  function getNumberOfPages(rowCount, rowsPerPage) {
+    return Math.ceil(rowCount / rowsPerPage);
+  }
+
+  function toPages(pages) {
+    const results = [];
+
+    for (let i = 1; i <= pages; i++) {
+      results.push(i);
+    }
+
+    return results;
+  }
+
+  const columns = [
+    {
+      selector: (row) => row.review,
+    },
+  ];
+
+  function BootyPagination({
+    rowsPerPage,
+    rowCount,
+    onChangePage,
+    currentPage,
+  }) {
+    const handleBackButtonClick = () => {
+      onChangePage(currentPage - 1);
+    };
+
+    const handleNextButtonClick = () => {
+      onChangePage(currentPage + 1);
+    };
+
+    const handlePageNumber = (e) => {
+      onChangePage(Number(e.target.value));
+    };
+
+    const pages = getNumberOfPages(rowCount, rowsPerPage);
+    const pageItems = toPages(pages);
+    const nextDisabled = currentPage === pageItems.length;
+    const previosDisabled = currentPage === 1;
+    return (
+      <nav>
+        <br></br>
+        <ul className="pagination">
+          <li className="page-item">
+            <button
+              className="page-link"
+              onClick={handleBackButtonClick}
+              disabled={previosDisabled}
+              aria-disabled={previosDisabled}
+              aria-label="previous page"
+            >
+              Previous
+            </button>
+          </li>
+          {pageItems.map((page) => {
+            const className =
+              page === currentPage ? "page-item active" : "page-item";
+
+            return (
+              <li key={page} className={className}>
+                <button
+                  className="page-link"
+                  onClick={handlePageNumber}
+                  value={page}
+                >
+                  {page}
+                </button>
+              </li>
+            );
+          })}
+          <li className="page-item">
+            <button
+              className="page-link"
+              onClick={handleNextButtonClick}
+              disabled={nextDisabled}
+              aria-disabled={nextDisabled}
+              aria-label="next page"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+    );
+  }
+
   return (
     <div
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
-      <p>Checked In : {checkedIn.toString()}</p>
-      <p>Complteted : {completed.toString()}</p>
-      <p>Fav : {fav.toString()}</p>
-
       <Card style={{ border: "none" }}>
         <Card.Body>
           <Card.Title>
@@ -778,12 +861,17 @@ export default function DisplayTrail() {
                   >
                     Trail Reviews
                   </Card.Title>
-                  <ul>
-                    {console.log(allReviews)}
-                    {allReviews.map((value, key) => (
-                      <li>{value.review}</li>
-                    ))}
-                  </ul>
+                  <DataTable
+                    responsive
+                    subHeader
+                    columns={columns}
+                    data={allReviews}
+                    striped={true}
+                    highlightOnHover={true}
+                    pagination
+                    paginationComponent={BootyPagination}
+                    defaultSortFieldID={1}
+                  />
                 </Card.Body>
               </Card>
             </div>
