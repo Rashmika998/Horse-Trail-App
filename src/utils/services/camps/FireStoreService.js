@@ -392,7 +392,6 @@ function getReviews(id) {
 function deleteCamp(id) {
   return new Promise((resolve, reject) => {
     var query = db.collection("camps");
-    query = query.where("id", "==", id);
     query
       .doc(id)
       .delete()
