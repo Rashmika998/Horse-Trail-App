@@ -402,9 +402,7 @@ export default function DisplayTrail() {
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
-      <p>Checked In : {checkedIn.toString()}</p>
-      <p>Complteted : {completed.toString()}</p>
-      <p>Fav : {fav.toString()}</p>
+     
 
       <Card style={{ border: "none" }}>
         <Card.Body>
