@@ -52,6 +52,22 @@ function SearchPage() {
         markers.push(marker);
       }
     });
+
+      await data.docs.map(async (doc) => {
+        const ImgURL = await getImageURL(
+          doc.data().campName,
+          doc.data().bannerName
+        );
+        setImageURL((imageURL) => ({
+          ...imageURL,
+          [doc.id]: ImgURL,
+        }));
+      });
+  };
+
+  const getImageURL = async (campName, bannerName) => {
+    const url = await FireStoreService.getCampImageURL(campName, bannerName);
+    return url;
   };
 
   const getSearchList = async () => {
@@ -358,32 +374,35 @@ function SearchPage() {
                   {camps.map((camp) => {
                     // getImageURL(camp);
                       return (
-                      <Col xs={12} md={6} lg={4} key={camp.id}>
-                        <Card
-                          key={camp.id}
-                          className="mt-5 ms-3"
-                        >
-                          <Card.Img variant="top" src="" />
-                          <Card.Body>
-                            <Card.Title>
-                              <a
-                                href={"/display-camp/" + camp.id}
-                                style={{
-                                  textDecoration: "none",
-                                  color: "black",
-                                }}
-                              >
-                                <h1 className="text-center">{camp.campName}</h1>
-                              </a>
-                            </Card.Title>
-                            <h4 className="text-center">{camp.parkName}</h4>
+                        <Col xs={12} md={6} lg={4} key={camp.id}>
+                          <Card key={camp.id} className="mt-5 ms-3">
+                            <Card.Img
+                              variant="top"
+                              src={imageURL[camp.id]}
+                              height="300vh"
+                            />
+                            <Card.Body>
+                              <Card.Title>
+                                <a
+                                  href={"/display-camp/" + camp.id}
+                                  style={{
+                                    textDecoration: "none",
+                                    color: "black",
+                                  }}
+                                >
+                                  <h1 className="text-center">
+                                    {camp.campName}
+                                  </h1>
+                                </a>
+                              </Card.Title>
+                              <h4 className="text-center">{camp.parkName}</h4>
 
-                            <Card.Text className="text-center">
-                              {camp.city} | {camp.state}
-                            </Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Col>
+                              <Card.Text className="text-center">
+                                {camp.city} | {camp.state}
+                              </Card.Text>
+                            </Card.Body>
+                          </Card>
+                        </Col>
                       );
                   })}
               </div>

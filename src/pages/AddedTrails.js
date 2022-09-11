@@ -8,12 +8,27 @@ function AddedTrails() {
   const [userID, setUserID] = useState("AAAAAAA");
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
+  const [imageURL, setImageURL] = useState({});
 
   const getList = async () => {
     const data = await FireStoreService.getMyTrails(userID);
     setTrailsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    await data.docs.map(async (doc) => {
+      const ImgURL = await getImageURL(
+        doc.data().trailName,
+        doc.data().bannerName
+      );
+      setImageURL((imageURL) => ({
+        ...imageURL,
+        [doc.id]: ImgURL,
+      }));
+    });
   };
 
+  const getImageURL = async (trailName, bannerName) => {
+    const url = await FireStoreService.getTrailImageURL(trailName, bannerName);
+    return url;
+  };
   useEffect(() => {
     getList();
   }, []);
@@ -51,7 +66,11 @@ function AddedTrails() {
           return (
             <Col xs={12} md={6} lg={4} key={trail.id}>
               <Card key={trail.id} className="mt-5 ms-3">
-                <Card.Img variant="top" src="" />
+                <Card.Img
+                  variant="top"
+                  src={imageURL[trail.id]}
+                  height="300vh"
+                />
                 <Card.Body>
                   <Card.Title>
                     <a

@@ -18,6 +18,7 @@ function MyCampsList() {
   const [loading, setLoading] = useState(false);
   const [completedError, setCompletedError] = useState(false);
   const [markCompleted, setMarkCompleted] = useState(false);
+  const [imageURL, setImageURL] = useState({});
 
   const getList = async (campsType) => {
     const data = await FireStoreService.getCampIDsList(campsType, userID);
@@ -37,8 +38,23 @@ function MyCampsList() {
       }
     });
 
+    await snapshot.docs.map(async (doc) => {
+      const ImgURL = await getImageURL(
+        doc.data().campName,
+        doc.data().bannerName
+      );
+      setImageURL((imageURL) => ({
+        ...imageURL,
+        [doc.id]: ImgURL,
+      }));
+    });
     setCampsList(campsArr);
     setfavCampsList(favourites);
+  };
+
+  const getImageURL = async (campName, bannerName) => {
+    const url = await FireStoreService.getCampImageURL(campName, bannerName);
+    return url;
   };
 
   useEffect(() => {
@@ -65,9 +81,7 @@ function MyCampsList() {
       });
   };
 
-    const onClickAddRating = async (event, campid) => {
-      
-  };
+  const onClickAddRating = async (event, campid) => {};
 
   const onClickAddReview = async (event, campid) => {};
 
@@ -91,7 +105,6 @@ function MyCampsList() {
         {campsType == "favourites" ? <h3>Favourite Camps</h3> : ""}
         {camps.length == 0 ? (
           <div className="mt-5">
-            <div class="spinner-border" role="status"></div>&nbsp;&nbsp;
             <div class="spinner-grow" role="status"></div>
           </div>
         ) : (
@@ -146,11 +159,14 @@ function MyCampsList() {
 
       <div className="row text-center">
         {camps.map((camp) => {
-          //   getImageURL(camp);
           return (
             <Col xs={12} md={6} lg={4} key={camp.id}>
               <Card key={camp.id} className="mt-5 ms-3">
-                <Card.Img variant="top" src="" />
+                <Card.Img
+                  variant="top"
+                  src={imageURL[camp.id]}
+                  height="300vh"
+                />
                 <Card.Body>
                   <Card.Title>
                     <a

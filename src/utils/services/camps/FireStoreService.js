@@ -568,6 +568,23 @@ function updateCampImages(id, imageType, imageName, campName, file) {
   });
 }
 
+//get image file as a url to download
+function getCampImageURL(name, imageName) {
+  return new Promise((resolve, reject) => {
+    const imageRef = firebase
+      .storage()
+      .ref(`camps/images/banners/${name}/${imageName}`);
+    imageRef
+      .getDownloadURL()
+      .then((url) => {
+        resolve(url);
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addCamp,
   addCampImages,
@@ -587,4 +604,5 @@ export default {
   setCampFavourite,
   addCheckins,
   getMyCamps,
+  getCampImageURL,
 };

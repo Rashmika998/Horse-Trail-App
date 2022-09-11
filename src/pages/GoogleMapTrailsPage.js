@@ -17,7 +17,7 @@ function Map(props) {
   }, [props]);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyD4AcqWdeEZSHk-0EfLG_lSWln2Crg1NF8",
+    googleMapsApiKey: "",
   });
 
   const [activeMarker, setActiveMarker] = useState(null);

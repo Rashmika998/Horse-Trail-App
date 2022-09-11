@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { BodyContent } from "../globalStyles";
 import { FaListUl, FaMapMarkedAlt } from "react-icons/fa";
 import FireStoreService from "../utils/services/trails/FireStoreService";
-import { Card ,Col} from "react-bootstrap";
+import { Card, Col } from "react-bootstrap";
 import GoogleMapPage from "./GoogleMapTrailsPage";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
@@ -40,10 +40,16 @@ function SearchPage() {
     event.preventDefault();
     getSearchList();
   };
-
+  const getURLs = async (docs) => {};
   const getList = async () => {
     const data = await FireStoreService.getAllTrails();
-    setTrailsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+    setTrailsList(
+      data.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+    );
 
     setRetrived(true);
     data.docs.map((doc) => {
@@ -58,15 +64,24 @@ function SearchPage() {
       if (!markers.includes(marker)) {
         markers.push(marker);
       }
-    },[]);
+    }, []);
+
+    await data.docs.map(async (doc) => {
+      const ImgURL = await getImageURL(
+        doc.data().trailName,
+        doc.data().bannerName
+      );
+        setImageURL((imageURL) => ({
+          ...imageURL,
+          [doc.id]: ImgURL,
+        }));
+
+      
+    });
   };
 
-  const getImageURL = async (trail) => {
-    const url = await FireStoreService.getTrailImageURL(
-      trail.trailName,
-      trail.bannerName
-    );
-    setImageURL({ [trail.id]: url });
+  const getImageURL = async (trailName, bannerName) => {
+    const url = await FireStoreService.getTrailImageURL(trailName, bannerName);
     return url;
   };
 
@@ -397,14 +412,17 @@ function SearchPage() {
               {trails.length == 0 ? "No Trails Found" : ""}
               <div className="row text-center">
                 {trails.map((trail) => {
-                  getImageURL(trail);
-
                   return (
                     <Col xs={12} md={6} lg={4} key={trail.id}>
                       <Card key={trail.id} className="mt-5 ms-3">
-                        <Card.Img variant="top" src="" />
+                        <Card.Img
+                          variant="top"
+                          src={imageURL[trail.id]}
+                          height="300vh"
+                        />
                         <Card.Body>
                           <Card.Title>
+                            <p>{trail.ImgURL}</p>
                             <a
                               href={"/display-trail/" + trail.id}
                               style={{ textDecoration: "none", color: "black" }}
