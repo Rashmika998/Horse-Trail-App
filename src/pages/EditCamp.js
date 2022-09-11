@@ -34,6 +34,12 @@ export default function EditCamp() {
   const [errorCampDetails, setErrorCampDetails] = useState("");
   const [campID, setCampID] = useState("");
   const [stateChange, setStateChange] = useState(false);
+  const [campUpdated, setCampUpdated] = useState("");
+  const [campBannerUpdated, setCampBannerUpdated] = useState("");
+  const [campParkingUpdated, setCampParkingUpdated] = useState("");
+  const [campGal1Updated, setCampGal1Updated] = useState("");
+  const [campGal2Updated, setCampGal2Updated] = useState("");
+  const [campGal3Updated, setCampGal3Updated] = useState("");
 
   const [campDetails, setCampDetails] = useState({});
 
@@ -580,7 +586,43 @@ export default function EditCamp() {
           )
             .then(() => {
               stateChange ? setStateChange(false) : setStateChange(true);
-              alert("Done");
+              setCampUpdated("Camp updated successfully!");
+              setCampDescription("");
+              setCampName("");
+              setCampNotes("");
+              setBestSeasons({});
+              setCostPerNight("");
+              setCity("");
+              setEmail("");
+              setWebsite("");
+              setInstagram("");
+              setFacebook("");
+              setHorseSite("");
+              setImageGal1("");
+              setImageGal2("");
+              setImageGal3("");
+              setKeywords("");
+              setLongitude("");
+              setLatitude("");
+              setReservation("Yes");
+              setReservationCall("");
+              setReservationDescription("");
+              setReservationEmail("");
+              setReservationLink("");
+              setRoadToCamp("");
+              setResOrPricing("");
+              setCampSiteTypes("");
+              setParkName("");
+              setParkingImage("");
+              setTwitter("");
+              setAmenities("");
+              setPetPolicy("");
+              setPhone("");
+              setRestrictions("");
+              setState("");
+              setReservation("");
+              setPaperworkRequired("Yes");
+              setCampType();
             })
             .catch((e) => {
               setErrorCampDetails("Error Occured!");
@@ -619,7 +661,8 @@ export default function EditCamp() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Banner Image updated");
+          setBanner("");
+          setCampBannerUpdated("Banner image updated successfully");
         })
         .catch((e) => {
           setErrorCampDetails("Error Occurred!");
@@ -646,7 +689,8 @@ export default function EditCamp() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Parking Image updated");
+          setParkingImage("");
+          setCampParkingUpdated("Parking image updated successfully");
         })
         .catch((e) => {
           setErrorCampDetails("Error Occurred!");
@@ -672,7 +716,8 @@ export default function EditCamp() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Gallery Image 01 updated");
+          setImageGal1("");
+          setCampGal1Updated("Gallery image updated successfully");
         })
         .catch((e) => {
           setErrorCampDetails("Error Occurred!");
@@ -698,7 +743,8 @@ export default function EditCamp() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Gallery Image 02 updated");
+          setImageGal2("");
+          setCampGal2Updated("Gallery image updated successfully");
         })
         .catch((e) => {
           setErrorCampDetails("Error Occurred!");
@@ -724,7 +770,8 @@ export default function EditCamp() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Gallery Image 03 updated");
+          setImageGal3("");
+          setCampGal3Updated("Gallery image updated successfully");
         })
         .catch((e) => {
           setErrorCampDetails("Error Occurred!");
@@ -1731,6 +1778,11 @@ export default function EditCamp() {
                   >
                     Update Camp Details
                   </button>
+                  {campUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {campUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1798,6 +1850,11 @@ export default function EditCamp() {
                   >
                     Update Banner Photo
                   </button>
+                  {campBannerUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {campBannerUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1864,6 +1921,11 @@ export default function EditCamp() {
                   >
                     Update Parking Photo
                   </button>
+                  {campParkingUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {campParkingUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1932,6 +1994,11 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  {campGal1Updated ? (
+                    <div class="alert alert-success" role="alert">
+                      {campGal1Updated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -2000,6 +2067,11 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  {campGal2Updated ? (
+                    <div class="alert alert-success" role="alert">
+                      {campGal2Updated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -2068,6 +2140,11 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  {campGal3Updated ? (
+                    <div class="alert alert-success" role="alert">
+                      {campGal3Updated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>

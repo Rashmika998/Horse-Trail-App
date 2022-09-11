@@ -25,6 +25,13 @@ export default function EditTrail() {
   const [trailNotes, setTrailNotes] = useState("");
   const [trailType, setTrailType] = useState("Loop");
   const [errorTrailDetails, setErrorTrailDetails] = useState("");
+  const [trailUpdated, setTrailUpdated] = useState("");
+  const [trailBannerUpdated, setTrailBannerUpdated] = useState("");
+  const [trailParkingUpdated, setTrailParkingUpdated] = useState("");
+  const [trailMapUpdated, setTrailMapUpdated] = useState("");
+  const [trailGal1Updated, setTrailGal1Updated] = useState("");
+  const [trailGal2Updated, setTrailGal2Updated] = useState("");
+  const [trailGal3Updated, setTrailGal3Updated] = useState("");
 
   const [trailHeadCheck, setTrailHead] = useState({
     trailHead: [],
@@ -523,7 +530,37 @@ export default function EditTrail() {
         userID
       )
         .then(() => {
-          alert("Updated");
+          setTrailUpdated("Trail updated successfully!");
+          setAtvOrOffroad("Yes");
+          setBanner("");
+          setBestSeasons({});
+          setBikers("Yes");
+          setCity("");
+          setCountry("");
+          setDescription("");
+          setDogs("Yes");
+          setElevationGain("");
+          setHikers("Yes");
+          setImageGal1("");
+          setImageGal2("");
+          setImageGal3("");
+          setKeywords("");
+          setLongitude("");
+          setLatitude("");
+          setMiles("");
+          setObstacles({});
+          setParkName("");
+          setParkingImage("");
+          setParkingNotes("");
+          setParkingSpots("");
+          setRestrictions("");
+          setState("");
+          setTrailHead({});
+          setTrailMap("");
+          setTrailMapImage("");
+          setTrailName("");
+          setTrailNotes("");
+          setTrailType("");
           stateChange ? setStateChange(false) : setStateChange(true);
         })
         .catch((e) => {
@@ -555,7 +592,8 @@ export default function EditTrail() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Banner Image updated");
+          setBanner("");
+          setTrailBannerUpdated("Banner image updated successfully");
         })
         .catch((e) => {
           setErrorTrailDetails("Error Occurred!");
@@ -582,7 +620,8 @@ export default function EditTrail() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Parking Image updated");
+          setParkingImage("");
+          setTrailParkingUpdated("Parking image updated successfully");
         })
         .catch((e) => {
           setErrorTrailDetails("Error Occurred!");
@@ -608,7 +647,8 @@ export default function EditTrail() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Gallery Image 01 updated");
+          setImageGal1("");
+          setTrailGal1Updated("Gallery image updated successfully");
         })
         .catch((e) => {
           setErrorTrailDetails("Error Occurred!");
@@ -634,7 +674,8 @@ export default function EditTrail() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Gallery Image 02 updated");
+          setImageGal2("");
+          setTrailGal2Updated("Gallery image updated successfully");
         })
         .catch((e) => {
           setErrorTrailDetails("Error Occurred!");
@@ -660,7 +701,8 @@ export default function EditTrail() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Gallery Image 03 updated");
+          setImageGal3("");
+          setTrailGal3Updated("Gallery image updated successfully");
         })
         .catch((e) => {
           setErrorTrailDetails("Error Occurred!");
@@ -686,7 +728,8 @@ export default function EditTrail() {
       )
         .then(() => {
           stateChange ? setStateChange(false) : setStateChange(true);
-          alert("Trail Map Image updated");
+          setTrailMapImage("");
+          setTrailMapUpdated("Trail map image updated successfully");
         })
         .catch((e) => {
           setErrorTrailDetails("Error Occurred!");
@@ -1509,6 +1552,11 @@ export default function EditTrail() {
                   >
                     Update Trail Details
                   </button>
+                  {trailUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1576,6 +1624,11 @@ export default function EditTrail() {
                   >
                     Update Banner Image
                   </button>
+                  {trailBannerUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailBannerUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1644,6 +1697,11 @@ export default function EditTrail() {
                   >
                     Update Parking Image
                   </button>
+                  {trailParkingUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailParkingUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1709,6 +1767,11 @@ export default function EditTrail() {
                   >
                     Update Trail Map Image
                   </button>
+                  {trailMapUpdated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailMapUpdated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1783,6 +1846,11 @@ export default function EditTrail() {
                   >
                     Update Gallery Image 01
                   </button>
+                  {trailGal1Updated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailGal1Updated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1857,6 +1925,11 @@ export default function EditTrail() {
                   >
                     Update Gallery Image 02
                   </button>
+                  {trailGal2Updated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailGal2Updated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>
@@ -1931,6 +2004,11 @@ export default function EditTrail() {
                   >
                     Update Gallery Image 03
                   </button>
+                  {trailGal3Updated ? (
+                    <div class="alert alert-success" role="alert">
+                      {trailGal3Updated}
+                    </div>
+                  ) : null}
                 </div>
               </form>
             </div>

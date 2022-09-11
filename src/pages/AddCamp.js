@@ -32,6 +32,7 @@ export default function AddCamp() {
   const [twitter, setTwitter] = useState("");
   const [website, setWebsite] = useState("");
   const [error, setError] = useState("");
+  const [campAdded, setCampAdded] = useState("");
 
   const [campSiteTypesCheck, setCampSiteTypes] = useState({
     campSiteTypes: [],
@@ -268,7 +269,45 @@ export default function AddCamp() {
                                           website
                                         )
                                           .then(() => {
-                                            alert("Done");
+                                            setCampAdded(
+                                              "Camp added successfully!"
+                                            );
+                                            setCampDescription("");
+                                            setCampName("");
+                                            setCampNotes("");
+                                            setBestSeasons({});
+                                            setCostPerNight("");
+                                            setCity("");
+                                            setEmail("");
+                                            setWebsite("");
+                                            setInstagram("");
+                                            setFacebook("");
+                                            setHorseSite("");
+                                            setImageGal1("");
+                                            setImageGal2("");
+                                            setImageGal3("");
+                                            setKeywords("");
+                                            setLongitude("");
+                                            setLatitude("");
+                                            setReservation("Yes");
+                                            setReservationCall("");
+                                            setReservationDescription("");
+                                            setReservationEmail("");
+                                            setReservationLink("");
+                                            setRoadToCamp("");
+                                            setResOrPricing("");
+                                            setCampSiteTypes("");
+                                            setParkName("");
+                                            setParkingImage("");
+                                            setTwitter("");
+                                            setAmenities("");
+                                            setPetPolicy("");
+                                            setPhone("");
+                                            setRestrictions("");
+                                            setState("");
+                                            setReservation("");
+                                            setPaperworkRequired("Yes");
+                                            setCampType();
                                           })
                                           .catch((e) => {
                                             setError(
@@ -1136,6 +1175,11 @@ export default function AddCamp() {
           >
             Add Camp
           </button>
+          {campAdded ? (
+            <div className="alert alert-success" role="alert">
+              {campAdded}
+            </div>
+          ) : null}
         </div>
       </form>
     </div>

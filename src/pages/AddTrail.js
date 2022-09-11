@@ -26,6 +26,7 @@ export default function AddTrail() {
   const [trailNotes, setTrailNotes] = useState("");
   const [trailType, setTrailType] = useState("Loop");
   const [error, setError] = useState("");
+  const [trailAdded, setTrailAdded] = useState("");
 
   const [trailHeadCheck, setTrailHead] = useState({
     trailHead: [],
@@ -163,7 +164,39 @@ export default function AddTrail() {
                                                   userId
                                                 )
                                                   .then(() => {
-                                                    alert("Done");
+                                                    setTrailAdded(
+                                                      "Trail added successfully!"
+                                                    );
+                                                    setAtvOrOffroad("Yes");
+                                                    setBanner("");
+                                                    setBestSeasons({});
+                                                    setBikers("Yes");
+                                                    setCity("");
+                                                    setCountry("");
+                                                    setDescription("");
+                                                    setDogs("Yes");
+                                                    setElevationGain("");
+                                                    setHikers("Yes");
+                                                    setImageGal1("");
+                                                    setImageGal2("");
+                                                    setImageGal3("");
+                                                    setKeywords("");
+                                                    setLongitude("");
+                                                    setLatitude("");
+                                                    setMiles("");
+                                                    setObstacles({});
+                                                    setParkName("");
+                                                    setParkingImage("");
+                                                    setParkingNotes("");
+                                                    setParkingSpots("");
+                                                    setRestrictions("");
+                                                    setState("");
+                                                    setTrailHead({});
+                                                    setTrailMap("");
+                                                    setTrailMapImage("");
+                                                    setTrailName("");
+                                                    setTrailNotes("");
+                                                    setTrailType("");
                                                   })
                                                   .catch((e) => {
                                                     setError(
@@ -976,6 +1009,11 @@ export default function AddTrail() {
           >
             Add Trail
           </button>
+          {trailAdded ? (
+            <div class="alert alert-success" role="alert">
+              {trailAdded}
+            </div>
+          ) : null}
         </div>
       </form>
     </div>
