@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from "react";
 import FireStoreServiceTrails from "../utils/services/trails/FireStoreService";
-import FireStoreServiceCamps from "../utils/services/trails/FireStoreService";
+import FireStoreServiceCamps from "../utils/services/camps/FireStoreService";
 
 function GetNearbyPlaces(props) {
   function distance(lat1, lon1, lat2, lon2, unit) {
@@ -49,9 +49,9 @@ function GetNearbyPlaces(props) {
     if (type == "trail") {
       const data = await FireStoreServiceCamps.getAllCamps();
       setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    } else if ((type = "camp")) {
-      const data = await FireStoreServiceTrails.getAllTrails();
-      setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    } else if (type == "camp") {
+      const data1 = await FireStoreServiceTrails.getAllTrails();
+      setItems(data1.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
   };
 
