@@ -47,10 +47,10 @@ function GetNearbyPlaces(props) {
   };
   const getList = async () => {
     if (type == "trail") {
-      const data = await FireStoreServiceTrails.getAllTrails();
+      const data = await FireStoreServiceCamps.getAllCamps();
       setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     } else if ((type = "camp")) {
-      const data = await FireStoreServiceCamps.getAllCamps();
+      const data = await FireStoreServiceTrails.getAllTrails();
       setItems(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     }
   };
@@ -72,19 +72,19 @@ function GetNearbyPlaces(props) {
           if (type == "trail") {
             return (
               <a
-                href={"/display-trail/" + item.id}
+                href={"/display-camp/" + item.id}
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <h6 className="text-center">{item.trailName}</h6>
+                <h6 className="text-center">{item.campName}</h6>
               </a>
             );
           } else if (type == "camp") {
             return (
               <a
-                href={"/display-camp/" + item.id}
+                href={"/display-trail/" + item.id}
                 style={{ textDecoration: "none", color: "black" }}
               >
-                <h6 className="text-center">{item.campName}</h6>
+                <h6 className="text-center">{item.trailName}</h6>
               </a>
             );
           }
