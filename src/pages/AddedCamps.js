@@ -21,7 +21,7 @@ function AddedCamps() {
   const onDelete = (id) => {
     FireStoreService.deleteCamp(id)
       .then(() => {
-        alert("Done");
+        window.location.reload(true);
       })
       .catch((e) => {
         console.log(e);
@@ -38,8 +38,7 @@ function AddedCamps() {
         <h3>My Camps</h3>
         {camps.length == 0 ? (
           <div className="mt-5">
-            <div class="spinner-border" role="status"></div>&nbsp;&nbsp;
-            <div class="spinner-grow" role="status"></div>
+            <div className="spinner-border" role="status"></div>
           </div>
         ) : (
           ""

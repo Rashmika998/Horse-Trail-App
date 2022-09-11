@@ -21,7 +21,7 @@ function AddedTrails() {
   const onDelete = (id) => {
     FireStoreService.deleteTrail(id)
       .then(() => {
-        alert("Done");
+        window.location.reload(true);
       })
       .catch((e) => {
         console.log(e);
@@ -38,7 +38,7 @@ function AddedTrails() {
         <h3>My Trails</h3>
         {trails.length == 0 ? (
           <div className="mt-5">
-            <div class="spinner-grow" role="status"></div>
+            <div className="spinner-border" role="status"></div>
           </div>
         ) : (
           ""

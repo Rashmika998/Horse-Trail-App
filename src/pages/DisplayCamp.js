@@ -2,6 +2,7 @@ import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
+import DataTable from "react-data-table-component";
 
 const colors = {
   orange: "#FFBA5A",
@@ -358,6 +359,95 @@ export default function DisplayCamp() {
         setReviewResult("Error occurred! Please try again.");
         console.log(e);
       });
+  }
+
+  function getNumberOfPages(rowCount, rowsPerPage) {
+    return Math.ceil(rowCount / rowsPerPage);
+  }
+
+  function toPages(pages) {
+    const results = [];
+
+    for (let i = 1; i <= pages; i++) {
+      results.push(i);
+    }
+
+    return results;
+  }
+
+  const columns = [
+    {
+      selector: (row) => row.review,
+    },
+  ];
+
+  function BootyPagination({
+    rowsPerPage,
+    rowCount,
+    onChangePage,
+    currentPage,
+  }) {
+    const handleBackButtonClick = () => {
+      onChangePage(currentPage - 1);
+    };
+
+    const handleNextButtonClick = () => {
+      onChangePage(currentPage + 1);
+    };
+
+    const handlePageNumber = (e) => {
+      onChangePage(Number(e.target.value));
+    };
+
+    const pages = getNumberOfPages(rowCount, rowsPerPage);
+    const pageItems = toPages(pages);
+    const nextDisabled = currentPage === pageItems.length;
+    const previosDisabled = currentPage === 1;
+    return (
+      <nav>
+        <br></br>
+        <ul className="pagination">
+          <li className="page-item">
+            <button
+              className="page-link"
+              onClick={handleBackButtonClick}
+              disabled={previosDisabled}
+              aria-disabled={previosDisabled}
+              aria-label="previous page"
+            >
+              Previous
+            </button>
+          </li>
+          {pageItems.map((page) => {
+            const className =
+              page === currentPage ? "page-item active" : "page-item";
+
+            return (
+              <li key={page} className={className}>
+                <button
+                  className="page-link"
+                  onClick={handlePageNumber}
+                  value={page}
+                >
+                  {page}
+                </button>
+              </li>
+            );
+          })}
+          <li className="page-item">
+            <button
+              className="page-link"
+              onClick={handleNextButtonClick}
+              disabled={nextDisabled}
+              aria-disabled={nextDisabled}
+              aria-label="next page"
+            >
+              Next
+            </button>
+          </li>
+        </ul>
+      </nav>
+    );
   }
 
   return (
@@ -830,12 +920,16 @@ export default function DisplayCamp() {
                   >
                     Camp Reviews
                   </Card.Title>
-                  <ul>
-                    {console.log(allReviews)}
-                    {allReviews.map((value, key) => (
-                      <li>{value.review}</li>
-                    ))}
-                  </ul>
+                  <DataTable
+                    responsive
+                    columns={columns}
+                    data={allReviews}
+                    striped={true}
+                    highlightOnHover={true}
+                    pagination
+                    paginationComponent={BootyPagination}
+                    defaultSortFieldID={1}
+                  />
                 </Card.Body>
               </Card>
             </div>
