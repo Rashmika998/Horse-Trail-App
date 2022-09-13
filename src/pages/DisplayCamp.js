@@ -18,6 +18,8 @@ const styles = {
 };
 
 export default function DisplayCamp() {
+  var url = document.location.href;
+  var id = url.toString().split("/")[4];
   const [userID, setUserID] = useState("AAAAAAA");
 
   const [campID, setCampID] = useState(null);
@@ -71,10 +73,8 @@ export default function DisplayCamp() {
   }
 
   useEffect(() => {
-    var url = document.location.href;
-    var id = url.toString().split("/")[4];
     setCampID(id);
-    FireStoreService.getCamp(campID)
+    FireStoreService.getCamp(id)
       .then((response) => {
         setCampDetails(response.data());
         FireStoreService.getReviews(campID)
@@ -87,18 +87,18 @@ export default function DisplayCamp() {
             console.log(e);
           });
         const website = document.getElementById("website");
-        website.setAttribute("href", campDetails.website);
+        website.setAttribute("href", response.data().website);
         const fb = document.getElementById("fb");
-        fb.setAttribute("href", campDetails.facebook);
+        fb.setAttribute("href", response.data().facebook);
         const twitter = document.getElementById("twitter");
-        twitter.setAttribute("href", campDetails.twitter);
+        twitter.setAttribute("href", response.data().twitter);
         const insta = document.getElementById("insta");
-        insta.setAttribute("href", campDetails.instagram);
+        insta.setAttribute("href", response.data().instagram);
 
-        const pathBanner = campDetails.campName;
+        const pathBanner = response.data().campName;
         FireStoreService.getCampImages(
           "banners/" + pathBanner,
-          campDetails.bannerName
+          response.data().bannerName
         )
           .then((res) => {
             const bannerImg = document.getElementById("banner");
@@ -109,8 +109,8 @@ export default function DisplayCamp() {
           });
 
         FireStoreService.getCampImages(
-          "gallery/" + campDetails.campName,
-          campDetails.imageGal1Name
+          "gallery/" + response.data().campName,
+          response.data().imageGal1Name
         )
           .then((gal1) => {
             const imageGal1 = document.getElementById("imageGal1");
@@ -121,8 +121,8 @@ export default function DisplayCamp() {
           });
 
         FireStoreService.getCampImages(
-          "gallery/" + campDetails.campName,
-          campDetails.imageGal2Name
+          "gallery/" + response.data().campName,
+          response.data().imageGal2Name
         )
           .then((gal2) => {
             const imageGal2 = document.getElementById("imageGal2");
@@ -133,8 +133,8 @@ export default function DisplayCamp() {
           });
 
         FireStoreService.getCampImages(
-          "gallery/" + campDetails.campName,
-          campDetails.imageGal3Name
+          "gallery/" + response.data().campName,
+          response.data().imageGal3Name
         )
           .then((gal3) => {
             const imageGal3 = document.getElementById("imageGal3");
@@ -144,16 +144,19 @@ export default function DisplayCamp() {
             console.log(e);
           });
 
-        displayCampUsers("reservation", campDetails.reservation);
-        displayCampUsers("paperworkRequired", campDetails.paperworkRequired);
-        displayCampSites(campDetails.campSiteTypesCheck.campSiteTypes);
-        displaySeasons(campDetails.bestSeasonsCheck.bestSeasons);
-        displayAmenities(campDetails.amenitiesCheck.amenities);
+        displayCampUsers("reservation", response.data().reservation);
+        displayCampUsers(
+          "paperworkRequired",
+          response.data().paperworkRequired
+        );
+        displayCampSites(response.data().campSiteTypesCheck.campSiteTypes);
+        displaySeasons(response.data().bestSeasonsCheck.bestSeasons);
+        displayAmenities(response.data().amenitiesCheck.amenities);
 
         FireStoreService.getRating(campID)
-          .then((response) => {
+          .then((resRating) => {
             setRatings(
-              response.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+              resRating.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
             );
             displayRating();
           })
@@ -456,754 +459,760 @@ export default function DisplayCamp() {
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
-      <Card style={{ border: "none" }}>
-        <Card.Body>
-          <Card.Title>
-            <h1 className="text-center">{campDetails.campName}</h1>
-            <h2 className="text-center">
-              {campDetails.city}&nbsp;{campDetails.state}
-            </h2>
-            <h3 className="text-center">{campDetails.campType}</h3>
-            <div style={styles.stars} className="justify-content-center">
-              <FaStar
-                size={24}
-                style={{
-                  marginRight: 10,
-                  cursor: "pointer",
-                  color: "orange",
-                }}
-              />
-              <div id="starRate"></div>
-            </div>
-          </Card.Title>
-          <div className="row p-3">
-            <img
-              alt="Banner Image"
-              id="banner"
-              style={{
-                display: "block",
-                width: "20%",
-                height: "auto",
-                margin: "0px auto",
-              }}
-            ></img>
-          </div>
-          <div className="row text-center">
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Road to Camp
-                  </Card.Title>
-                  <div>
-                    <h5>{campDetails.roadToCamp}</h5>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Park Name
-                  </Card.Title>
-                  <div>{campDetails.parkName}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Phone
-                  </Card.Title>
-                  <div>{campDetails.phone}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Email
-                  </Card.Title>
-                  <div>{campDetails.email}</div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <br></br>
-          <div className="row text-center">
-            <div className="col md-8">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Amenities
-                  </Card.Title>
-                  <div className="row">
-                    <div className="col md-2">
-                      <img alt="Restrooms" id="restrooms"></img>
-                    </div>
-                    <div className="col md-2">
-                      <img alt="Water" id="water"></img>
-                    </div>
-                    <div className="col md-2">
-                      <img alt="Corrals" id="corrals"></img>
-                    </div>
-                    <div className="col md-2">
-                      <img alt="Restaurant" id="restaurant"></img>
-                    </div>
-                    <div className="col md-2">
-                      <img alt="Hookup" id="hookup"></img>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-4">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Camp Users
-                  </Card.Title>
-                  <div className="row">
-                    <div className="col md-2">
-                      <img alt="Reservation" id="reservation"></img>
-                    </div>
-                    <div className="col md-2">
-                      <img
-                        alt="PaperWork Required"
-                        id="paperWorkRequired"
-                      ></img>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <br></br>
-          <div className="row text-center">
-            <div className="col md-4">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Seasons
-                  </Card.Title>
-                  <div className="row">
-                    <div className="col md-3">
-                      <img alt="Spring" id="spring"></img>
-                    </div>
-                    <div className="col md-3">
-                      <img alt="Summer" id="summer"></img>
-                    </div>
-                    <div className="col md-3">
-                      <img alt="Fall" id="fall"></img>
-                    </div>
-                    <div className="col md-3">
-                      <img alt="Winter" id="winter"></img>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-4">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Camp Site Types
-                  </Card.Title>
-                  <div className="row">
-                    <div className="col md-3">
-                      <img alt="Dispersed" id="dispersed"></img>
-                    </div>
-                    <div className="col md-3">
-                      <img alt="Tent Site" id="tentSite"></img>
-                    </div>
-                    <div className="col md-3">
-                      <img alt="Rv Site" id="rvSite"></img>
-                    </div>
-                    <div className="col md-3">
-                      <img alt="Cabins" id="cabins"></img>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-
-          <br></br>
-          <div className="row text-center">
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Restrictions
-                  </Card.Title>
-                  <div>{campDetails.restrictions}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Pet policy
-                  </Card.Title>
-                  <div>{campDetails.petPolicy}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Reservation Link
-                  </Card.Title>
-                  <div>{campDetails.reservationLink}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Reservation Call
-                  </Card.Title>
-                  <div>{campDetails.reservationCall}</div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <br></br>
-          <div className="row text-center">
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Reservation Description
-                  </Card.Title>
-                  <div>{campDetails.reservationDescription}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Reservation Email
-                  </Card.Title>
-                  <div>{campDetails.reservationEmail}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Horse Site
-                  </Card.Title>
-                  <div>{campDetails.horseSite}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Cost Per Night
-                  </Card.Title>
-                  <div>{campDetails.costPerNight}</div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <br></br>
-          <div className="row text-center">
-            <div className="col md-4">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Links
-                  </Card.Title>
-                  <a id="website">
-                    <img
-                      alt="Website"
-                      src="https://img.icons8.com/ios-filled/50/000000/internet.png"
-                    ></img>
-                  </a>
-
-                  <a id="fb">
-                    <img
-                      alt="Facebook"
-                      src="https://img.icons8.com/ios-filled/50/000000/facebook-new.png"
-                    ></img>
-                  </a>
-
-                  <a id="twitter">
-                    <img
-                      alt="Twitter"
-                      src="https://img.icons8.com/ios-filled/50/000000/twitter.png"
-                    ></img>
-                  </a>
-
-                  <a id="insta">
-                    <img
-                      alt="Instagram"
-                      src="https://img.icons8.com/ios-filled/50/000000/instagram-new--v1.png"
-                    ></img>
-                  </a>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Camp Notes
-                  </Card.Title>
-                  <div>{campDetails.campNotes}</div>
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Camp Description
-                  </Card.Title>
-                  <div>{campDetails.campDescription}</div>
-                </Card.Body>
-              </Card>
-            </div>
-
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Reservations and Pricing
-                  </Card.Title>
-                  <div>{campDetails.resPricing}</div>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <br></br>
-          <div className="row text-center">
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Camp Reviews
-                  </Card.Title>
-                  <DataTable
-                    responsive
-                    columns={columns}
-                    data={allReviews}
-                    striped={true}
-                    highlightOnHover={true}
-                    pagination
-                    paginationComponent={BootyPagination}
-                    defaultSortFieldID={1}
-                  />
-                </Card.Body>
-              </Card>
-            </div>
-            <div className="col md-3">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Nearby Places to Ride
-                  </Card.Title>
-                </Card.Body>
-                <GetNearbyPlaces id={campID} type="camp" />
-              </Card>
-            </div>
-            <div className="col md-4">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Parking Image
-                  </Card.Title>
-                  <img
-                    alt="Parking Image"
-                    id="parkingImage"
-                    style={{
-                      display: "block",
-                      width: "20%",
-                      height: "auto",
-                      margin: "0px auto",
-                    }}
-                  ></img>
-                </Card.Body>
-              </Card>
-            </div>
-          </div>
-          <br></br>
-          <div className="row text-center">
-            <Card style={{ border: "none" }}>
-              <Card.Body>
-                <Card.Title
+      {campDetails.length != 0 ? (
+        <Card style={{ border: "none" }}>
+          <Card.Body>
+            <Card.Title>
+              <h1 className="text-center">{campDetails.campName}</h1>
+              <h2 className="text-center">
+                {campDetails.city}&nbsp;{campDetails.state}
+              </h2>
+              <h3 className="text-center">{campDetails.campType}</h3>
+              <div style={styles.stars} className="justify-content-center">
+                <FaStar
+                  size={24}
                   style={{
-                    backgroundColor: "#101522",
-                    color: "white",
-                    borderRadius: "5px",
+                    marginRight: 10,
+                    cursor: "pointer",
+                    color: "orange",
                   }}
-                >
-                  Camp Gallery
-                </Card.Title>
-                <div
-                  id="carouselExampleIndicators"
-                  className="carousel slide"
-                  data-bs-ride="true"
-                >
-                  <div className="carousel-indicators">
-                    <button
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide-to="0"
-                      className="active"
-                      aria-current="true"
-                      aria-label="Slide 1"
-                    ></button>
-                    <button
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide-to="1"
-                      aria-label="Slide 2"
-                    ></button>
-                    <button
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide-to="2"
-                      aria-label="Slide 3"
-                    ></button>
-                  </div>
-                  <div className="carousel-inner">
-                    <div className="carousel-item active">
-                      <img
-                        alt="Gallery Image 01"
-                        id="imageGal1"
-                        className="d-block w-25"
-                        style={{
-                          height: "auto",
-                          margin: "0px auto",
-                        }}
-                      ></img>
-                    </div>
-                    <div className="carousel-item">
-                      <img
-                        alt="Gallery Image 02"
-                        id="imageGal2"
-                        className="d-block w-25"
-                        style={{
-                          height: "auto",
-                          margin: "0px auto",
-                        }}
-                      ></img>
-                    </div>
-                    <div className="carousel-item">
-                      <img
-                        alt="Gallery Image 03"
-                        id="imageGal3"
-                        className="d-block w-25"
-                        style={{
-                          height: "auto",
-                          margin: "0px auto",
-                        }}
-                      ></img>
-                    </div>
-                  </div>
-                  <button
-                    className="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="prev"
-                  >
-                    <span
-                      className="carousel-control-prev-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Previous</span>
-                  </button>
-                  <button
-                    className="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExampleIndicators"
-                    data-bs-slide="next"
-                  >
-                    <span
-                      className="carousel-control-next-icon"
-                      aria-hidden="true"
-                    ></span>
-                    <span className="visually-hidden">Next</span>
-                  </button>
-                </div>
-              </Card.Body>
-            </Card>
-          </div>
-          <br></br>
-          <div>
-            {checkedIn ? (
-              <div>
-                {
-                  completed ? (
+                />
+                <div id="starRate"></div>
+              </div>
+            </Card.Title>
+            <div className="row p-3">
+              <img
+                alt="Banner Image"
+                id="banner"
+                style={{
+                  display: "block",
+                  width: "20%",
+                  height: "auto",
+                  margin: "0px auto",
+                }}
+              ></img>
+            </div>
+            <div className="row text-center">
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Road to Camp
+                    </Card.Title>
                     <div>
-                      {fav ? null /**display it as a fav */ : (
-                        <div>
-                          <div className="row">
-                            <div
-                              className="form-radio col-md-5"
-                              style={{ marginBottom: "15px" }}
-                            >
-                              <label style={{ marginBottom: "5px" }}>
-                                <h4>Rate the Trail</h4>(submit the rate by
-                                clicking the required stars)
-                              </label>
-                              <div style={styles.stars}>
-                                {stars.map((_, index) => {
-                                  return (
-                                    <FaStar
-                                      key={index}
-                                      size={24}
-                                      onClick={() => handleClick(index + 1)}
-                                      onMouseOver={() =>
-                                        handleMouseOver(index + 1)
-                                      }
-                                      onMouseLeave={handleMouseLeave}
-                                      color={
-                                        (hoverValue || currentValue) > index
-                                          ? colors.orange
-                                          : colors.grey
-                                      }
-                                      style={{
-                                        marginRight: 10,
-                                        cursor: "pointer",
-                                      }}
-                                    />
-                                  );
-                                })}
-                              </div>
-                              <br></br>
-                              {rateResult ? (
-                                <div class="alert alert-info" role="alert">
-                                  {rateResult}
+                      <h5>{campDetails.roadToCamp}</h5>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Park Name
+                    </Card.Title>
+                    <div>{campDetails.parkName}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Phone
+                    </Card.Title>
+                    <div>{campDetails.phone}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Email
+                    </Card.Title>
+                    <div>{campDetails.email}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-8">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Amenities
+                    </Card.Title>
+                    <div className="row">
+                      <div className="col md-2">
+                        <img alt="Restrooms" id="restrooms"></img>
+                      </div>
+                      <div className="col md-2">
+                        <img alt="Water" id="water"></img>
+                      </div>
+                      <div className="col md-2">
+                        <img alt="Corrals" id="corrals"></img>
+                      </div>
+                      <div className="col md-2">
+                        <img alt="Restaurant" id="restaurant"></img>
+                      </div>
+                      <div className="col md-2">
+                        <img alt="Hookup" id="hookup"></img>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-4">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Camp Users
+                    </Card.Title>
+                    <div className="row">
+                      <div className="col md-2">
+                        <img alt="Reservation" id="reservation"></img>
+                      </div>
+                      <div className="col md-2">
+                        <img
+                          alt="PaperWork Required"
+                          id="paperWorkRequired"
+                        ></img>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-4">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Seasons
+                    </Card.Title>
+                    <div className="row">
+                      <div className="col md-3">
+                        <img alt="Spring" id="spring"></img>
+                      </div>
+                      <div className="col md-3">
+                        <img alt="Summer" id="summer"></img>
+                      </div>
+                      <div className="col md-3">
+                        <img alt="Fall" id="fall"></img>
+                      </div>
+                      <div className="col md-3">
+                        <img alt="Winter" id="winter"></img>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-4">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Camp Site Types
+                    </Card.Title>
+                    <div className="row">
+                      <div className="col md-3">
+                        <img alt="Dispersed" id="dispersed"></img>
+                      </div>
+                      <div className="col md-3">
+                        <img alt="Tent Site" id="tentSite"></img>
+                      </div>
+                      <div className="col md-3">
+                        <img alt="Rv Site" id="rvSite"></img>
+                      </div>
+                      <div className="col md-3">
+                        <img alt="Cabins" id="cabins"></img>
+                      </div>
+                    </div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Restrictions
+                    </Card.Title>
+                    <div>{campDetails.restrictions}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Pet policy
+                    </Card.Title>
+                    <div>{campDetails.petPolicy}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Reservation Link
+                    </Card.Title>
+                    <div>{campDetails.reservationLink}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Reservation Call
+                    </Card.Title>
+                    <div>{campDetails.reservationCall}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Reservation Description
+                    </Card.Title>
+                    <div>{campDetails.reservationDescription}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Reservation Email
+                    </Card.Title>
+                    <div>{campDetails.reservationEmail}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Horse Site
+                    </Card.Title>
+                    <div>{campDetails.horseSite}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Cost Per Night
+                    </Card.Title>
+                    <div>{campDetails.costPerNight}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-4">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Links
+                    </Card.Title>
+                    <a id="website">
+                      <img
+                        alt="Website"
+                        src="https://img.icons8.com/ios-filled/50/000000/internet.png"
+                      ></img>
+                    </a>
+
+                    <a id="fb">
+                      <img
+                        alt="Facebook"
+                        src="https://img.icons8.com/ios-filled/50/000000/facebook-new.png"
+                      ></img>
+                    </a>
+
+                    <a id="twitter">
+                      <img
+                        alt="Twitter"
+                        src="https://img.icons8.com/ios-filled/50/000000/twitter.png"
+                      ></img>
+                    </a>
+
+                    <a id="insta">
+                      <img
+                        alt="Instagram"
+                        src="https://img.icons8.com/ios-filled/50/000000/instagram-new--v1.png"
+                      ></img>
+                    </a>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Camp Notes
+                    </Card.Title>
+                    <div>{campDetails.campNotes}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Camp Description
+                    </Card.Title>
+                    <div>{campDetails.campDescription}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Reservations and Pricing
+                    </Card.Title>
+                    <div>{campDetails.resPricing}</div>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Camp Reviews
+                    </Card.Title>
+                    <DataTable
+                      responsive
+                      columns={columns}
+                      data={allReviews}
+                      striped={true}
+                      highlightOnHover={true}
+                      pagination
+                      paginationComponent={BootyPagination}
+                      defaultSortFieldID={1}
+                    />
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Nearby Places to Ride
+                    </Card.Title>
+                    <GetNearbyPlaces id={campID} type="camp" />
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-4">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Parking Image
+                    </Card.Title>
+                    <img
+                      alt="Parking Image"
+                      id="parkingImage"
+                      style={{
+                        display: "block",
+                        width: "20%",
+                        height: "auto",
+                        margin: "0px auto",
+                      }}
+                    ></img>
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <Card style={{ border: "none" }}>
+                <Card.Body>
+                  <Card.Title
+                    style={{
+                      backgroundColor: "#101522",
+                      color: "white",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    Camp Gallery
+                  </Card.Title>
+                  <div
+                    id="carouselExampleIndicators"
+                    className="carousel slide"
+                    data-bs-ride="true"
+                  >
+                    <div className="carousel-indicators">
+                      <button
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to="0"
+                        className="active"
+                        aria-current="true"
+                        aria-label="Slide 1"
+                      ></button>
+                      <button
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to="1"
+                        aria-label="Slide 2"
+                      ></button>
+                      <button
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide-to="2"
+                        aria-label="Slide 3"
+                      ></button>
+                    </div>
+                    <div className="carousel-inner">
+                      <div className="carousel-item active">
+                        <img
+                          alt="Gallery Image 01"
+                          id="imageGal1"
+                          className="d-block w-25"
+                          style={{
+                            height: "auto",
+                            margin: "0px auto",
+                          }}
+                        ></img>
+                      </div>
+                      <div className="carousel-item">
+                        <img
+                          alt="Gallery Image 02"
+                          id="imageGal2"
+                          className="d-block w-25"
+                          style={{
+                            height: "auto",
+                            margin: "0px auto",
+                          }}
+                        ></img>
+                      </div>
+                      <div className="carousel-item">
+                        <img
+                          alt="Gallery Image 03"
+                          id="imageGal3"
+                          className="d-block w-25"
+                          style={{
+                            height: "auto",
+                            margin: "0px auto",
+                          }}
+                        ></img>
+                      </div>
+                    </div>
+                    <button
+                      className="carousel-control-prev"
+                      type="button"
+                      data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide="prev"
+                    >
+                      <span
+                        className="carousel-control-prev-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Previous</span>
+                    </button>
+                    <button
+                      className="carousel-control-next"
+                      type="button"
+                      data-bs-target="#carouselExampleIndicators"
+                      data-bs-slide="next"
+                    >
+                      <span
+                        className="carousel-control-next-icon"
+                        aria-hidden="true"
+                      ></span>
+                      <span className="visually-hidden">Next</span>
+                    </button>
+                  </div>
+                </Card.Body>
+              </Card>
+            </div>
+            <br></br>
+            <div>
+              {checkedIn ? (
+                <div>
+                  {
+                    completed ? (
+                      <div>
+                        {fav ? null /**display it as a fav */ : (
+                          <div>
+                            <div className="row">
+                              <div
+                                className="form-radio col-md-5"
+                                style={{ marginBottom: "15px" }}
+                              >
+                                <label style={{ marginBottom: "5px" }}>
+                                  <h4>Rate the Trail</h4>(submit the rate by
+                                  clicking the required stars)
+                                </label>
+                                <div style={styles.stars}>
+                                  {stars.map((_, index) => {
+                                    return (
+                                      <FaStar
+                                        key={index}
+                                        size={24}
+                                        onClick={() => handleClick(index + 1)}
+                                        onMouseOver={() =>
+                                          handleMouseOver(index + 1)
+                                        }
+                                        onMouseLeave={handleMouseLeave}
+                                        color={
+                                          (hoverValue || currentValue) > index
+                                            ? colors.orange
+                                            : colors.grey
+                                        }
+                                        style={{
+                                          marginRight: 10,
+                                          cursor: "pointer",
+                                        }}
+                                      />
+                                    );
+                                  })}
                                 </div>
-                              ) : null}
-                            </div>
-                            <div className="col-md-7">
-                              <form className="needs-validation">
-                                <div
-                                  className="form-group"
-                                  style={{ marginBottom: "15px" }}
-                                >
-                                  <label style={{ marginBottom: "5px" }}>
-                                    Add Review
-                                  </label>
-                                  <textarea
-                                    name="review"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      setReview(e.target.value);
-                                    }}
-                                  ></textarea>
-                                </div>
-                                {reviewResult ? (
+                                <br></br>
+                                {rateResult ? (
                                   <div class="alert alert-info" role="alert">
-                                    {reviewResult}
+                                    {rateResult}
                                   </div>
                                 ) : null}
-                                <div className="d-grid">
-                                  <button
-                                    className="btn btn-block"
-                                    type="submit"
-                                    style={{
-                                      marginTop: "15px",
-                                      backgroundColor: "#071c2f",
-                                      color: "white",
-                                    }}
-                                    onClick={submitReview}
+                              </div>
+                              <div className="col-md-7">
+                                <form className="needs-validation">
+                                  <div
+                                    className="form-group"
+                                    style={{ marginBottom: "15px" }}
                                   >
-                                    Add Review
-                                  </button>
-                                </div>
-                              </form>
+                                    <label style={{ marginBottom: "5px" }}>
+                                      Add Review
+                                    </label>
+                                    <textarea
+                                      name="review"
+                                      className="form-control"
+                                      onChange={(e) => {
+                                        setReview(e.target.value);
+                                      }}
+                                    ></textarea>
+                                  </div>
+                                  {reviewResult ? (
+                                    <div class="alert alert-info" role="alert">
+                                      {reviewResult}
+                                    </div>
+                                  ) : null}
+                                  <div className="d-grid">
+                                    <button
+                                      className="btn btn-block"
+                                      type="submit"
+                                      style={{
+                                        marginTop: "15px",
+                                        backgroundColor: "#071c2f",
+                                        color: "white",
+                                      }}
+                                      onClick={submitReview}
+                                    >
+                                      Add Review
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : null /**display it as checked in */
-                }
-              </div>
-            ) : (
-              <form className="needs-validation">
-                <div className="row">
-                  <div className="col-md-5">
-                    <button className="btn btn-primary" onClick={addCheckIn}>
-                      Check In
-                    </button>
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                    {checkIn == "Waiting" ? (
-                      <div
-                        class="spinner-border text-primary "
-                        role="status"
-                      ></div>
-                    ) : null}
-                    {checkIn == "Success" ? (
-                      <div class="alert alert-success mt-4" role="alert">
-                        Checked In Successfully
+                        )}
                       </div>
-                    ) : null}
-                    {checkIn == "Error" ? (
-                      <div class="alert alert-danger mt-4" role="alert">
-                        Error occurred! Please try again.
-                      </div>
-                    ) : null}
-                  </div>
+                    ) : null /**display it as checked in */
+                  }
                 </div>
-              </form>
-            )}
-          </div>
-        </Card.Body>
-      </Card>
+              ) : (
+                <form className="needs-validation">
+                  <div className="row">
+                    <div className="col-md-5">
+                      <button className="btn btn-primary" onClick={addCheckIn}>
+                        Check In
+                      </button>
+                      &nbsp; &nbsp; &nbsp; &nbsp;
+                      {checkIn == "Waiting" ? (
+                        <div
+                          class="spinner-border text-primary "
+                          role="status"
+                        ></div>
+                      ) : null}
+                      {checkIn == "Success" ? (
+                        <div class="alert alert-success mt-4" role="alert">
+                          Checked In Successfully
+                        </div>
+                      ) : null}
+                      {checkIn == "Error" ? (
+                        <div class="alert alert-danger mt-4" role="alert">
+                          Error occurred! Please try again.
+                        </div>
+                      ) : null}
+                    </div>
+                  </div>
+                </form>
+              )}
+            </div>
+          </Card.Body>
+        </Card>
+      ) : (
+        <div className="mt-5">
+          <div className="spinner-border" role="status"></div>
+        </div>
+      )}
     </div>
   );
 }

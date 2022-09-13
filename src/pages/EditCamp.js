@@ -52,48 +52,48 @@ export default function EditCamp() {
         setCampDetails(response.data());
         console.log(response.data());
         setStateChange(true);
-        setCampDescription(campDetails.campDescription);
-        setCampName(campDetails.campName);
-        setCampNotes(campDetails.campNotes);
-        setBestSeasons(campDetails.bestSeasonsCheck);
-        setCostPerNight(campDetails.costPerNight);
-        setCity(campDetails.city);
-        setEmail(campDetails.email);
-        setWebsite(campDetails.website);
-        setInstagram(campDetails.instagram);
-        setFacebook(campDetails.facebook);
-        setHorseSite(campDetails.horseSite);
-        setImageGal1(campDetails.imageGal1Name);
-        setImageGal2(campDetails.imageGal2Name);
-        setImageGal3(campDetails.imageGal3Name);
-        setKeywords(campDetails.keywords);
-        setLongitude(campDetails.longitude);
-        setLatitude(campDetails.latitude);
-        setReservation(campDetails.reservation);
-        setReservationCall(campDetails.reservationCall);
-        setReservationDescription(campDetails.reservationDescription);
-        setReservationEmail(campDetails.reservationEmail);
-        setReservationLink(campDetails.reservationLink);
-        setRoadToCamp(campDetails.roadToCamp);
-        setResOrPricing(campDetails.resOrPricing);
-        setCampSiteTypes(campDetails.campSiteTypesCheck);
-        setParkName(campDetails.parkName);
-        setParkingImage(campDetails.parkingImageName);
-        setTwitter(campDetails.twitter);
-        setAmenities(campDetails.amenitiesCheck);
-        setPetPolicy(campDetails.petPolicy);
-        setPhone(campDetails.phone);
-        setRestrictions(campDetails.restrictions);
-        setState(campDetails.state);
-        setReservation(campDetails.reservation);
-        setPaperworkRequired(campDetails.paperworkRequired);
-        setCampType(campDetails.campType);
+        setCampDescription(response.data().campDescription);
+        setCampName(response.data().campName);
+        setCampNotes(response.data().campNotes);
+        setBestSeasons(response.data().bestSeasonsCheck);
+        setCostPerNight(response.data().costPerNight);
+        setCity(response.data().city);
+        setEmail(response.data().email);
+        setWebsite(response.data().website);
+        setInstagram(response.data().instagram);
+        setFacebook(response.data().facebook);
+        setHorseSite(response.data().horseSite);
+        setImageGal1(response.data().imageGal1Name);
+        setImageGal2(response.data().imageGal2Name);
+        setImageGal3(response.data().imageGal3Name);
+        setKeywords(response.data().keywords);
+        setLongitude(response.data().longitude);
+        setLatitude(response.data().latitude);
+        setReservation(response.data().reservation);
+        setReservationCall(response.data().reservationCall);
+        setReservationDescription(response.data().reservationDescription);
+        setReservationEmail(response.data().reservationEmail);
+        setReservationLink(response.data().reservationLink);
+        setRoadToCamp(response.data().roadToCamp);
+        setResOrPricing(response.data().resOrPricing);
+        setCampSiteTypes(response.data().campSiteTypesCheck);
+        setParkName(response.data().parkName);
+        setParkingImage(response.data().parkingImageName);
+        setTwitter(response.data().twitter);
+        setAmenities(response.data().amenitiesCheck);
+        setPetPolicy(response.data().petPolicy);
+        setPhone(response.data().phone);
+        setRestrictions(response.data().restrictions);
+        setState(response.data().state);
+        setReservation(response.data().reservation);
+        setPaperworkRequired(response.data().paperworkRequired);
+        setCampType(response.data().campType);
         setSelects();
         setCheckBoxes();
-        const pathBanner = campDetails.campName;
+        const pathBanner = response.data().campName;
         FireStoreService.getCampImages(
           "banners/" + pathBanner,
-          campDetails.bannerName
+          response.data().bannerName
         )
           .then((res) => {
             const bannerImg = document.getElementById("banner");
@@ -104,8 +104,8 @@ export default function EditCamp() {
           });
 
         FireStoreService.getCampImages(
-          "gallery/" + campDetails.campName,
-          campDetails.imageGal1Name
+          "gallery/" + response.data().campName,
+          response.data().imageGal1Name
         )
           .then((gal1) => {
             const imageGal1 = document.getElementById("imageGal1");
@@ -116,8 +116,8 @@ export default function EditCamp() {
           });
 
         FireStoreService.getCampImages(
-          "gallery/" + campDetails.campName,
-          campDetails.imageGal2Name
+          "gallery/" + response.data().campName,
+          response.data().imageGal2Name
         )
           .then((gal2) => {
             const imageGal2 = document.getElementById("imageGal2");
@@ -128,8 +128,8 @@ export default function EditCamp() {
           });
 
         FireStoreService.getCampImages(
-          "gallery/" + campDetails.campName,
-          campDetails.imageGal3Name
+          "gallery/" + response.data().campName,
+          response.data().imageGal3Name
         )
           .then((gal3) => {
             const imageGal3 = document.getElementById("imageGal3");
@@ -140,8 +140,8 @@ export default function EditCamp() {
           });
 
         FireStoreService.getCampImages(
-          "parking/" + campDetails.campName,
-          campDetails.parkingImageName
+          "parking/" + response.data().campName,
+          response.data().parkingImageName
         )
           .then((parkingImg) => {
             const parkingImage = document.getElementById("parkingImage");

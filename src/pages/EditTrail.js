@@ -64,43 +64,43 @@ export default function EditTrail() {
         setTrailDetails(response.data());
         setStateChange(true);
         console.log(response.data());
-        setAtvOrOffroad(trailDetails.atvOrOffroad);
-        setBanner(trailDetails.bannerName);
-        setBestSeasons(trailDetails.bestSeasonsCheck);
-        setBikers(trailDetails.bikers);
-        setCity(trailDetails.city);
-        setCountry(trailDetails.country);
-        setDescription(trailDetails.description);
-        setDogs(trailDetails.dogs);
-        setElevationGain(trailDetails.elevationGain);
-        setGpx(trailDetails.gpx);
-        setHikers(trailDetails.hikers);
-        setImageGal1(trailDetails.imageGal1Name);
-        setImageGal2(trailDetails.imageGal2Name);
-        setImageGal3(trailDetails.imageGal3Name);
-        setKeywords(trailDetails.keywords);
-        setLongitude(trailDetails.longitude);
-        setLatitude(trailDetails.latitude);
-        setMiles(trailDetails.miles);
-        setObstacles(trailDetails.obstaclesCheck);
-        setParkName(trailDetails.parkName);
-        setParkingImage(trailDetails.parkingImageName);
-        setParkingNotes(trailDetails.parkingNotes);
-        setParkingSpots(trailDetails.parkingSpots);
-        setRestrictions(trailDetails.restrictions);
-        setState(trailDetails.state);
-        setTrailHead(trailDetails.trailHeadCheck);
-        setTrailMap(trailDetails.trailMap);
-        setTrailMapImage(trailDetails.trailMapName);
-        setTrailName(trailDetails.trailName);
-        setTrailNotes(trailDetails.trailNotes);
-        setTrailType(trailDetails.trailType);
+        setAtvOrOffroad(response.data().atvOrOffroad);
+        setBanner(response.data().bannerName);
+        setBestSeasons(response.data().bestSeasonsCheck);
+        setBikers(response.data().bikers);
+        setCity(response.data().city);
+        setCountry(response.data().country);
+        setDescription(response.data().description);
+        setDogs(response.data().dogs);
+        setElevationGain(response.data().elevationGain);
+        setGpx(response.data().gpx);
+        setHikers(response.data().hikers);
+        setImageGal1(response.data().imageGal1Name);
+        setImageGal2(response.data().imageGal2Name);
+        setImageGal3(response.data().imageGal3Name);
+        setKeywords(response.data().keywords);
+        setLongitude(response.data().longitude);
+        setLatitude(response.data().latitude);
+        setMiles(response.data().miles);
+        setObstacles(response.data().obstaclesCheck);
+        setParkName(response.data().parkName);
+        setParkingImage(response.data().parkingImageName);
+        setParkingNotes(response.data().parkingNotes);
+        setParkingSpots(response.data().parkingSpots);
+        setRestrictions(response.data().restrictions);
+        setState(response.data().state);
+        setTrailHead(response.data().trailHeadCheck);
+        setTrailMap(response.data().trailMap);
+        setTrailMapImage(response.data().trailMapName);
+        setTrailName(response.data().trailName);
+        setTrailNotes(response.data().trailNotes);
+        setTrailType(response.data().trailType);
         setSelects();
         setCheckBoxes();
-        const pathBanner = trailDetails.trailName;
+        const pathBanner = response.data().trailName;
         FireStoreService.getTrailImages(
           "banners/" + pathBanner,
-          trailDetails.bannerName
+          response.data().bannerName
         )
           .then((res) => {
             const bannerImg = document.getElementById("banner");
@@ -111,8 +111,8 @@ export default function EditTrail() {
           });
 
         FireStoreService.getTrailImages(
-          "gallery/" + trailDetails.trailName,
-          trailDetails.imageGal1Name
+          "gallery/" + response.data().trailName,
+          response.data().imageGal1Name
         )
           .then((gal1) => {
             const imageGal1 = document.getElementById("imageGal1");
@@ -123,8 +123,8 @@ export default function EditTrail() {
           });
 
         FireStoreService.getTrailImages(
-          "gallery/" + trailDetails.trailName,
-          trailDetails.imageGal2Name
+          "gallery/" + response.data().trailName,
+          response.data().imageGal2Name
         )
           .then((gal2) => {
             const imageGal2 = document.getElementById("imageGal2");
@@ -135,8 +135,8 @@ export default function EditTrail() {
           });
 
         FireStoreService.getTrailImages(
-          "gallery/" + trailDetails.trailName,
-          trailDetails.imageGal3Name
+          "gallery/" + response.data().trailName,
+          response.data().imageGal3Name
         )
           .then((gal3) => {
             const imageGal3 = document.getElementById("imageGal3");
@@ -148,8 +148,8 @@ export default function EditTrail() {
           });
 
         FireStoreService.getTrailImages(
-          "parking/" + trailDetails.trailName,
-          trailDetails.parkingImageName
+          "parking/" + response.data().trailName,
+          response.data().parkingImageName
         )
           .then((parkingImg) => {
             const parkingImage = document.getElementById("parkingImage");
@@ -160,8 +160,8 @@ export default function EditTrail() {
           });
 
         FireStoreService.getTrailImages(
-          "trailMap/" + trailDetails.trailName,
-          trailDetails.trailMapName
+          "trailMap/" + response.data().trailName,
+          response.data().trailMapName
         )
           .then((trailMapImg) => {
             const trailMapImage = document.getElementById("trailMapImage");
