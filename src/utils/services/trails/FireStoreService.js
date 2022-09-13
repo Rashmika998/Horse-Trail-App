@@ -168,6 +168,7 @@ function getTrailImageURL(name, imageName) {
 }
 
 function getTrail(id) {
+  console.log(id);
   return new Promise((resolve, reject) => {
     db.collection("trails")
       .doc(id)
