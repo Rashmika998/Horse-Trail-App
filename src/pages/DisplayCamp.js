@@ -70,7 +70,10 @@ export default function DisplayCamp() {
     e.preventDefault();
     FireStoreService.addCheckins(userID, campID)
       .then(() => {
-        setCheckInResult("Success");
+        setTimeout(() => {
+          setCheckInResult("Success");
+        }, 3000);
+        window.location.reload(true);
       })
       .catch((e) => {
         setCheckInResult("Error");
@@ -83,7 +86,10 @@ export default function DisplayCamp() {
 
     FireStoreService.setTrailFavourite(trailid)
       .then(() => {
-        setCheckInResult("Success");
+        setTimeout(() => {
+          setCheckInResult("Success");
+        }, 3000);
+        window.location.reload(true);
       })
       .catch((e) => {
         setCheckInResult("Error");
@@ -97,7 +103,6 @@ export default function DisplayCamp() {
     setCompleted(data2);
     const data3 = await FireStoreService.check_Favourite(userID, campId);
     setFav(data3);
-  
   };
 
   useEffect(() => {
@@ -528,6 +533,11 @@ export default function DisplayCamp() {
                 />
                 <div id="starRate"></div>
               </div>
+              <h3 className="text-center">
+                {fav && completed && !checkedIn ? (
+                  <FaHeart className="justify-content-center" color="red" />
+                ) : null}
+              </h3>
             </Card.Title>
             <div className="row p-3">
               <img
@@ -1140,7 +1150,36 @@ export default function DisplayCamp() {
             </div>
             <br></br>
             <div>
-              {checkedIn == false ? (
+              {fav && completed && !checkedIn ? null : !fav &&
+                completed &&
+                !checkedIn ? (
+                <>
+                  <div
+                    className="btn btn-outline-danger"
+                    onClick={(event) => onClickAddFavourite(event, campID)}
+                  >
+                    Add to favourites&nbsp;
+                    <FaHeart className="justify-content-center" />
+                  </div>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
+                  {checkIn == "Waiting" ? (
+                    <div
+                      class="spinner-border text-primary "
+                      role="status"
+                    ></div>
+                  ) : null}
+                  {checkIn == "Success" ? (
+                    <div class="alert alert-success mt-4" role="alert">
+                      Change has been saved successfully.
+                    </div>
+                  ) : null}
+                  {checkIn == "Error" ? (
+                    <div class="alert alert-danger mt-4" role="alert">
+                      Error occurred! Please try again.
+                    </div>
+                  ) : null}
+                </>
+              ) : checkedIn == false ? (
                 <div>
                   {
                     completed ? (
@@ -1283,8 +1322,7 @@ export default function DisplayCamp() {
                   ) : null}
                   {checkIn == "Success" ? (
                     <div class="alert alert-success mt-4" role="alert">
-                      Change has been saved successfully. Please referesh the
-                      page.
+                      Change has been saved successfully.
                     </div>
                   ) : null}
                   {checkIn == "Error" ? (
@@ -1293,47 +1331,6 @@ export default function DisplayCamp() {
                     </div>
                   ) : null}
                 </>
-              )}
-
-              {fav == false && completed == true ? (
-                <>
-                  <div
-                    className="btn btn-danger col-lg-3 mx-2 mt-1"
-                    onClick={(event) => onClickAddFavourite(event, campID)}
-                  >
-                    Add to Favourites
-                  </div>
-                  &nbsp; &nbsp; &nbsp; &nbsp;
-                  {checkIn == "Waiting" ? (
-                    <div
-                      class="spinner-border text-primary "
-                      role="status"
-                    ></div>
-                  ) : null}
-                  {checkIn == "Success" ? (
-                    <div class="alert alert-success mt-4" role="alert">
-                      Change has been saved successfully. Please referesh the
-                      page.
-                    </div>
-                  ) : null}
-                  {checkIn == "Error" ? (
-                    <div class="alert alert-danger mt-4" role="alert">
-                      Error occurred! Please try again.
-                    </div>
-                  ) : null}
-                </>
-              ) : (
-                ""
-              )}
-              {fav == true && completed == true ? (
-                <div
-                  className="btn btn-danger col-lg-3 mx-2 mt-1"
-                  disabled={true}
-                >
-                  <FaHeart /> Added to Favourites
-                </div>
-              ) : (
-                ""
               )}
             </div>
           </Card.Body>

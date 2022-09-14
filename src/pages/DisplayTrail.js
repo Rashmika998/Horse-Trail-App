@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Button, Card } from "react-bootstrap";
-import { FaCheckCircle, FaStar,  FaHeart } from "react-icons/fa";
+import { FaCheckCircle, FaStar, FaHeart } from "react-icons/fa";
 import GetNearbyPlaces from "./GetNearbyPlaces";
 import DataTable from "react-data-table-component";
 import { useAuth } from "../contexts/AuthContext";
@@ -69,7 +69,10 @@ export default function DisplayTrail() {
     e.preventDefault();
     FireStoreService.addCheckins(userID, trailID)
       .then(() => {
-        setCheckInResult("Success");
+        setTimeout(() => {
+          setCheckInResult("Success");
+        }, 3000);
+        window.location.reload(true);
       })
       .catch((e) => {
         setCheckInResult("Error");
@@ -83,7 +86,10 @@ export default function DisplayTrail() {
 
     FireStoreService.setTrailFavourite(trailid)
       .then(() => {
-        setCheckInResult("Success");
+        setTimeout(() => {
+          setCheckInResult("Success");
+        }, 3000);
+        window.location.reload(true);
       })
       .catch((e) => {
         setCheckInResult("Error");
@@ -536,6 +542,11 @@ export default function DisplayTrail() {
                 />
                 <div id="starRate"></div>
               </div>
+              <h3 className="text-center">
+                {fav && completed && !checkedIn ? (
+                  <FaHeart className="justify-content-center" color="red" />
+                ) : null}
+              </h3>
             </Card.Title>
             <div className="row p-3">
               <img
@@ -1034,7 +1045,36 @@ export default function DisplayTrail() {
             </div>
             <br></br>
             <div>
-              {checkedIn == false ? (
+              {fav && completed && !checkedIn ? null : !fav &&
+                completed &&
+                !checkedIn ? (
+                <>
+                  <div
+                    className="btn btn-outline-danger"
+                    onClick={(event) => onClickAddFavourite(event, trailID)}
+                  >
+                    Add to favourites&nbsp;
+                    <FaHeart className="justify-content-center" />
+                  </div>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
+                  {checkIn == "Waiting" ? (
+                    <div
+                      class="spinner-border text-primary "
+                      role="status"
+                    ></div>
+                  ) : null}
+                  {checkIn == "Success" ? (
+                    <div class="alert alert-success mt-4" role="alert">
+                      Change has been saved successfully.
+                    </div>
+                  ) : null}
+                  {checkIn == "Error" ? (
+                    <div class="alert alert-danger mt-4" role="alert">
+                      Error occurred! Please try again.
+                    </div>
+                  ) : null}
+                </>
+              ) : checkedIn == false ? (
                 <div>
                   {completed ? (
                     <div>
@@ -1141,8 +1181,7 @@ export default function DisplayTrail() {
                           ) : null}
                           {checkIn == "Success" ? (
                             <div class="alert alert-success mt-4" role="alert">
-                              Change has been saved successfully. Please
-                              referesh the page.
+                              Change has been saved successfully.
                             </div>
                           ) : null}
                           {checkIn == "Error" ? (
@@ -1184,47 +1223,6 @@ export default function DisplayTrail() {
                     </div>
                   ) : null}
                 </>
-              )}
-
-              {fav == false && completed == true ? (
-                <>
-                  <div
-                    className="btn btn-danger col-lg-3 mx-2 mt-1"
-                    onClick={(event) => onClickAddFavourite(event, trailID)}
-                  >
-                   Add to Favourites
-                  </div>
-                  &nbsp; &nbsp; &nbsp; &nbsp;
-                  {checkIn == "Waiting" ? (
-                    <div
-                      class="spinner-border text-primary "
-                      role="status"
-                    ></div>
-                  ) : null}
-                  {checkIn == "Success" ? (
-                    <div class="alert alert-success mt-4" role="alert">
-                      Change has been saved successfully. Please referesh the
-                      page.
-                    </div>
-                  ) : null}
-                  {checkIn == "Error" ? (
-                    <div class="alert alert-danger mt-4" role="alert">
-                      Error occurred! Please try again.
-                    </div>
-                  ) : null}
-                </>
-              ) : (
-                ""
-              )}
-              {fav == true && completed == true ? (
-                <div
-                  className="btn btn-danger col-lg-3 mx-2 mt-1"
-                  disabled={true}
-                >
-                  <FaHeart /> Added to Favourites
-                </div>
-              ) : (
-                ""
               )}
             </div>
           </Card.Body>
