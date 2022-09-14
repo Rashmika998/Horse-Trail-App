@@ -24,6 +24,7 @@ function MyTrailsList() {
 
   const getList = async (trailsType) => {
     setPageLoading(true);
+
     const data = await FireStoreService.getTrailIDsList(trailsType, userID);
     const IDarr = data.docs.map((doc) => doc.data().trailID);
     setTrailIDsList(IDarr);
@@ -55,6 +56,7 @@ function MyTrailsList() {
     setTrailsList(trailsArr);
     setfavTrailsList(favourites);
     setPageLoading(false);
+
   };
 
   const getImageURL = async (trailName, bannerName) => {

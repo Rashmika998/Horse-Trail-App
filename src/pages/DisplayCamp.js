@@ -23,6 +23,7 @@ export default function DisplayCamp() {
   var id = url.toString().split("/")[4];
   const { currentUser } = useAuth();
   const [userID, setUserID] = useState(null);
+
   const [campID, setCampID] = useState(null);
 
   const [campDetails, setCampDetails] = useState({});
@@ -96,6 +97,7 @@ export default function DisplayCamp() {
     setCompleted(data2);
     const data3 = await FireStoreService.check_Favourite(userID, campId);
     setFav(data3);
+  
   };
 
   useEffect(() => {

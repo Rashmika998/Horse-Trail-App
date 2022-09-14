@@ -15,6 +15,7 @@ function AddedCamps() {
   const [loading, setLoading] = useState(true);
   const getList = async () => {
     setLoading(true);
+
     const data = await FireStoreService.getMyCamps(userID);
     setCampsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     await data.docs.map(async (doc) => {
@@ -75,13 +76,8 @@ function AddedCamps() {
           ""
         )}
 
-        {loading == false && camps.length==0 ? (
-          <div className="mt-5">
-            No camps added
-          </div>
-        ) : (
-          ""
-        )}
+
+       
       </div>
 
       <div className="row text-center mx-4">

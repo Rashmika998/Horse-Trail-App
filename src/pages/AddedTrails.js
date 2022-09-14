@@ -14,6 +14,7 @@ function AddedTrails() {
   const [loading, setLoading] = useState(true);
 
   const getList = async () => {
+  
     setLoading(true);
 
     const data = await FireStoreService.getMyTrails(userID);
@@ -29,6 +30,7 @@ function AddedTrails() {
       }));
     });
     setLoading(false);
+
   };
 
   const getImageURL = async (trailName, bannerName) => {
@@ -111,6 +113,7 @@ function AddedTrails() {
                         </div>
                       </a>
                     </div>
+
                     <div className="col-md-6">
                       <div
                         className="btn btn-danger"
