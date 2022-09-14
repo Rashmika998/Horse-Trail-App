@@ -75,6 +75,7 @@ const Navbar = () => {
       <Nav>
         <NavbarContainer>
           <NavLogo to="/" style={{ width: "100%" }}>
+            <NavIcon src="./assets/logo.png" alt="logo" />
             Top Horse Trails
           </NavLogo>
           <MobileIcon onClick={handleClick}>

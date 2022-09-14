@@ -9,8 +9,6 @@ function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
   const { currentUser} = useAuth();
   const [userID, setUserID] = useState(null);
-
-
   const [trailsType, setTrailsType] = useState(null);
   const [trailIDs, setTrailIDsList] = useState([]);
   const [trails, setTrailsList] = useState([]);
@@ -65,13 +63,17 @@ function MyTrailsList() {
   };
 
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)};
-    console.log()
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
+    console.log();
     var url = document.location.href;
     var type = url.toString().split("/")[4];
     setTrailsType(type);
     getList(type);
-  }, []);
+  }, [userID]);
 
   const onClickCompleted = async (event, trailid) => {
     setLoading(true);
@@ -123,10 +125,8 @@ function MyTrailsList() {
           ""
         )}
 
-        {pageLoading == false && trails.length==0 ? (
-          <div className="mt-3 mx-auto text-center">
-            No trails added
-          </div>
+        {pageLoading == false && trails.length == 0 ? (
+          <div className="mt-3 mx-auto text-center">No trails added</div>
         ) : (
           ""
         )}
@@ -177,7 +177,7 @@ function MyTrailsList() {
         </div>
       </div>
 
-      <div className="row text-center">
+      <div className="row text-center mx-4">
         {trails.map((trail) => {
           //   getImageURL(trail);
           return (
@@ -222,7 +222,7 @@ function MyTrailsList() {
                               onClickAddFavourite(event, trail.id)
                             }
                           >
-                           Add to Favourites
+                            Add to Favourites
                           </div>
                         </div>
                       ) : (

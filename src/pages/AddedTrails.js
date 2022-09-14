@@ -8,7 +8,6 @@ import { useAuth } from "../contexts/AuthContext";
 function AddedTrails() {
   const { currentUser} = useAuth();
   const [userID, setUserID] = useState(null);
-
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
@@ -74,7 +73,7 @@ function AddedTrails() {
         )}
       </div>
 
-      <div className="row text-center">
+      <div className="row text-center mx-4">
         {trails.map((trail) => {
           //   getImageURL(trail);
           return (
@@ -112,7 +111,6 @@ function AddedTrails() {
                         </div>
                       </a>
                     </div>
-                    
                     <div className="col-md-6">
                       <div
                         className="btn btn-danger"

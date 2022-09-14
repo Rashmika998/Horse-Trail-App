@@ -583,6 +583,74 @@ function getCampImageURL(name, imageName) {
   });
 }
 
+function check_ChekedIn(userID, trailID) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campCheckIns");
+    query = query
+      .where("campID", "==", trailID)
+      .where("uID", "==", userID)
+      .where("status", "==", "Checked-In");
+    query
+      .get()
+      .then((snapshots) => {
+        if (!snapshots.empty) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function check_Completed(userID, trailID) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campCheckIns");
+    query = query
+      .where("campID", "==", trailID)
+      .where("uID", "==", userID)
+      .where("status", "==", "Completed");
+    query
+      .get()
+      .then((snapshots) => {
+        if (!snapshots.empty) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+function check_Favourite(userID, trailID) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campCheckIns");
+    query = query
+      .where("campID", "==", trailID)
+      .where("uID", "==", userID)
+      .where("status", "==", "Completed")
+      .where("favourite", "==", true);
+    query
+      .get()
+      .then((snapshots) => {
+        if (!snapshots.empty) {
+          resolve(true);
+        } else {
+          resolve(false);
+        }
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
+
 export default {
   addCamp,
   addCampImages,
@@ -603,4 +671,7 @@ export default {
   addCheckins,
   getMyCamps,
   getCampImageURL,
+  check_ChekedIn,
+  check_Completed,
+  check_Favourite,
 };
