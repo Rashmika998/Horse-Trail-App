@@ -11,8 +11,9 @@ function AddedCamps() {
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
-
+  const [loading, setLoading] = useState(true);
   const getList = async () => {
+    setLoading(true);
     const data = await FireStoreService.getMyCamps(userID);
     setCampsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     await data.docs.map(async (doc) => {
@@ -25,6 +26,8 @@ function AddedCamps() {
         [doc.id]: ImgURL,
       }));
     });
+        setLoading(false);
+
   };
 
    const getImageURL = async (campName, bannerName) => {
@@ -55,9 +58,17 @@ function AddedCamps() {
     <BodyContent>
       <div className="text-center">
         <h3>My Camps</h3>
-        {camps.length == 0 ? (
+        {loading == true ? (
           <div className="mt-5">
             <div className="spinner-border" role="status"></div>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {loading == false && camps.length==0 ? (
+          <div className="mt-5">
+            No camps added
           </div>
         ) : (
           ""

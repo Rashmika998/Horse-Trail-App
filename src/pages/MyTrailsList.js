@@ -21,9 +21,10 @@ function MyTrailsList() {
   const [markCompleted, setMarkCompleted] = useState(false);
 
   const [addRating, setAddRating] = useState(false);
-    const [imageURL, setImageURL] = useState({});
+  const [imageURL, setImageURL] = useState({});
 
   const getList = async (trailsType) => {
+    setPageLoading(true);
     const data = await FireStoreService.getTrailIDsList(trailsType, userID);
     const IDarr = data.docs.map((doc) => doc.data().trailID);
     setTrailIDsList(IDarr);
@@ -41,26 +42,26 @@ function MyTrailsList() {
       }
     });
 
-     await snapshot.docs.map(async (doc) => {
-       const ImgURL = await getImageURL(
-         doc.data().trailName,
-         doc.data().bannerName
-       );
-       setImageURL((imageURL) => ({
-         ...imageURL,
-         [doc.id]: ImgURL,
-       }));
-     });
+    await snapshot.docs.map(async (doc) => {
+      const ImgURL = await getImageURL(
+        doc.data().trailName,
+        doc.data().bannerName
+      );
+      setImageURL((imageURL) => ({
+        ...imageURL,
+        [doc.id]: ImgURL,
+      }));
+    });
 
     setTrailsList(trailsArr);
     setfavTrailsList(favourites);
+    setPageLoading(false);
   };
 
   const getImageURL = async (trailName, bannerName) => {
     const url = await FireStoreService.getTrailImageURL(trailName, bannerName);
     return url;
   };
-
 
   useEffect(() => {
     if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)};
@@ -105,18 +106,25 @@ function MyTrailsList() {
         setLoading(false);
       });
   };
-  
 
   return (
     <BodyContent>
-    
       <div className="text-center">
         {trailsType == "checkedIn" ? <h3>Trails to Ride</h3> : ""}
         {trailsType == "completed" ? <h3>Completed Trails</h3> : ""}
         {trailsType == "favourites" ? <h3>Favourite Trails</h3> : ""}
-        {trails.length == 0 ? (
-          <div className="mt-5">
-            <div class="spinner-grow" role="status"></div>
+
+        {pageLoading == true ? (
+          <div className="mt-3 mx-auto text-center">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {pageLoading == false && trails.length==0 ? (
+          <div className="mt-3 mx-auto text-center">
+            No trails added
           </div>
         ) : (
           ""
@@ -205,32 +213,22 @@ function MyTrailsList() {
 
                   {trailsType == "completed" ? (
                     <div className="row">
-                      <div
-                        className="btn btn-info col-lg-4 mx-2 mt-1"
-                        onClick={(event) => onClickAddRating(event, trail.id)}
-                      >
-                        <FaStar /> &nbsp;Add Rating
-                      </div>
-
-                      <div
-                        className="btn btn-secondary col-lg-4 mx-2 mt-1"
-                        onClick={(event) => onClickAddReview(event, trail.id)}
-                      >
-                        <FaMarker /> &nbsp;Add Review
-                        {favTrails[trail.id]}
-                      </div>
                       {favTrails[trail.id] == false ? (
-                        <div
-                          className="btn btn-danger col-lg-3 mx-2 mt-1"
-                          onClick={(event) =>
-                            onClickAddFavourite(event, trail.id)
-                          }
-                        >
-                          <FaHeart /> Add to Fav
+                        <div className="mx-2 mt-1">
+                          <div
+                            className="btn btn-danger  mx-2 mt-1"
+                            onClick={(event) =>
+                              onClickAddFavourite(event, trail.id)
+                            }
+                          >
+                           Add to Favourites
+                          </div>
                         </div>
                       ) : (
-                        <div className="col-lg-3 mx-2 mt-1">
-                          <FaHeart size={35} color={"#ae0000 "} />
+                        <div className="mx-2 mt-1">
+                          <div className="btn btn-danger  mx-2 mt-1">
+                            <FaHeart /> Added to Favourites
+                          </div>
                         </div>
                       )}
                     </div>
