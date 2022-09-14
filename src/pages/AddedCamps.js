@@ -6,13 +6,16 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 
 function AddedCamps() {
+
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
-
+  const [loading, setLoading] = useState(true);
   const getList = async () => {
+    setLoading(true);
+
     const data = await FireStoreService.getMyCamps(userID);
     setCampsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     await data.docs.map(async (doc) => {
@@ -25,6 +28,8 @@ function AddedCamps() {
         [doc.id]: ImgURL,
       }));
     });
+        setLoading(false);
+
   };
 
    const getImageURL = async (campName, bannerName) => {
@@ -55,16 +60,27 @@ function AddedCamps() {
     <BodyContent>
       <div className="text-center">
         <h3>My Camps</h3>
-        {camps.length == 0 ? (
+        {loading == true ? (
           <div className="mt-5">
             <div className="spinner-border" role="status"></div>
           </div>
         ) : (
           ""
         )}
+
+        {loading == false && camps.length==0 ? (
+          <div className="mt-5">
+            No camps added
+          </div>
+        ) : (
+          ""
+        )}
+
+
+       
       </div>
 
-      <div className="row text-center">
+      <div className="row text-center mx-4">
         {camps.map((camp) => {
           return (
             <Col xs={12} md={6} lg={4} key={camp.id}>
