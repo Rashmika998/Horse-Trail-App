@@ -14,36 +14,39 @@ import {
 } from "./NavbarStyles.js";
 import { useLocation, useNavigate } from "react-router-dom";
 import { data, data2 } from "../../data/NavbarData";
-import { useAuth } from "../../contexts/AuthContext"
+import { useAuth } from "../../contexts/AuthContext";
 const Navbar = () => {
   const [show, setShow] = useState(false);
   let navigate = useNavigate();
   let location = useLocation();
 
-  const { currentUser} = useAuth()
+  const { currentUser } = useAuth();
   let navMenu;
 
-  if(currentUser){
-    navMenu = <NavMenu show={show}>
-    {data2.map((el, index) => (
-      <NavItem key={index}>
-        <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
-          {el.text}
-        </NavLinks>
-      </NavItem>
-    ))}
-  </NavMenu>
-  }
-  else{
-    navMenu = <NavMenu show={show}>
-    {data.map((el, index) => (
-      <NavItem key={index}>
-        <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
-          {el.text}
-        </NavLinks>
-      </NavItem>
-    ))}
-  </NavMenu>
+  if (currentUser) {
+    navMenu = (
+      <NavMenu show={show}>
+        {data2.map((el, index) => (
+          <NavItem key={index}>
+            <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
+              {el.text}
+            </NavLinks>
+          </NavItem>
+        ))}
+      </NavMenu>
+    );
+  } else {
+    navMenu = (
+      <NavMenu show={show}>
+        {data.map((el, index) => (
+          <NavItem key={index}>
+            <NavLinks onClick={() => closeMobileMenu(el.to, el.id)}>
+              {el.text}
+            </NavLinks>
+          </NavItem>
+        ))}
+      </NavMenu>
+    );
   }
 
   const handleClick = () => {
@@ -71,8 +74,7 @@ const Navbar = () => {
     <IconContext.Provider value={{ color: "#fff" }}>
       <Nav>
         <NavbarContainer>
-          <NavLogo to="/">
-            <NavIcon src="./assets/logo.png" alt="logo" />
+          <NavLogo to="/" style={{ width: "100%" }}>
             Top Horse Trails
           </NavLogo>
           <MobileIcon onClick={handleClick}>

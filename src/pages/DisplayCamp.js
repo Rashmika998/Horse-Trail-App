@@ -21,7 +21,7 @@ const styles = {
 export default function DisplayCamp() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState();
   const [campID, setCampID] = useState(null);
 
@@ -45,7 +45,10 @@ export default function DisplayCamp() {
     setCurrentValue(value);
     FireStoreService.addRatings(campID, value)
       .then(() => {
-        setRateResult("Rate submitted successfully");
+        setTimeout(() => {
+          setRateResult("Rate submitted successfully");
+        }, 3000);
+        window.location.reload(true);
       })
       .catch((e) => {
         setRateResult("Error occurred! Please try again.");
@@ -74,12 +77,16 @@ export default function DisplayCamp() {
   }
 
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     setCampID(id);
     FireStoreService.getCamp(id)
       .then((response) => {
         setCampDetails(response.data());
-        FireStoreService.getReviews(campID)
+        FireStoreService.getReviews(id)
           .then((res) => {
             getAllReviews(
               res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -155,12 +162,14 @@ export default function DisplayCamp() {
         displaySeasons(response.data().bestSeasonsCheck.bestSeasons);
         displayAmenities(response.data().amenitiesCheck.amenities);
 
-        FireStoreService.getRating(campID)
+        FireStoreService.getRating(id)
           .then((resRating) => {
             setRatings(
               resRating.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
             );
-            displayRating();
+            displayRating(
+              resRating.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            );
           })
           .catch((e) => {
             console.log(e);
@@ -344,13 +353,13 @@ export default function DisplayCamp() {
     }
   }
 
-  function displayRating() {
+  function displayRating(rate) {
     var tot = 0;
-    for (var i = 0; i < ratings.length; i++) {
-      tot = tot + ratings[i].rate;
+    for (var i = 0; i < rate.length; i++) {
+      tot = tot + rate[i].rate;
     }
 
-    var overall = tot / ratings.length;
+    var overall = tot / rate.length;
     const starRate = document.getElementById("starRate");
     isNaN(overall) ? (starRate.innerHTML = 0) : (starRate.innerHTML = overall);
   }
@@ -488,7 +497,7 @@ export default function DisplayCamp() {
                 id="banner"
                 style={{
                   display: "block",
-                  width: "20%",
+                  width: "30%",
                   height: "auto",
                   margin: "0px auto",
                 }}
@@ -973,7 +982,7 @@ export default function DisplayCamp() {
                       id="parkingImage"
                       style={{
                         display: "block",
-                        width: "20%",
+                        width: "30%",
                         height: "auto",
                         margin: "0px auto",
                       }}
@@ -1029,6 +1038,8 @@ export default function DisplayCamp() {
                           id="imageGal1"
                           className="d-block w-25"
                           style={{
+                            display: "block",
+                            width: "40%",
                             height: "auto",
                             margin: "0px auto",
                           }}
@@ -1040,6 +1051,8 @@ export default function DisplayCamp() {
                           id="imageGal2"
                           className="d-block w-25"
                           style={{
+                            display: "block",
+                            width: "40%",
                             height: "auto",
                             margin: "0px auto",
                           }}
@@ -1051,6 +1064,8 @@ export default function DisplayCamp() {
                           id="imageGal3"
                           className="d-block w-25"
                           style={{
+                            display: "block",
+                            width: "40%",
                             height: "auto",
                             margin: "0px auto",
                           }}

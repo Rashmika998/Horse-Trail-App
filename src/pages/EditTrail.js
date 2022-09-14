@@ -70,7 +70,6 @@ export default function EditTrail() {
       .then((response) => {
         setTrailDetails(response.data());
         setStateChange(true);
-        console.log(response.data());
         setAtvOrOffroad(response.data().atvOrOffroad);
         setBanner(response.data().bannerName);
         setBestSeasons(response.data().bestSeasonsCheck);
@@ -147,7 +146,6 @@ export default function EditTrail() {
         )
           .then((gal3) => {
             const imageGal3 = document.getElementById("imageGal3");
-            console.log(gal3);
             imageGal3.setAttribute("href", gal3);
           })
           .catch((e) => {

@@ -57,7 +57,6 @@ export default function EditCamp() {
     FireStoreService.getCamp(campId)
       .then((response) => {
         setCampDetails(response.data());
-        console.log(response.data());
         setStateChange(true);
         setCampDescription(response.data().campDescription);
         setCampName(response.data().campName);
