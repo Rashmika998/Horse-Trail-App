@@ -21,7 +21,7 @@ const styles = {
 export default function DisplayTrail() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState();
   const [trailID, setTrailID] = useState(null);
 
@@ -45,7 +45,10 @@ export default function DisplayTrail() {
     setCurrentValue(value);
     FireStoreService.addRatings(trailID, value)
       .then(() => {
-        setRateResult("Rate submitted successfully");
+        setTimeout(() => {
+          setRateResult("Rate submitted successfully");
+        }, 3000);
+        window.location.reload(true);
       })
       .catch((e) => {
         setRateResult("Error occurred! Please try again.");
@@ -82,20 +85,22 @@ export default function DisplayTrail() {
     setChekedIn(data1);
     const data2 = await FireStoreService.check_Completed(userID, trailId);
     setCompleted(data2);
-    console.log(data2);
     const data3 = await FireStoreService.check_Favourite(userID, trailId);
     setFav(data3);
   };
 
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     setTrailID(id);
     setCheckInStates(id);
     FireStoreService.getTrail(id)
       .then((response) => {
-        console.log(response.data());
         setTrailDetails(response.data());
-        FireStoreService.getReviews(trailID)
+        FireStoreService.getReviews(id)
           .then((resRev) => {
             getAllReviews(
               resRev.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
@@ -185,10 +190,12 @@ export default function DisplayTrail() {
         displaySeasons(response.data().bestSeasonsCheck.bestSeasons);
         displayTrailHeads(response.data().trailHeadCheck.trailHead);
 
-        FireStoreService.getRating(trailID)
+        FireStoreService.getRating(id)
           .then((res) => {
             setRatings(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-            displayRating();
+            displayRating(
+              res.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+            );
           })
           .catch((e) => {
             console.log(e);
@@ -312,7 +319,6 @@ export default function DisplayTrail() {
     );
     for (var i = 0; i < check.length; i++) {
       if (check[i] === "Spring") {
-        console.log("lk");
         spring.setAttribute(
           "src",
           "https://img.icons8.com/ios-filled/50/000000/spring.png"
@@ -373,13 +379,13 @@ export default function DisplayTrail() {
     }
   }
 
-  function displayRating() {
+  function displayRating(rate) {
     var tot = 0;
-    for (var i = 0; i < ratings.length; i++) {
-      tot = tot + ratings[i].rate;
+    for (var i = 0; i < rate.length; i++) {
+      tot = tot + rate[i].rate;
     }
-
-    var overall = tot / ratings.length;
+    console.log(rate);
+    var overall = tot / rate.length;
     const starRate = document.getElementById("starRate");
     isNaN(overall) ? (starRate.innerHTML = 0) : (starRate.innerHTML = overall);
   }
@@ -515,7 +521,7 @@ export default function DisplayTrail() {
                 id="banner"
                 style={{
                   display: "block",
-                  width: "20%",
+                  width: "30%",
                   height: "auto",
                   margin: "0px auto",
                 }}
@@ -815,7 +821,7 @@ export default function DisplayTrail() {
                       id="trailMapImage"
                       style={{
                         display: "block",
-                        width: "20%",
+                        width: "30%",
                         height: "auto",
                         margin: "0px auto",
                       }}
@@ -840,7 +846,7 @@ export default function DisplayTrail() {
                       id="parkingImage"
                       style={{
                         display: "block",
-                        width: "20%",
+                        width: "30%",
                         height: "auto",
                         margin: "0px auto",
                       }}
@@ -865,7 +871,6 @@ export default function DisplayTrail() {
                     </Card.Title>
                     <DataTable
                       responsive
-                      subHeader
                       columns={columns}
                       data={allReviews}
                       striped={true}
@@ -943,6 +948,8 @@ export default function DisplayTrail() {
                           id="imageGal1"
                           className="d-block w-25"
                           style={{
+                            display: "block",
+                            width: "40%",
                             height: "auto",
                             margin: "0px auto",
                           }}
@@ -954,6 +961,8 @@ export default function DisplayTrail() {
                           id="imageGal2"
                           className="d-block w-25"
                           style={{
+                            display: "block",
+                            width: "40%",
                             height: "auto",
                             margin: "0px auto",
                           }}
@@ -965,6 +974,8 @@ export default function DisplayTrail() {
                           id="imageGal3"
                           className="d-block w-25"
                           style={{
+                            display: "block",
+                            width: "40%",
                             height: "auto",
                             margin: "0px auto",
                           }}

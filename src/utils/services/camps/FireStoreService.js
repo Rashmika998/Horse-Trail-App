@@ -97,7 +97,6 @@ function addCamp(
       userID: userID,
       website: website,
     };
-    console.log(data);
     db.collection("camps")
       .add(data)
       .then((docRef) => {
@@ -282,7 +281,6 @@ function updateCampCheckinState(campID, newState) {
               .update({ status: newState })
               .then((campState) => {
                 resolve(campState);
-                console.log(campState);
               })
               .catch((e) => {
                 reject(e);
