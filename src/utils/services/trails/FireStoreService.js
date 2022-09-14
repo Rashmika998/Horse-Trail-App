@@ -168,7 +168,6 @@ function getTrailImageURL(name, imageName) {
 }
 
 function getTrail(id) {
-  console.log(id);
   return new Promise((resolve, reject) => {
     db.collection("trails")
       .doc(id)
@@ -184,7 +183,6 @@ function getTrail(id) {
 
 function getTrailsList(idArr) {
   return new Promise((resolve, reject) => {
-    console.log(idArr);
     db.collection("trails")
       .where(documentId(), "in", idArr)
       .get()
@@ -353,7 +351,6 @@ function updateTrailCheckinState(trailID, newState) {
               .update({ status: newState })
               .then((trailState) => {
                 resolve(trailState);
-                console.log(trailState);
               })
               .catch((e) => {
                 reject(e);
@@ -512,7 +509,6 @@ function updateTrailDetails(
       trailType: trailType,
       userId: userId,
     };
-    console.log(data);
 
     db.collection("trails")
       .doc(id)

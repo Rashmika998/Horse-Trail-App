@@ -3,9 +3,11 @@ import { BodyContent } from "../globalStyles";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
 
 function AddedTrails() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const { currentUser} = useAuth();
+  const [userID, setUserID] = useState();
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
@@ -30,8 +32,9 @@ function AddedTrails() {
     return url;
   };
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     getList();
-  }, []);
+  }, [userID]);
 
   const onDelete = (id) => {
     FireStoreService.deleteTrail(id)

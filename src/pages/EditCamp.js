@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function EditCamp() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const { currentUser} = useAuth();
+  const [userID, setUserID] = useState();
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");
@@ -44,6 +46,7 @@ export default function EditCamp() {
   const [campDetails, setCampDetails] = useState({});
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     var url = document.location.href;
     var campId = url.toString().split("/")[4];
     setCampID(campId);

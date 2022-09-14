@@ -4,11 +4,12 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
 import { red } from "@mui/material/colors";
+import { useAuth } from "../contexts/AuthContext";
 
 function MyCampsList() {
   const [pageLoading, setPageLoading] = useState(true);
-  const [userID, setUserID] = useState("AAAAAAA");
-
+  const { currentUser} = useAuth();
+  const [userID, setUserID] = useState();
   const [campsType, setCampsType] = useState(null);
   const [campIDs, setCampIDsList] = useState([]);
   const [camps, setCampsList] = useState([]);
@@ -58,6 +59,7 @@ function MyCampsList() {
   };
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     var url = document.location.href;
     var type = url.toString().split("/")[4];
     setCampsType(type);
