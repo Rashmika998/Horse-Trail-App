@@ -3,9 +3,15 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function AddCamp() {
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState();
-  useEffect(()=>{if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; },[])
+  useEffect(() => {
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
+  }, []);
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");
@@ -253,8 +259,8 @@ export default function AddCamp() {
                                           longitude,
                                           latitude,
                                           paperworkRequired,
-                                          parkName,
                                           parkingImage.name,
+                                          parkName,
                                           petPolicy,
                                           phone,
                                           reservation,
