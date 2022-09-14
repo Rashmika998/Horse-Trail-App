@@ -22,7 +22,8 @@ export default function DisplayCamp() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
   const { currentUser } = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
+
 
   const [campID, setCampID] = useState(null);
 

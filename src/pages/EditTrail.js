@@ -4,8 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function EditTrail() {
   const { currentUser } = useAuth();
-  const [userID, setUserID] = useState();
-
+  const [userID, setUserID] = useState(null);
   const [atvOrOffroad, setAtvOrOffroad] = useState("Yes");
   const [bikers, setBikers] = useState("Yes");
   const [city, setCity] = useState("");

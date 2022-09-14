@@ -6,8 +6,10 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 
 function AddedCamps() {
+
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
+
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});

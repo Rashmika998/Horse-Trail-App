@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function EditCamp() {
   const { currentUser } = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
 
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");

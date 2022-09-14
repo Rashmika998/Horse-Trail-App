@@ -7,7 +7,8 @@ import { useAuth } from "../contexts/AuthContext";
 
 function AddedTrails() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
+
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});

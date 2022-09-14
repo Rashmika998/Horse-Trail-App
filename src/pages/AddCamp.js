@@ -4,7 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function AddCamp() {
   const { currentUser } = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
   useEffect(() => {
     if (currentUser) {
       setUserID(currentUser.uid);
@@ -12,6 +12,7 @@ export default function AddCamp() {
       setUserID(null);
     }
   }, []);
+
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");

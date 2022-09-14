@@ -8,7 +8,8 @@ import { useAuth } from "../contexts/AuthContext";
 function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
+
 
   const [trailsType, setTrailsType] = useState(null);
   const [trailIDs, setTrailIDsList] = useState([]);

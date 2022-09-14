@@ -9,7 +9,8 @@ import { useAuth } from "../contexts/AuthContext";
 function MyCampsList() {
   const [pageLoading, setPageLoading] = useState(true);
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
+
 
   const [campsType, setCampsType] = useState(null);
   const [campIDs, setCampIDsList] = useState([]);
