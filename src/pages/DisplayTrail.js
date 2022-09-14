@@ -23,6 +23,7 @@ export default function DisplayTrail() {
   var id = url.toString().split("/")[4];
   const { currentUser } = useAuth();
   const [userID, setUserID] = useState();
+
   const [trailID, setTrailID] = useState(null);
 
   const [trailDetails, setTrailDetails] = useState({});
