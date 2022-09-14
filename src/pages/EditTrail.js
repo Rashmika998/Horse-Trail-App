@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
+import { useAuth } from "../contexts/AuthContext";
 
 export default function EditTrail() {
+  const { currentUser} = useAuth();
   const [userID, setUserID] = useState("AAAAAAA");
+  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
   const [atvOrOffroad, setAtvOrOffroad] = useState("Yes");
   const [bikers, setBikers] = useState("Yes");
   const [city, setCity] = useState("");

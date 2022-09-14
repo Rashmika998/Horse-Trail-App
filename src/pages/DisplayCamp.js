@@ -4,6 +4,7 @@ import { Card } from "react-bootstrap";
 import { FaStar } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import GetNearbyPlaces from "./GetNearbyPlaces";
+import { useAuth } from "../contexts/AuthContext";
 
 const colors = {
   orange: "#FFBA5A",
@@ -20,7 +21,10 @@ const styles = {
 export default function DisplayCamp() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
+  const { currentUser} = useAuth();
   const [userID, setUserID] = useState("AAAAAAA");
+  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  
 
   const [campID, setCampID] = useState(null);
 

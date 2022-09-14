@@ -3,9 +3,12 @@ import { BodyContent } from "../globalStyles";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
 
 function AddedCamps() {
+  const { currentUser} = useAuth();
   const [userID, setUserID] = useState("nwdjBJLDJLNW");
+  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});

@@ -3,10 +3,13 @@ import { BodyContent } from "../globalStyles";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
+import { useAuth } from "../contexts/AuthContext";
 
 function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
+  const { currentUser} = useAuth();
   const [userID, setUserID] = useState("AAAAAAA");
+  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
 
   const [trailsType, setTrailsType] = useState(null);
   const [trailIDs, setTrailIDsList] = useState([]);

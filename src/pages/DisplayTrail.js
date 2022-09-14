@@ -4,6 +4,7 @@ import { Button, Card } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
 import GetNearbyPlaces from "./GetNearbyPlaces";
 import DataTable from "react-data-table-component";
+import { useAuth } from "../contexts/AuthContext";
 
 const colors = {
   orange: "#FFBA5A",
@@ -20,7 +21,9 @@ const styles = {
 export default function DisplayTrail() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
+  const { currentUser} = useAuth();
   const [userID, setUserID] = useState("AAAAAAA");
+  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
   const [trailID, setTrailID] = useState(null);
 
   const [trailDetails, setTrailDetails] = useState({});
