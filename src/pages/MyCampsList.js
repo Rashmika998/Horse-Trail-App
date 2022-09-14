@@ -25,6 +25,8 @@ function MyCampsList() {
   const getList = async (campsType) => {
     setPageLoading(true);
 
+    setPageLoading(true);
+
     const data = await FireStoreService.getCampIDsList(campsType, userID);
     const IDarr = data.docs.map((doc) => doc.data().campID);
     setCampIDsList(IDarr);
@@ -54,6 +56,7 @@ function MyCampsList() {
     });
     setCampsList(campsArr);
     setfavCampsList(favourites);
+    setPageLoading(false);
     setPageLoading(false);
   };
 
@@ -113,6 +116,12 @@ function MyCampsList() {
           <div className="mt-3 mx-auto text-center">
             <div className="spinner-border" role="status"></div>
           </div>
+        ) : (
+          ""
+        )}
+
+        {pageLoading == false && camps.length == 0 ? (
+          <div className="mt-3 mx-auto text-center">No camps added</div>
         ) : (
           ""
         )}

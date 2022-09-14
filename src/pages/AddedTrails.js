@@ -16,6 +16,8 @@ function AddedTrails() {
   const getList = async () => {
     setLoading(true);
 
+    setLoading(true);
+
     const data = await FireStoreService.getMyTrails(userID);
     setTrailsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     await data.docs.map(async (doc) => {
@@ -28,6 +30,7 @@ function AddedTrails() {
         [doc.id]: ImgURL,
       }));
     });
+    setLoading(false);
     setLoading(false);
   };
 
@@ -62,6 +65,12 @@ function AddedTrails() {
           <div className="mt-5">
             <div className="spinner-border" role="status"></div>
           </div>
+        ) : (
+          ""
+        )}
+
+        {loading == false && trails.length == 0 ? (
+          <div className="mt-5">No trails added</div>
         ) : (
           ""
         )}
@@ -111,6 +120,7 @@ function AddedTrails() {
                         </div>
                       </a>
                     </div>
+                    
                     
                     <div className="col-md-6">
                       <div
