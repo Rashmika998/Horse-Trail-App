@@ -1785,6 +1785,7 @@ export default function EditCamp() {
                   >
                     Update Camp Details
                   </button>
+                  <br></br>
                   {campUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {campUpdated}
@@ -1858,6 +1859,7 @@ export default function EditCamp() {
                   >
                     Update Banner Photo
                   </button>
+                  <br></br>
                   {campBannerUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {campBannerUpdated}
@@ -1911,6 +1913,7 @@ export default function EditCamp() {
                     Only jpeg, jpg and png files are allowed
                   </span>
                 </div>
+                <br></br>
                 {errorCampDetails ? (
                   <div class="alert alert-danger" role="alert">
                     {errorCampDetails}
@@ -2002,6 +2005,7 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  <br></br>
                   {campGal1Updated ? (
                     <div class="alert alert-success" role="alert">
                       {campGal1Updated}
@@ -2075,6 +2079,7 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  <br></br>
                   {campGal2Updated ? (
                     <div class="alert alert-success" role="alert">
                       {campGal2Updated}
@@ -2148,6 +2153,7 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  <br></br>
                   {campGal3Updated ? (
                     <div class="alert alert-success" role="alert">
                       {campGal3Updated}
