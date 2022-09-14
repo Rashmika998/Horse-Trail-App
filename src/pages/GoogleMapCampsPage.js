@@ -45,7 +45,7 @@ function Map(props) {
             bounds.extend({ lat: lat, lng: lng });
           });
           map.fitBounds(bounds);
-          map.setZoom(10);
+          map.setZoom(1);
         }}
         onClick={() => setActiveMarker(null)}
         mapContainerStyle={{ width: "100%", height: "100vh" }}

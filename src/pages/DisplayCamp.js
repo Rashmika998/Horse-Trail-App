@@ -18,7 +18,7 @@ const styles = {
 };
 
 export default function DisplayCamp() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
 
   const [campID, setCampID] = useState(null);
 

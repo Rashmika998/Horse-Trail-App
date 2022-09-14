@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 
 export default function EditTrail() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
   const [atvOrOffroad, setAtvOrOffroad] = useState("Yes");
   const [bikers, setBikers] = useState("Yes");
   const [city, setCity] = useState("");

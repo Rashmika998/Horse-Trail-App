@@ -18,7 +18,7 @@ const styles = {
 };
 
 export default function DisplayTrail() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
   const [trailID, setTrailID] = useState(null);
 
   const [trailDetails, setTrailDetails] = useState({});

@@ -5,12 +5,15 @@ import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 function AddedTrails() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const getList = async () => {
+    setLoading(true);
+
     const data = await FireStoreService.getMyTrails(userID);
     setTrailsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     await data.docs.map(async (doc) => {
@@ -23,6 +26,7 @@ function AddedTrails() {
         [doc.id]: ImgURL,
       }));
     });
+    setLoading(false);
   };
 
   const getImageURL = async (trailName, bannerName) => {
@@ -51,10 +55,16 @@ function AddedTrails() {
     <BodyContent>
       <div className="text-center">
         <h3>My Trails</h3>
-        {trails.length == 0 ? (
+        {loading == true ? (
           <div className="mt-5">
             <div className="spinner-border" role="status"></div>
           </div>
+        ) : (
+          ""
+        )}
+
+        {loading == false && trails.length == 0 ? (
+          <div className="mt-5">No trails added</div>
         ) : (
           ""
         )}
@@ -98,6 +108,7 @@ function AddedTrails() {
                         </div>
                       </a>
                     </div>
+                    
                     <div className="col-md-6">
                       <div
                         className="btn btn-danger"

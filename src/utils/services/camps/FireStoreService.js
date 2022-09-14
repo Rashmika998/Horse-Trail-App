@@ -344,7 +344,7 @@ function addCheckins(uid, campID) {
 function getMyCamps(userId) {
   return new Promise((resolve, reject) => {
     var query = db.collection("camps");
-    query = query.where("userId", "==", userId);
+    query = query.where("userID", "==", userId);
     query
       .get()
       .then((campsList) => {

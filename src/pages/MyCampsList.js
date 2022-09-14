@@ -7,7 +7,7 @@ import { red } from "@mui/material/colors";
 
 function MyCampsList() {
   const [pageLoading, setPageLoading] = useState(true);
-  const [userID, setUserID] = useState("AAAAAAA");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
 
   const [campsType, setCampsType] = useState(null);
   const [campIDs, setCampIDsList] = useState([]);
@@ -21,6 +21,8 @@ function MyCampsList() {
   const [imageURL, setImageURL] = useState({});
 
   const getList = async (campsType) => {
+    setPageLoading(true);
+
     const data = await FireStoreService.getCampIDsList(campsType, userID);
     const IDarr = data.docs.map((doc) => doc.data().campID);
     setCampIDsList(IDarr);
@@ -50,6 +52,7 @@ function MyCampsList() {
     });
     setCampsList(campsArr);
     setfavCampsList(favourites);
+    setPageLoading(false);
   };
 
   const getImageURL = async (campName, bannerName) => {
@@ -103,10 +106,16 @@ function MyCampsList() {
         {campsType == "checkedIn" ? <h3>Camps to Visit</h3> : ""}
         {campsType == "completed" ? <h3>Completed Camps</h3> : ""}
         {campsType == "favourites" ? <h3>Favourite Camps</h3> : ""}
-        {camps.length == 0 ? (
-          <div className="mt-5">
-            <div class="spinner-grow" role="status"></div>
+        {pageLoading == true ? (
+          <div className="mt-3 mx-auto text-center">
+            <div className="spinner-border" role="status"></div>
           </div>
+        ) : (
+          ""
+        )}
+
+        {pageLoading == false && camps.length == 0 ? (
+          <div className="mt-3 mx-auto text-center">No camps added</div>
         ) : (
           ""
         )}
@@ -193,31 +202,22 @@ function MyCampsList() {
 
                   {campsType == "completed" ? (
                     <div className="row">
-                      <div
-                        className="btn btn-info col-lg-4 mx-2 mt-1"
-                        onClick={(event) => onClickAddRating(event, camp.id)}
-                      >
-                        <FaStar /> &nbsp;Add Rating
-                      </div>
-                      <div
-                        className="btn btn-secondary col-lg-4 mx-2 mt-1"
-                        onClick={(event) => onClickAddReview(event, camp.id)}
-                      >
-                        <FaMarker /> &nbsp;Add Review
-                        {favCamps[camp.id]}
-                      </div>
                       {favCamps[camp.id] == false ? (
-                        <div
-                          className="btn btn-danger col-lg-3 mx-2 mt-1"
-                          onClick={(event) =>
-                            onClickAddFavourite(event, camp.id)
-                          }
-                        >
-                          <FaHeart /> Add to Fav
+                        <div className="mx-2 mt-1">
+                          <div
+                            className="btn btn-danger  mx-2 mt-1"
+                            onClick={(event) =>
+                              onClickAddFavourite(event, camp.id)
+                            }
+                          >
+                       Add to Favourites
+                          </div>
                         </div>
                       ) : (
-                        <div className="col-lg-3 mx-2 mt-1">
-                          <FaHeart size={35} color={"#ae0000 "} />
+                        <div className="mx-2 mt-1">
+                          <div className="btn btn-danger  mx-2 mt-1">
+                            <FaHeart /> Added to Favourites
+                          </div>
                         </div>
                       )}
                     </div>

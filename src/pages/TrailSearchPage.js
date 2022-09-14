@@ -71,12 +71,10 @@ function SearchPage() {
         doc.data().trailName,
         doc.data().bannerName
       );
-        setImageURL((imageURL) => ({
-          ...imageURL,
-          [doc.id]: ImgURL,
-        }));
-
-      
+      setImageURL((imageURL) => ({
+        ...imageURL,
+        [doc.id]: ImgURL,
+      }));
     });
   };
 
@@ -392,7 +390,13 @@ function SearchPage() {
               aria-labelledby="home-tab"
             >
               <BodyContent>
-                {trails.length == 0 && retrived == false ? "Loading" : ""}
+                {trails.length == 0 && retrived == false ? (
+                  <div className="mt-3 mx-auto text-center">
+                    <div className="spinner-border" role="status"></div>
+                  </div>
+                ) : (
+                  ""
+                )}
                 {trails.length == 0 && retrived == true
                   ? "No Trails Found"
                   : ""}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
 
 export default function EditCamp() {
-  const [userID, setUserID] = useState("AAAAAAA");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");

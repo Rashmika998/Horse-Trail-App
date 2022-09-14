@@ -354,7 +354,13 @@ function SearchPage() {
               aria-labelledby="home-tab"
             >
               <BodyContent>
-                {camps.length == 0 && retrived == false ? "Loading" : ""}
+                {camps.length == 0 && retrived == false ? (
+                  <div className="mt-3 mx-auto text-center">
+                    <div className="spinner-border" role="status"></div>
+                  </div>
+                ) : (
+                  ""
+                )}
                 {camps.length == 0 && retrived == true ? "No Camps Found" : ""}
                 {camps.length > 0 ? (
                   <GoogleMapPage markers={markers} camps={camps} />
@@ -371,40 +377,38 @@ function SearchPage() {
             >
               {camps.length == 0 ? "No Camps Found" : ""}
               <div className="row text-center">
-                  {camps.map((camp) => {
-                    // getImageURL(camp);
-                      return (
-                        <Col xs={12} md={6} lg={4} key={camp.id}>
-                          <Card key={camp.id} className="mt-5 ms-3">
-                            <Card.Img
-                              variant="top"
-                              src={imageURL[camp.id]}
-                              height="300vh"
-                            />
-                            <Card.Body>
-                              <Card.Title>
-                                <a
-                                  href={"/display-camp/" + camp.id}
-                                  style={{
-                                    textDecoration: "none",
-                                    color: "black",
-                                  }}
-                                >
-                                  <h1 className="text-center">
-                                    {camp.campName}
-                                  </h1>
-                                </a>
-                              </Card.Title>
-                              <h4 className="text-center">{camp.parkName}</h4>
+                {camps.map((camp) => {
+                  // getImageURL(camp);
+                  return (
+                    <Col xs={12} md={6} lg={4} key={camp.id}>
+                      <Card key={camp.id} className="mt-5 ms-3">
+                        <Card.Img
+                          variant="top"
+                          src={imageURL[camp.id]}
+                          height="300vh"
+                        />
+                        <Card.Body>
+                          <Card.Title>
+                            <a
+                              href={"/display-camp/" + camp.id}
+                              style={{
+                                textDecoration: "none",
+                                color: "black",
+                              }}
+                            >
+                              <h1 className="text-center">{camp.campName}</h1>
+                            </a>
+                          </Card.Title>
+                          <h4 className="text-center">{camp.parkName}</h4>
 
-                              <Card.Text className="text-center">
-                                {camp.city} | {camp.state}
-                              </Card.Text>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      );
-                  })}
+                          <Card.Text className="text-center">
+                            {camp.city} | {camp.state}
+                          </Card.Text>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  );
+                })}
               </div>
             </div>
           </div>

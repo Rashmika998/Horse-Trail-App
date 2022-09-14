@@ -1,16 +1,17 @@
 import { React, useEffect, useState } from "react";
 import { BodyContent } from "../globalStyles";
-import FireStoreService from "../utils/services/trails/FireStoreService";
+import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 function AddedCamps() {
-  const [userID, setUserID] = useState("nwdjBJLDJLNW");
+  const [userID, setUserID] = useState("YPGzrVG1N7PoVRsv4yhHUdWVeZi1");
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
-
+  const [loading, setLoading] = useState(true);
   const getList = async () => {
+    setLoading(true);
     const data = await FireStoreService.getMyCamps(userID);
     setCampsList(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     await data.docs.map(async (doc) => {
@@ -23,6 +24,8 @@ function AddedCamps() {
         [doc.id]: ImgURL,
       }));
     });
+        setLoading(false);
+
   };
 
    const getImageURL = async (campName, bannerName) => {
@@ -52,9 +55,17 @@ function AddedCamps() {
     <BodyContent>
       <div className="text-center">
         <h3>My Camps</h3>
-        {camps.length == 0 ? (
+        {loading == true ? (
           <div className="mt-5">
             <div className="spinner-border" role="status"></div>
+          </div>
+        ) : (
+          ""
+        )}
+
+        {loading == false && camps.length==0 ? (
+          <div className="mt-5">
+            No camps added
           </div>
         ) : (
           ""
