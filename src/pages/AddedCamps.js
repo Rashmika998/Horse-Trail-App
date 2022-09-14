@@ -7,7 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 function AddedCamps() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
@@ -77,16 +77,10 @@ function AddedCamps() {
           ""
         )}
 
-        {loading == false && camps.length==0 ? (
-          <div className="mt-5">
-            No camps added
-          </div>
-        ) : (
-          ""
-        )}
+       
       </div>
 
-      <div className="row text-center">
+      <div className="row text-center mx-4">
         {camps.map((camp) => {
           return (
             <Col xs={12} md={6} lg={4} key={camp.id}>

@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Button, Card } from "react-bootstrap";
-import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
+import { FaCheckCircle, FaStar,  FaHeart } from "react-icons/fa";
 import GetNearbyPlaces from "./GetNearbyPlaces";
 import DataTable from "react-data-table-component";
 import { useAuth } from "../contexts/AuthContext";
@@ -21,8 +21,8 @@ const styles = {
 export default function DisplayTrail() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
-  const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const { currentUser } = useAuth();
+  const [userID, setUserID] = useState(null);
 
   const [trailID, setTrailID] = useState(null);
 
@@ -74,22 +74,39 @@ export default function DisplayTrail() {
       });
   }
 
-  const onClickAddFavourite = async (event, trailid) => {
-    FireStoreService.setTrailFavourite(trailid);
+  const onClickAddFavourite = async (e, trailid) => {
+    setCheckInResult("Waiting");
+
+    e.preventDefault();
+
+    FireStoreService.setTrailFavourite(trailid)
+      .then(() => {
+        setCheckInResult("Success");
+      })
+      .catch((e) => {
+        setCheckInResult("Error");
+      });
   };
 
   const setCheckInStates = async (trailId) => {
     const data1 = await FireStoreService.check_ChekedIn(userID, trailId);
+    console.log("checked In:", data1);
     setChekedIn(data1);
     const data2 = await FireStoreService.check_Completed(userID, trailId);
     setCompleted(data2);
-    console.log(data2);
+    console.log("comple In:", data2);
+
     const data3 = await FireStoreService.check_Favourite(userID, trailId);
     setFav(data3);
+    console.log("fav In:", data3);
   };
 
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     setTrailID(id);
     setCheckInStates(id);
     FireStoreService.getTrail(id)
@@ -198,7 +215,7 @@ export default function DisplayTrail() {
         trailMapLink.setAttribute("href", response.data().trailMapLink);
       })
       .catch((e) => console.log(e));
-  }, []);
+  }, [userID]);
 
   function displayTrailUsers(name, value) {
     const hikers = document.getElementById("hikers");
@@ -292,6 +309,18 @@ export default function DisplayTrail() {
       }
     }
   }
+
+  const onClickCompleted = async (e, trailid) => {
+    setCheckInResult("Waiting");
+    e.preventDefault();
+    FireStoreService.updateTrailCheckinState(trailid, "Completed")
+      .then(() => {
+        setCheckInResult("Success");
+      })
+      .catch((e) => {
+        setCheckInResult("Error");
+      });
+  };
 
   function displaySeasons(check) {
     const spring = document.getElementById("spring");
@@ -1004,132 +1033,183 @@ export default function DisplayTrail() {
             <div>
               {checkedIn == false ? (
                 <div>
-                  {
-                    completed ? (
+                  {completed ? (
+                    <div>
                       <div>
-                        <div>
-                          <div className="row">
-                            <div
-                              className="form-radio col-md-5"
-                              style={{ marginBottom: "15px" }}
-                            >
-                              <label style={{ marginBottom: "5px" }}>
-                                <h4>Rate the Trail</h4>(submit the rate by
-                                clicking the required stars)
-                              </label>
-                              <div style={styles.stars}>
-                                {stars.map((_, index) => {
-                                  return (
-                                    <FaStar
-                                      key={index}
-                                      size={24}
-                                      onClick={() => handleClick(index + 1)}
-                                      onMouseOver={() =>
-                                        handleMouseOver(index + 1)
-                                      }
-                                      onMouseLeave={handleMouseLeave}
-                                      color={
-                                        (hoverValue || currentValue) > index
-                                          ? colors.orange
-                                          : colors.grey
-                                      }
-                                      style={{
-                                        marginRight: 10,
-                                        cursor: "pointer",
-                                      }}
-                                    />
-                                  );
-                                })}
+                        <div className="row">
+                          <div
+                            className="form-radio col-md-5"
+                            style={{ marginBottom: "15px" }}
+                          >
+                            <label style={{ marginBottom: "5px" }}>
+                              <h4>Rate the Trail</h4>(submit the rate by
+                              clicking the required stars)
+                            </label>
+                            <div style={styles.stars}>
+                              {stars.map((_, index) => {
+                                return (
+                                  <FaStar
+                                    key={index}
+                                    size={24}
+                                    onClick={() => handleClick(index + 1)}
+                                    onMouseOver={() =>
+                                      handleMouseOver(index + 1)
+                                    }
+                                    onMouseLeave={handleMouseLeave}
+                                    color={
+                                      (hoverValue || currentValue) > index
+                                        ? colors.orange
+                                        : colors.grey
+                                    }
+                                    style={{
+                                      marginRight: 10,
+                                      cursor: "pointer",
+                                    }}
+                                  />
+                                );
+                              })}
+                            </div>
+                            <br></br>
+                            {rateResult ? (
+                              <div class="alert alert-info" role="alert">
+                                {rateResult}
                               </div>
-                              <br></br>
-                              {rateResult ? (
+                            ) : null}
+                          </div>
+
+                          <div className="col-md-7">
+                            <form className="needs-validation">
+                              <div
+                                className="form-group"
+                                style={{ marginBottom: "15px" }}
+                              >
+                                <label style={{ marginBottom: "5px" }}>
+                                  Add Review
+                                </label>
+                                <textarea
+                                  required
+                                  name="review"
+                                  className="form-control"
+                                  onChange={(e) => {
+                                    setReview(e.target.value);
+                                  }}
+                                ></textarea>
+                              </div>
+                              {reviewResult ? (
                                 <div class="alert alert-info" role="alert">
-                                  {rateResult}
+                                  {reviewResult}
                                 </div>
                               ) : null}
-                            </div>
-
-                            <div className="col-md-7">
-                              <form className="needs-validation">
-                                <div
-                                  className="form-group"
-                                  style={{ marginBottom: "15px" }}
+                              <div className="d-grid">
+                                <button
+                                  className="btn btn-block"
+                                  type="submit"
+                                  style={{
+                                    marginTop: "15px",
+                                    backgroundColor: "#071c2f",
+                                    color: "white",
+                                  }}
+                                  onClick={submitReview}
                                 >
-                                  <label style={{ marginBottom: "5px" }}>
-                                    Add Review
-                                  </label>
-                                  <textarea
-                                    required
-                                    name="review"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      setReview(e.target.value);
-                                    }}
-                                  ></textarea>
-                                </div>
-                                {reviewResult ? (
-                                  <div class="alert alert-info" role="alert">
-                                    {reviewResult}
-                                  </div>
-                                ) : null}
-                                <div className="d-grid">
-                                  <button
-                                    className="btn btn-block"
-                                    type="submit"
-                                    style={{
-                                      marginTop: "15px",
-                                      backgroundColor: "#071c2f",
-                                      color: "white",
-                                    }}
-                                    onClick={submitReview}
-                                  >
-                                    Add Review
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
+                                  Add Review
+                                </button>
+                              </div>
+                            </form>
                           </div>
                         </div>
                       </div>
-                    ) : null /**display it as checked in */
-                  }
+                    </div>
+                  ) : (
+                    <form className="needs-validation">
+                      <div className="row">
+                        <div className="col-md-5">
+                          <button
+                            className="btn btn-primary"
+                            onClick={addCheckIn}
+                          >
+                            Check In
+                          </button>
+                          &nbsp; &nbsp; &nbsp; &nbsp;
+                          {checkIn == "Waiting" ? (
+                            <div
+                              class="spinner-border text-primary "
+                              role="status"
+                            ></div>
+                          ) : null}
+                          {checkIn == "Success" ? (
+                            <div class="alert alert-success mt-4" role="alert">
+                              Change has been saved successfully. Please
+                              referesh the page.
+                            </div>
+                          ) : null}
+                          {checkIn == "Error" ? (
+                            <div class="alert alert-danger mt-4" role="alert">
+                              Error occurred! Please try again.
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                    </form>
+                  )}
                 </div>
               ) : (
-                <form className="needs-validation">
-                  <div className="row">
-                    <div className="col-md-5">
-                      <button className="btn btn-primary" onClick={addCheckIn}>
-                        Check In
-                      </button>
-                      &nbsp; &nbsp; &nbsp; &nbsp;
-                      {checkIn == "Waiting" ? (
-                        <div
-                          class="spinner-border text-primary "
-                          role="status"
-                        ></div>
-                      ) : null}
-                      {checkIn == "Success" ? (
-                        <div class="alert alert-success mt-4" role="alert">
-                          Checked In Successfully
-                        </div>
-                      ) : null}
-                      {checkIn == "Error" ? (
-                        <div class="alert alert-danger mt-4" role="alert">
-                          Error occurred! Please try again.
-                        </div>
-                      ) : null}
-                    </div>
+                <>
+                  <button className="btn btn-secondary">Checked In</button>
+                  &nbsp;&nbsp;
+                  <div
+                    className="btn btn-success"
+                    onClick={(event) => onClickCompleted(event, trailID)}
+                  >
+                    <FaCheckCircle /> &nbsp;Mark As Completed
                   </div>
-                </form>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
+                  {checkIn == "Waiting" ? (
+                    <div
+                      class="spinner-border text-primary "
+                      role="status"
+                    ></div>
+                  ) : null}
+                  {checkIn == "Success" ? (
+                    <div class="alert alert-success mt-4" role="alert">
+                      Change has been saved successfully. Please referesh the
+                      page.
+                    </div>
+                  ) : null}
+                  {checkIn == "Error" ? (
+                    <div class="alert alert-danger mt-4" role="alert">
+                      Error occurred! Please try again.
+                    </div>
+                  ) : null}
+                </>
               )}
 
               {fav == false && completed == true ? (
-                <div
-                  className="btn btn-danger col-lg-3 mx-2 mt-1"
-                  onClick={(event) => onClickAddFavourite(event, trailID)}
-                >
-                  <FaHeart /> Add to Fav
-                </div>
+                <>
+                  <div
+                    className="btn btn-danger col-lg-3 mx-2 mt-1"
+                    onClick={(event) => onClickAddFavourite(event, trailID)}
+                  >
+                   Add to Favourites
+                  </div>
+                  &nbsp; &nbsp; &nbsp; &nbsp;
+                  {checkIn == "Waiting" ? (
+                    <div
+                      class="spinner-border text-primary "
+                      role="status"
+                    ></div>
+                  ) : null}
+                  {checkIn == "Success" ? (
+                    <div class="alert alert-success mt-4" role="alert">
+                      Change has been saved successfully. Please referesh the
+                      page.
+                    </div>
+                  ) : null}
+                  {checkIn == "Error" ? (
+                    <div class="alert alert-danger mt-4" role="alert">
+                      Error occurred! Please try again.
+                    </div>
+                  ) : null}
+                </>
               ) : (
                 ""
               )}

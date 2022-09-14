@@ -9,7 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 function MyCampsList() {
   const [pageLoading, setPageLoading] = useState(true);
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState();
+  const [userID, setUserID] = useState(null);
 
   const [campsType, setCampsType] = useState(null);
   const [campIDs, setCampIDsList] = useState([]);
@@ -26,7 +26,6 @@ function MyCampsList() {
     setPageLoading(true);
 
     setPageLoading(true);
-
     const data = await FireStoreService.getCampIDsList(campsType, userID);
     const IDarr = data.docs.map((doc) => doc.data().campID);
     setCampIDsList(IDarr);
@@ -71,7 +70,7 @@ function MyCampsList() {
     var type = url.toString().split("/")[4];
     setCampsType(type);
     getList(type);
-  }, []);
+  }, [userID]);
 
   const onClickCompleted = async (event, campid) => {
     setLoading(true);
@@ -116,12 +115,6 @@ function MyCampsList() {
           <div className="mt-3 mx-auto text-center">
             <div className="spinner-border" role="status"></div>
           </div>
-        ) : (
-          ""
-        )}
-
-        {pageLoading == false && camps.length == 0 ? (
-          <div className="mt-3 mx-auto text-center">No camps added</div>
         ) : (
           ""
         )}
@@ -178,7 +171,7 @@ function MyCampsList() {
         </div>
       </div>
 
-      <div className="row text-center">
+      <div className="row text-center mx-4">
         {camps.map((camp) => {
           return (
             <Col xs={12} md={6} lg={4} key={camp.id}>
@@ -222,7 +215,7 @@ function MyCampsList() {
                               onClickAddFavourite(event, camp.id)
                             }
                           >
-                       Add to Favourites
+                            Add to Favourites
                           </div>
                         </div>
                       ) : (

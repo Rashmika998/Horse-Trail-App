@@ -71,7 +71,7 @@ const Navbar = () => {
     <IconContext.Provider value={{ color: "#fff" }}>
       <Nav>
         <NavbarContainer>
-          <NavLogo to="/">
+          <NavLogo to="/" style={{ width: "100%" }}>
             <NavIcon src="./assets/logo.png" alt="logo" />
             Top Horse Trails
           </NavLogo>
