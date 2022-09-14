@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function AddCamp() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
+  useEffect(()=>{if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; },[])
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");
@@ -36,7 +36,6 @@ export default function AddCamp() {
   const [website, setWebsite] = useState("");
   const [error, setError] = useState("");
   const [campAdded, setCampAdded] = useState("");
-
   const [campSiteTypesCheck, setCampSiteTypes] = useState({
     campSiteTypes: [],
   });

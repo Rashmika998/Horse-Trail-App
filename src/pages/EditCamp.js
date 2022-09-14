@@ -4,8 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function EditCamp() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
   const [campNotes, setCampNotes] = useState("");
@@ -47,6 +46,7 @@ export default function EditCamp() {
   const [campDetails, setCampDetails] = useState({});
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     var url = document.location.href;
     var campId = url.toString().split("/")[4];
     setCampID(campId);

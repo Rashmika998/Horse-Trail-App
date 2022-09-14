@@ -4,8 +4,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 export default function EditTrail() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
   const [atvOrOffroad, setAtvOrOffroad] = useState("Yes");
   const [bikers, setBikers] = useState("Yes");
   const [city, setCity] = useState("");
@@ -61,6 +60,7 @@ export default function EditTrail() {
   useEffect(() => {
     var url = document.location.href;
     var trailID = url.toString().split("/")[4];
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)};
     setTrailID(trailID);
     FireStoreService.getTrail(trailID)
       .then((response) => {

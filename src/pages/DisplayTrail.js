@@ -22,8 +22,7 @@ export default function DisplayTrail() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
   const [trailID, setTrailID] = useState(null);
 
   const [trailDetails, setTrailDetails] = useState({});
@@ -89,6 +88,7 @@ export default function DisplayTrail() {
   };
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     setTrailID(id);
     setCheckInStates(id);
     FireStoreService.getTrail(id)

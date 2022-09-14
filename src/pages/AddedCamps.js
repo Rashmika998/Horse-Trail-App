@@ -1,14 +1,13 @@
 import { React, useEffect, useState } from "react";
 import { BodyContent } from "../globalStyles";
-import FireStoreService from "../utils/services/trails/FireStoreService";
+import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
 
 function AddedCamps() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("nwdjBJLDJLNW");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
@@ -34,8 +33,9 @@ function AddedCamps() {
    };
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     getList();
-  }, []);
+  }, [userID]);
 
   const onDelete = (id) => {
     FireStoreService.deleteCamp(id)

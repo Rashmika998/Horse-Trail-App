@@ -7,8 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 
 function AddedTrails() {
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
   const [imageURL, setImageURL] = useState({});
@@ -33,8 +32,9 @@ function AddedTrails() {
     return url;
   };
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     getList();
-  }, []);
+  }, [userID]);
 
   const onDelete = (id) => {
     FireStoreService.deleteTrail(id)

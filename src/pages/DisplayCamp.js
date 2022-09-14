@@ -22,10 +22,7 @@ export default function DisplayCamp() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
-  
-
+  const [userID, setUserID] = useState();
   const [campID, setCampID] = useState(null);
 
   const [campDetails, setCampDetails] = useState({});
@@ -77,6 +74,7 @@ export default function DisplayCamp() {
   }
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     setCampID(id);
     FireStoreService.getCamp(id)
       .then((response) => {

@@ -8,8 +8,7 @@ import { useAuth } from "../contexts/AuthContext";
 function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+  const [userID, setUserID] = useState();
 
   const [trailsType, setTrailsType] = useState(null);
   const [trailIDs, setTrailIDsList] = useState([]);
@@ -64,6 +63,8 @@ function MyTrailsList() {
 
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)};
+    console.log()
     var url = document.location.href;
     var type = url.toString().split("/")[4];
     setTrailsType(type);

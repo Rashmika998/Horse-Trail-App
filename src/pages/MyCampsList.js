@@ -9,9 +9,7 @@ import { useAuth } from "../contexts/AuthContext";
 function MyCampsList() {
   const [pageLoading, setPageLoading] = useState(true);
   const { currentUser} = useAuth();
-  const [userID, setUserID] = useState("AAAAAAA");
-  if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
-
+  const [userID, setUserID] = useState();
   const [campsType, setCampsType] = useState(null);
   const [campIDs, setCampIDsList] = useState([]);
   const [camps, setCampsList] = useState([]);
@@ -61,6 +59,7 @@ function MyCampsList() {
   };
 
   useEffect(() => {
+    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
     var url = document.location.href;
     var type = url.toString().split("/")[4];
     setCampsType(type);
