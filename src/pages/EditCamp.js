@@ -3,7 +3,7 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function EditCamp() {
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState();
   const [campDescription, setCampDescription] = useState("");
   const [campName, setCampName] = useState("");
@@ -46,7 +46,11 @@ export default function EditCamp() {
   const [campDetails, setCampDetails] = useState({});
 
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     var url = document.location.href;
     var campId = url.toString().split("/")[4];
     setCampID(campId);
@@ -1781,6 +1785,7 @@ export default function EditCamp() {
                   >
                     Update Camp Details
                   </button>
+                  <br></br>
                   {campUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {campUpdated}
@@ -1791,6 +1796,7 @@ export default function EditCamp() {
             </div>
           </div>
         </div>
+        <br></br>
         <div className="accordion-item">
           <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
             <button
@@ -1853,6 +1859,7 @@ export default function EditCamp() {
                   >
                     Update Banner Photo
                   </button>
+                  <br></br>
                   {campBannerUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {campBannerUpdated}
@@ -1906,6 +1913,7 @@ export default function EditCamp() {
                     Only jpeg, jpg and png files are allowed
                   </span>
                 </div>
+                <br></br>
                 {errorCampDetails ? (
                   <div class="alert alert-danger" role="alert">
                     {errorCampDetails}
@@ -1997,6 +2005,7 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  <br></br>
                   {campGal1Updated ? (
                     <div class="alert alert-success" role="alert">
                       {campGal1Updated}
@@ -2070,6 +2079,7 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  <br></br>
                   {campGal2Updated ? (
                     <div class="alert alert-success" role="alert">
                       {campGal2Updated}
@@ -2143,6 +2153,7 @@ export default function EditCamp() {
                   >
                     Update Gallery Image
                   </button>
+                  <br></br>
                   {campGal3Updated ? (
                     <div class="alert alert-success" role="alert">
                       {campGal3Updated}

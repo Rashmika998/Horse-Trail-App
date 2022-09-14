@@ -3,7 +3,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { useAuth } from "../contexts/AuthContext";
 
 export default function EditTrail() {
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState();
   const [atvOrOffroad, setAtvOrOffroad] = useState("Yes");
   const [bikers, setBikers] = useState("Yes");
@@ -60,7 +60,11 @@ export default function EditTrail() {
   useEffect(() => {
     var url = document.location.href;
     var trailID = url.toString().split("/")[4];
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)};
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     setTrailID(trailID);
     FireStoreService.getTrail(trailID)
       .then((response) => {
@@ -1555,6 +1559,7 @@ export default function EditTrail() {
                   >
                     Update Trail Details
                   </button>
+                  <br></br>
                   {trailUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {trailUpdated}
@@ -1627,6 +1632,7 @@ export default function EditTrail() {
                   >
                     Update Banner Image
                   </button>
+                  <br></br>
                   {trailBannerUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {trailBannerUpdated}
@@ -1700,6 +1706,7 @@ export default function EditTrail() {
                   >
                     Update Parking Image
                   </button>
+                  <br></br>
                   {trailParkingUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {trailParkingUpdated}
@@ -1770,6 +1777,7 @@ export default function EditTrail() {
                   >
                     Update Trail Map Image
                   </button>
+                  <br></br>
                   {trailMapUpdated ? (
                     <div class="alert alert-success" role="alert">
                       {trailMapUpdated}
@@ -1849,6 +1857,7 @@ export default function EditTrail() {
                   >
                     Update Gallery Image 01
                   </button>
+                  <br></br>
                   {trailGal1Updated ? (
                     <div class="alert alert-success" role="alert">
                       {trailGal1Updated}
@@ -1928,6 +1937,7 @@ export default function EditTrail() {
                   >
                     Update Gallery Image 02
                   </button>
+                  <br></br>
                   {trailGal2Updated ? (
                     <div class="alert alert-success" role="alert">
                       {trailGal2Updated}
@@ -2007,6 +2017,7 @@ export default function EditTrail() {
                   >
                     Update Gallery Image 03
                   </button>
+                  <br></br>
                   {trailGal3Updated ? (
                     <div class="alert alert-success" role="alert">
                       {trailGal3Updated}
