@@ -6,18 +6,17 @@ import { Alert } from "react-bootstrap";
 
 function EditProfile() {
   const [userDetails, setUserDetails] = useState([]);
-  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [ridingLevel, setRidingLevel] = useState("");
-  const [addedTrails, setAddedTrails] = useState("");
-  const [addedCamps, setAddedCamps] = useState("");
   const [alerts, setAlerts] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const emailRef = useRef();
-  const { currentUser, updateEmail } = useAuth();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+  const { currentUser, updateEmail, updatePassword } = useAuth();
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
@@ -27,18 +26,20 @@ function EditProfile() {
   function getUserDetails() {
     docRef
       .get()
-      .then((doc) => setUserDetails(doc.data()))
+      .then((doc) => {
+        setUserDetails(doc.data());
+        setFirstName(doc.data().firstName);
+        console.log({ firstName });
+        setLastName(doc.data().lastName);
+        setPhoneNumber(doc.data().phoneNumber);
+        setRidingLevel(doc.data().ridingLevel);
+      })
       .catch((error) => {
         console.log("Error getting document:", error);
       });
   }
 
   const submitHandler = (e) => {
-    /*if(firstName==""){setFirstName(userDetails.firstName)};
-    if(lastName==""){setLastName(userDetails.lastName)};
-    if(phoneNumber==''){setPhoneNumber(userDetails.phoneNumber)};
-    if(ridingLevel==""){setRidingLevel(userDetails.ridingLevel)}; */
-
     e.preventDefault();
     setLoader(true);
     console.log(userDetails);
@@ -59,7 +60,10 @@ function EditProfile() {
       .then(() => {
         setLoader(false);
         setAlerts("Your details have been submitted👍");
-        //<MyProfile/>
+        console.log({ firstName });
+        console.log({ lastName });
+        console.log({ phoneNumber });
+        console.log({ ridingLevel });
       })
       .catch((error) => {
         alert(error.message);
@@ -72,21 +76,22 @@ function EditProfile() {
     if (emailRef.current.value !== currentUser.email) {
       promises.push(updateEmail(emailRef.current.value));
     }
-
+    if (passwordRef.current.value) {
+      promises.push(updatePassword(passwordRef.current.value));
+    }
     Promise.all(promises)
       .then(() => {
         setSuccess("Profile is updated");
         console.log(currentUser.email);
       })
       .catch((error) => {
-        if (error.code == "auth/requires-recent-login")
+        if (error.code === "auth/requires-recent-login")
           setError("Profile update unsuccessful. Login again and try");
-        if (error.code == "auth/invalid-email")
+        if (error.code === "auth/invalid-email")
           setError("Please enter an email to proceed");
         console.log(error);
       });
 
-    setEmail("");
     setFirstName("");
     setLastName("");
     setPhoneNumber("");
@@ -181,6 +186,30 @@ function EditProfile() {
                 placeholder="Riding Level"
                 value={ridingLevel}
                 onChange={(e) => setRidingLevel(e.target.value)}
+              ></input>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="password"
+                placeholder=""
+                ref={passwordRef}
+              ></input>
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password-confirm" className="form-label">
+                Password Confirmation
+              </label>
+              <input
+                type="password"
+                className="form-control"
+                id="password-confirm"
+                placeholder="Leave blank to keep the same"
+                ref={passwordConfirmRef}
               ></input>
             </div>
           </div>
