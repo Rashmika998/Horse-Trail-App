@@ -191,11 +191,11 @@ function MyProfile() {
             <div className="card">
               <div className="card-body text-center">
                 <h5 className="card-title"></h5>
-                <Link to="/added-camps" className="btn btn-success col-lg-5 ">
+                <Link to="/added-trails" className="btn btn-success col-lg-5 ">
                   Added Trails
                 </Link>
                 <Link
-                  to="/add-camps"
+                  to="/add-trail"
                   className="btn btn-primary col-lg-5"
                   style={{ marginLeft: "15px" }}
                 >
@@ -213,7 +213,7 @@ function MyProfile() {
                   Added Camps
                 </Link>
                 <Link
-                  to="/add-camps"
+                  to="/add-camp"
                   className="btn btn-primary col-lg-5"
                   style={{ marginLeft: "15px" }}
                 >
