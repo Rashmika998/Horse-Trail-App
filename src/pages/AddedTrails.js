@@ -4,6 +4,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
+import Background from "../components/AddPage/MyTrails.jpg";
 
 function AddedTrails() {
   const { currentUser} = useAuth();
@@ -57,19 +58,28 @@ function AddedTrails() {
   }
 
   return (
-    <BodyContent>
+    <BodyContent
+      style={{
+        backgroundImage: `url(${Background})`,
+        position: "absolute",
+      }}
+    >
       <div className="text-center">
-        <h3>My Trails</h3>
+        <div className="shadow p-2 mb-1 mx-5 card font-weight-bold rounded">
+          <h3>My Trails</h3>
+        </div>
         {loading == true ? (
           <div className="mt-5">
-            <div className="spinner-border" role="status"></div>
+            <div className="spinner-border text-light" role="status"></div>
           </div>
         ) : (
           ""
         )}
 
         {loading == false && trails.length == 0 ? (
-          <div className="mt-5">No trails added</div>
+          <div className="mt-5 mx-5  text-center shadow p-2 mb-1 card font-weight-bold rounded">
+            No trails added
+          </div>
         ) : (
           ""
         )}
@@ -84,7 +94,7 @@ function AddedTrails() {
                 <Card.Img
                   variant="top"
                   src={imageURL[trail.id]}
-                  height="300vh"
+                  height="200vh"
                 />
                 <Card.Body>
                   <Card.Title>

@@ -5,6 +5,7 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card,Col, Alert } from "react-bootstrap";
 import GoogleMapPage from "./GoogleMapCampsPage";
 import { useAuth } from "../contexts/AuthContext";
+import Background from "../components/AddPage/CampsSearchPage.jpg";
 
 function SearchPage() {
   const { currentUser } = useAuth();
@@ -96,9 +97,20 @@ function SearchPage() {
 
   return (
     <>
-      <BodyContent>
-        <div className="container" style={{ paddingTop: "20px" }}>
-        {error && <Alert className="text-center" variant="danger">{error}</Alert>}
+      <BodyContent
+        style={{
+          backgroundImage: `url(${Background})`,
+        }}
+      >
+        <div
+          className=" shadow-lg bg-white rounded container"
+          style={{ padding: "50px" }}
+        >
+          {error && (
+            <Alert className="text-center" variant="danger">
+              {error}
+            </Alert>
+          )}
           <form onSubmit={handleSubmit}>
             <div className="row">
               <div className="form-group col-6  col mb-4">
@@ -390,7 +402,7 @@ function SearchPage() {
                         <Card.Img
                           variant="top"
                           src={imageURL[camp.id]}
-                          height="300vh"
+                          height="200vh"
                         />
                         <Card.Body>
                           <Card.Title>
@@ -418,6 +430,8 @@ function SearchPage() {
             </div>
           </div>
         </div>
+       
+        
       </BodyContent>
     </>
   );
