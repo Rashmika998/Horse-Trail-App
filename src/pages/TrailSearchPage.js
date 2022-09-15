@@ -7,6 +7,8 @@ import GoogleMapPage from "./GoogleMapTrailsPage";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
 import { useAuth } from "../contexts/AuthContext";
+import "../components/AuthPages/Auth.css";
+import Background from "../components/AddPage/TrailSearchPage.jpg";
 
 function SearchPage() {
   const { currentUser } = useAuth();
@@ -123,9 +125,22 @@ function SearchPage() {
 
   return (
     <>
-      <BodyContent>
-        <div className="container" style={{ paddingTop: "20px" }}>
-        {error && <Alert className="text-center" variant="danger">{error}</Alert>}
+      <BodyContent
+        style={{
+          backgroundImage: `url(${Background})`,
+          
+        }}
+      >
+        <div
+          className=" shadow-lg card rounded container"
+          style={{ padding: "50px" }}
+        >
+          {error && (
+            <Alert className="text-center" variant="danger">
+              {error}
+            </Alert>
+          )}
+
           <form onSubmit={handleSubmit}>
             <div className="row">
               <label className="mb-5">Length of Trail (Miles)</label>
@@ -429,7 +444,7 @@ function SearchPage() {
                         <Card.Img
                           variant="top"
                           src={imageURL[trail.id]}
-                          height="300vh"
+                          height="200vh"
                         />
                         <Card.Body>
                           <Card.Title>
@@ -454,6 +469,7 @@ function SearchPage() {
             </div>
           </div>
         </div>
+     
       </BodyContent>
     </>
   );

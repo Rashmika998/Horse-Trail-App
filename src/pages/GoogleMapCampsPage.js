@@ -31,8 +31,16 @@ function Map(props) {
 
   
 
-  if (!isLoaded) return <div>Loading...</div>;
-  if (markers.length == 0 || camps.length == 0) return <div>Loading...</div>;
+  if (!isLoaded) return (
+    <div className="mt-3 mx-auto text-center">
+      <div className="spinner-border" role="status"></div>
+    </div>
+  );
+  if (markers.length == 0 || camps.length == 0) return (
+    <div className="mt-3 mx-auto text-center">
+      <div className="spinner-border" role="status"></div>
+    </div>
+  );
 
   return (
     <>

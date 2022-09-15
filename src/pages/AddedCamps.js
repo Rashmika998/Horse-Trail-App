@@ -4,6 +4,7 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
+import Background from "../components/AddPage/MyCamps.jpg";
 
 function AddedCamps() {
 
@@ -57,27 +58,29 @@ function AddedCamps() {
   }
 
   return (
-    <BodyContent>
+    <BodyContent
+      style={{
+        backgroundImage: `url(${Background})`,
+        position: "absolute",
+      }}
+    >
       <div className="text-center">
-        <h3>My Camps</h3>
+        <div className="shadow p-2 mb-1 mx-5 card font-weight-bold rounded">
+          <h3>My Camps</h3>
+        </div>
         {loading == true ? (
           <div className="mt-5">
-            <div className="spinner-border" role="status"></div>
+            <div className="spinner-border  text-light" role="status"></div>
           </div>
         ) : (
           ""
         )}
 
-        {loading == false && camps.length==0 ? (
-          <div className="mt-5">
-            No camps added
-          </div>
+        {loading == false && camps.length == 0 ? (
+          <div className="mt-3  mx-5  text-center shadow p-2 mb-1 card font-weight-bold rounded">No camps added</div>
         ) : (
           ""
         )}
-
-
-       
       </div>
 
       <div className="row text-center mx-4">
@@ -88,7 +91,7 @@ function AddedCamps() {
                 <Card.Img
                   variant="top"
                   src={imageURL[camp.id]}
-                  height="300vh"
+                  height="200vh"
                 />
                 <Card.Body>
                   <Card.Title>
