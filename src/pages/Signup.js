@@ -3,6 +3,7 @@ import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { BodyContent } from "../globalStyles";
+import "../components/AuthPages/Auth.css";
 
 export default function Signup() {
   const emailRef = useRef();
@@ -47,10 +48,11 @@ export default function Signup() {
   }
 
   return (
-    <BodyContent>
-      <Card>
+    <div className='hero-container'>
+      <br/><br/>
+      <Card style={{minWidth: '50vw',}} className='card'>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
+          <h4 className="text-center">Sign Up</h4>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="fName">
@@ -78,15 +80,16 @@ export default function Signup() {
               <Form.Control type="password" ref={passwordConfirmRef} required />
             </Form.Group>
             <br />
-            <Button disabled={loading} className="w-100" type="submit">
+            <Button disabled={loading} style={{background:'#071c2f'}} className="w-100" type="submit">
               Sign Up
             </Button>
           </Form>
+          <div className="w-100 text-center mt-2" style={{color: 'black'}}>
+        Already have an account? <Link to="/login">Sign In</Link>
+      </div>
         </Card.Body>
       </Card>
-      <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
-      </div>
-    </BodyContent>
+      <br/>
+    </div>
   );
 }
