@@ -2,10 +2,13 @@ import { React, useState, useEffect } from "react";
 import { BodyContent } from "../globalStyles";
 import { FaListUl, FaMapMarkedAlt } from "react-icons/fa";
 import FireStoreService from "../utils/services/camps/FireStoreService";
-import { Card,Col } from "react-bootstrap";
+import { Card,Col, Alert } from "react-bootstrap";
 import GoogleMapPage from "./GoogleMapCampsPage";
+import { useAuth } from "../contexts/AuthContext";
 
 function SearchPage() {
+  const { currentUser } = useAuth();
+  const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     inputCampType: "Any",
     inputSeason: "Any",
@@ -87,6 +90,7 @@ function SearchPage() {
   };
 
   useEffect(() => {
+    if(currentUser){setError("");}else{setError("You are not logged in");}
     getList();
   }, []);
 
@@ -94,6 +98,7 @@ function SearchPage() {
     <>
       <BodyContent>
         <div className="container" style={{ paddingTop: "20px" }}>
+        {error && <Alert className="text-center" variant="danger">{error}</Alert>}
           <form onSubmit={handleSubmit}>
             <div className="row">
               <div className="form-group col-6  col mb-4">

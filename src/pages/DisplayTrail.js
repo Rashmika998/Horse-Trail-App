@@ -1,10 +1,11 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/trails/FireStoreService";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Alert } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaHeart } from "react-icons/fa";
 import GetNearbyPlaces from "./GetNearbyPlaces";
 import DataTable from "react-data-table-component";
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const colors = {
   orange: "#FFBA5A",
@@ -22,9 +23,10 @@ export default function DisplayTrail() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
   const { currentUser } = useAuth();
+  const [error, setError] = useState("");
   const [userID, setUserID] = useState(null);
   const [trailID, setTrailID] = useState(null);
-
+  let logInButton = <Link className="text-center" to='/login'><div className="btn btn-outline-primary" >Log in</div></Link>
   const [trailDetails, setTrailDetails] = useState({});
   const [checkIn, setCheckInResult] = useState("");
 
@@ -111,6 +113,7 @@ export default function DisplayTrail() {
     } else {
       setUserID(null);
     }
+    if(currentUser){setError("");}else{setError("You are not logged in. Please log in to view all details.");}
     setTrailID(id);
     setCheckInStates(id);
     FireStoreService.getTrail(id)
@@ -524,13 +527,15 @@ export default function DisplayTrail() {
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
+      {error && <Alert className="text-center" variant="danger">{error}</Alert>}
       {trailDetails.length != 0 ? (
         <Card style={{ border: "none" }}>
           <Card.Body>
             <Card.Title>
-              <h1 className="text-center">{trailDetails.trailName}</h1>
+              <h1 className="text-center">{trailDetails.trailName}</h1> 
               <h2 className="text-center">{trailDetails.parkName}</h2>
               <h3 className="text-center">{trailDetails.trailType}</h3>
+              <h4 className="text-center">{trailDetails.state}</h4>
               <div style={styles.stars} className="justify-content-center">
                 <FaStar
                   size={24}
@@ -549,7 +554,8 @@ export default function DisplayTrail() {
               </h3>
             </Card.Title>
             <div className="row p-3">
-              <img
+              {currentUser?(
+                <img
                 alt="Banner Image"
                 id="banner"
                 style={{
@@ -559,6 +565,8 @@ export default function DisplayTrail() {
                   margin: "0px auto",
                 }}
               ></img>
+              ):logInButton}
+              
             </div>
             <div className="row text-center">
               <div className="col md-3">
@@ -574,7 +582,9 @@ export default function DisplayTrail() {
                       Miles
                     </Card.Title>
                     <div>
+                      
                       <h5>{trailDetails.miles}</h5>
+                        
                     </div>
                   </Card.Body>
                 </Card>
@@ -591,7 +601,8 @@ export default function DisplayTrail() {
                     >
                       Elevation Gain
                     </Card.Title>
-                    <div>{trailDetails.elevationGain}</div>
+                    {currentUser?(<div>{trailDetails.elevationGain}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -607,7 +618,7 @@ export default function DisplayTrail() {
                     >
                       Trail Head
                     </Card.Title>
-                    <div className="row">
+                    {currentUser?(<div className="row">
                       <div className="col md-4">
                         <img alt="Restrooms" id="restrooms"></img>
                       </div>
@@ -617,7 +628,7 @@ export default function DisplayTrail() {
                       <div className="col md-4">
                         <img alt="Corrals" id="corrals"></img>
                       </div>
-                    </div>
+                    </div>):logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -637,6 +648,11 @@ export default function DisplayTrail() {
                       Trail Users
                     </Card.Title>
                     <div className="row">
+                    <div className="col md-3">
+                        <img alt="Bikers" id="bikers"></img>
+                    </div>
+                    {currentUser?(
+                      <>
                       <div className="col md-3">
                         <img alt="Hikers" id="hikers"></img>
                       </div>
@@ -644,12 +660,11 @@ export default function DisplayTrail() {
                         <img alt="Dogs" id="dogs"></img>
                       </div>
                       <div className="col md-3">
-                        <img alt="Bikers" id="bikers"></img>
-                      </div>
-                      <div className="col md-3">
                         <img alt="ATV or OffRoad" id="atvOrOffroad"></img>
                       </div>
-                    </div>
+                      </>
+                    ):logInButton}
+                     </div>
                   </Card.Body>
                 </Card>
               </div>
@@ -665,7 +680,7 @@ export default function DisplayTrail() {
                     >
                       Obstacles
                     </Card.Title>
-                    <div className="row">
+                    {currentUser?(<div className="row">
                       <div className="col md-4">
                         <img alt="Bridges" id="bridges"></img>
                       </div>
@@ -675,7 +690,9 @@ export default function DisplayTrail() {
                       <div className="col md-4">
                         <img alt="Rocks" id="rocks"></img>
                       </div>
-                    </div>
+                    </div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -723,7 +740,8 @@ export default function DisplayTrail() {
                     >
                       Trail Description
                     </Card.Title>
-                    <div>{trailDetails.description}</div>
+                    {currentUser?(<div>{trailDetails.description}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -739,7 +757,8 @@ export default function DisplayTrail() {
                     >
                       Trail Notes
                     </Card.Title>
-                    <div>{trailDetails.trailNotes}</div>
+                    {currentUser?(<div>{trailDetails.trailNotes}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -755,7 +774,8 @@ export default function DisplayTrail() {
                     >
                       Restrictions
                     </Card.Title>
-                    <div>{trailDetails.restrictions}</div>
+                    {currentUser?(<div>{trailDetails.restrictions}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -774,7 +794,8 @@ export default function DisplayTrail() {
                     >
                       Parking Spots
                     </Card.Title>
-                    <div>{trailDetails.parkingSpots}</div>
+                    {currentUser?(<div>{trailDetails.parkingSpots}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -790,7 +811,7 @@ export default function DisplayTrail() {
                     >
                       Parking Notes
                     </Card.Title>
-                    <div>{trailDetails.parkingNotes}</div>
+                    {currentUser?(<div>{trailDetails.parkingNotes}</div>):logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -822,7 +843,7 @@ export default function DisplayTrail() {
                     >
                       Trail Map Link
                     </Card.Title>
-                    <div>
+                    {currentUser?(<div>
                       <a
                         id="trailMapLink"
                         target="_blank"
@@ -830,7 +851,7 @@ export default function DisplayTrail() {
                       >
                         Click Here
                       </a>
-                    </div>
+                    </div>):logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -849,7 +870,7 @@ export default function DisplayTrail() {
                     >
                       Trail Map
                     </Card.Title>
-                    <img
+                    {currentUser?(<img
                       alt="Trail map Image"
                       id="trailMapImage"
                       style={{
@@ -858,7 +879,8 @@ export default function DisplayTrail() {
                         height: "auto",
                         margin: "0px auto",
                       }}
-                    ></img>
+                    ></img>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -874,7 +896,7 @@ export default function DisplayTrail() {
                     >
                       Parking Image
                     </Card.Title>
-                    <img
+                    {currentUser?(<img
                       alt="Parking Image"
                       id="parkingImage"
                       style={{
@@ -883,7 +905,9 @@ export default function DisplayTrail() {
                         height: "auto",
                         margin: "0px auto",
                       }}
-                    ></img>
+                    ></img>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -927,10 +951,11 @@ export default function DisplayTrail() {
                     >
                       Nearby Horse Camping
                     </Card.Title>
-
-                    <div>
+                    {currentUser?(<div>
                       <GetNearbyPlaces id={trailID} type="trail" />
-                    </div>
+                    </div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -947,7 +972,7 @@ export default function DisplayTrail() {
                   >
                     Trail Gallery
                   </Card.Title>
-                  <div
+                  {currentUser?(<div
                     id="carouselExampleIndicators"
                     className="carousel slide"
                     data-bs-ride="true"
@@ -1039,13 +1064,15 @@ export default function DisplayTrail() {
                       ></span>
                       <span className="visually-hidden">Next</span>
                     </button>
-                  </div>
+                  </div>):logInButton}
+                  
+                  
                 </Card.Body>
               </Card>
             </div>
             <br></br>
             <div>
-              {fav && completed && !checkedIn ? null : !fav &&
+              {currentUser?(fav && completed && !checkedIn ? null : !fav &&
                 completed &&
                 !checkedIn ? (
                 <>
@@ -1223,7 +1250,7 @@ export default function DisplayTrail() {
                     </div>
                   ) : null}
                 </>
-              )}
+              )):null}
             </div>
           </Card.Body>
         </Card>

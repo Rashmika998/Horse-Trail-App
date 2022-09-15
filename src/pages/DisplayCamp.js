@@ -1,10 +1,11 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
-import { Card } from "react-bootstrap";
+import { Card, Alert } from "react-bootstrap";
 import { FaStar, FaCheckCircle, FaHeart } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import GetNearbyPlaces from "./GetNearbyPlaces";
 import { useAuth } from "../contexts/AuthContext";
+import { Link } from "react-router-dom";
 
 const colors = {
   orange: "#FFBA5A",
@@ -21,7 +22,9 @@ const styles = {
 export default function DisplayCamp() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
+  let logInButton = <Link className="text-center" to='/login'><div className="btn btn-outline-primary" >Log in</div></Link>
   const { currentUser } = useAuth();
+  const [error, setError] = useState("");
   const [userID, setUserID] = useState(null);
 
   const [campID, setCampID] = useState(null);
@@ -111,6 +114,7 @@ export default function DisplayCamp() {
     } else {
       setUserID(null);
     }
+    if(currentUser){setError("");}else{setError("You are not logged in. Please log in to view all details.");}
     setCampID(id);
     setCheckInStates(id);
 
@@ -513,15 +517,15 @@ export default function DisplayCamp() {
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
+      {error && <Alert className="text-center" variant="danger">{error}</Alert>}
       {campDetails.length != 0 ? (
         <Card style={{ border: "none" }}>
           <Card.Body>
             <Card.Title>
               <h1 className="text-center">{campDetails.campName}</h1>
-              <h2 className="text-center">
-                {campDetails.city}&nbsp;{campDetails.state}
-              </h2>
+              <h2 className="text-center">{campDetails.parkName}</h2>
               <h3 className="text-center">{campDetails.campType}</h3>
+              <h4 className="text-center">{campDetails.state}</h4>
               <div style={styles.stars} className="justify-content-center">
                 <FaStar
                   size={24}
@@ -540,7 +544,7 @@ export default function DisplayCamp() {
               </h3>
             </Card.Title>
             <div className="row p-3">
-              <img
+            {currentUser?(<img
                 alt="Banner Image"
                 id="banner"
                 style={{
@@ -549,7 +553,9 @@ export default function DisplayCamp() {
                   height: "auto",
                   margin: "0px auto",
                 }}
-              ></img>
+              ></img>):logInButton}
+            
+              
             </div>
             <div className="row text-center">
               <div className="col md-3">
@@ -565,7 +571,8 @@ export default function DisplayCamp() {
                       Road to Camp
                     </Card.Title>
                     <div>
-                      <h5>{campDetails.roadToCamp}</h5>
+                    {currentUser?(<h5>{campDetails.roadToCamp}</h5>):logInButton}
+                      
                     </div>
                   </Card.Body>
                 </Card>
@@ -580,9 +587,11 @@ export default function DisplayCamp() {
                         borderRadius: "5px",
                       }}
                     >
-                      Park Name
+                      City
                     </Card.Title>
-                    <div>{campDetails.parkName}</div>
+                    
+                    {currentUser?(<div>{campDetails.city}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -598,7 +607,9 @@ export default function DisplayCamp() {
                     >
                       Phone
                     </Card.Title>
-                    <div>{campDetails.phone}</div>
+                    {currentUser?(<div>{campDetails.phone}</div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -614,7 +625,9 @@ export default function DisplayCamp() {
                     >
                       Email
                     </Card.Title>
-                    <div>{campDetails.email}</div>
+                    {currentUser?(<div>{campDetails.email}</div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -634,21 +647,26 @@ export default function DisplayCamp() {
                       Amenities
                     </Card.Title>
                     <div className="row">
+                    <div className="col md-2">
+                        <img alt="Corrals" id="corrals"></img>
+                      </div>
+                      
                       <div className="col md-2">
+                        <img alt="Hookup" id="hookup"></img>
+                      </div>
+                      {currentUser?(<>
+                        <div className="col md-2">
                         <img alt="Restrooms" id="restrooms"></img>
                       </div>
                       <div className="col md-2">
                         <img alt="Water" id="water"></img>
                       </div>
                       <div className="col md-2">
-                        <img alt="Corrals" id="corrals"></img>
-                      </div>
-                      <div className="col md-2">
                         <img alt="Restaurant" id="restaurant"></img>
                       </div>
-                      <div className="col md-2">
-                        <img alt="Hookup" id="hookup"></img>
-                      </div>
+                      </>):logInButton}
+                      
+                      
                     </div>
                   </Card.Body>
                 </Card>
@@ -665,7 +683,7 @@ export default function DisplayCamp() {
                     >
                       Camp Users
                     </Card.Title>
-                    <div className="row">
+                    {currentUser?(<div className="row">
                       <div className="col md-2">
                         <img alt="Reservation" id="reservation"></img>
                       </div>
@@ -675,7 +693,9 @@ export default function DisplayCamp() {
                           id="paperWorkRequired"
                         ></img>
                       </div>
-                    </div>
+                    </div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -723,7 +743,7 @@ export default function DisplayCamp() {
                     >
                       Camp Site Types
                     </Card.Title>
-                    <div className="row">
+                    {currentUser?(<div className="row">
                       <div className="col md-3">
                         <img alt="Dispersed" id="dispersed"></img>
                       </div>
@@ -736,7 +756,9 @@ export default function DisplayCamp() {
                       <div className="col md-3">
                         <img alt="Cabins" id="cabins"></img>
                       </div>
-                    </div>
+                    </div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -756,7 +778,9 @@ export default function DisplayCamp() {
                     >
                       Restrictions
                     </Card.Title>
-                    <div>{campDetails.restrictions}</div>
+                    {currentUser?(<div>{campDetails.restrictions}</div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -772,7 +796,9 @@ export default function DisplayCamp() {
                     >
                       Pet policy
                     </Card.Title>
-                    <div>{campDetails.petPolicy}</div>
+                    {currentUser?(<div>{campDetails.petPolicy}</div>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -788,7 +814,8 @@ export default function DisplayCamp() {
                     >
                       Reservation Link
                     </Card.Title>
-                    <div>{campDetails.reservationLink}</div>
+                    {currentUser?(<div>{campDetails.reservationLink}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -804,7 +831,8 @@ export default function DisplayCamp() {
                     >
                       Reservation Call
                     </Card.Title>
-                    <div>{campDetails.reservationCall}</div>
+                    {currentUser?(<div>{campDetails.reservationCall}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -823,7 +851,8 @@ export default function DisplayCamp() {
                     >
                       Reservation Description
                     </Card.Title>
-                    <div>{campDetails.reservationDescription}</div>
+                    {currentUser?( <div>{campDetails.reservationDescription}</div>):logInButton}
+                   
                   </Card.Body>
                 </Card>
               </div>
@@ -839,7 +868,8 @@ export default function DisplayCamp() {
                     >
                       Reservation Email
                     </Card.Title>
-                    <div>{campDetails.reservationEmail}</div>
+                    {currentUser?(<div>{campDetails.reservationEmail}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -855,7 +885,8 @@ export default function DisplayCamp() {
                     >
                       Horse Site
                     </Card.Title>
-                    <div>{campDetails.horseSite}</div>
+                    {currentUser?(<div>{campDetails.horseSite}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -871,7 +902,8 @@ export default function DisplayCamp() {
                     >
                       Cost Per Night
                     </Card.Title>
-                    <div>{campDetails.costPerNight}</div>
+                    {currentUser?(<div>{campDetails.costPerNight}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -890,7 +922,8 @@ export default function DisplayCamp() {
                     >
                       Links
                     </Card.Title>
-                    <a id="website">
+                    {currentUser?(<>
+                      <a id="website">
                       <img
                         alt="Website"
                         src="https://img.icons8.com/ios-filled/50/000000/internet.png"
@@ -917,6 +950,9 @@ export default function DisplayCamp() {
                         src="https://img.icons8.com/ios-filled/50/000000/instagram-new--v1.png"
                       ></img>
                     </a>
+                    </>):logInButton}
+                    
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -932,7 +968,8 @@ export default function DisplayCamp() {
                     >
                       Camp Notes
                     </Card.Title>
-                    <div>{campDetails.campNotes}</div>
+                    {currentUser?(<div>{campDetails.campNotes}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -948,7 +985,8 @@ export default function DisplayCamp() {
                     >
                       Camp Description
                     </Card.Title>
-                    <div>{campDetails.campDescription}</div>
+                    {currentUser?(<div>{campDetails.campDescription}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -965,7 +1003,8 @@ export default function DisplayCamp() {
                     >
                       Reservations and Pricing
                     </Card.Title>
-                    <div>{campDetails.resPricing}</div>
+                    {currentUser?(<div>{campDetails.resPricing}</div>):logInButton}
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -1009,7 +1048,7 @@ export default function DisplayCamp() {
                     >
                       Nearby Places to Ride
                     </Card.Title>
-                    <GetNearbyPlaces id={campID} type="camp" />
+                    {currentUser?(<GetNearbyPlaces id={campID} type="camp" />):logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -1025,7 +1064,7 @@ export default function DisplayCamp() {
                     >
                       Parking Image
                     </Card.Title>
-                    <img
+                    {currentUser?(<img
                       alt="Parking Image"
                       id="parkingImage"
                       style={{
@@ -1034,7 +1073,9 @@ export default function DisplayCamp() {
                         height: "auto",
                         margin: "0px auto",
                       }}
-                    ></img>
+                    ></img>):logInButton}
+                   
+                    
                   </Card.Body>
                 </Card>
               </div>
@@ -1052,7 +1093,7 @@ export default function DisplayCamp() {
                   >
                     Camp Gallery
                   </Card.Title>
-                  <div
+                  {currentUser?(<div
                     id="carouselExampleIndicators"
                     className="carousel slide"
                     data-bs-ride="true"
@@ -1144,13 +1185,15 @@ export default function DisplayCamp() {
                       ></span>
                       <span className="visually-hidden">Next</span>
                     </button>
-                  </div>
+                  </div>):logInButton}
+                  
+                  
                 </Card.Body>
               </Card>
             </div>
             <br></br>
             <div>
-              {fav && completed && !checkedIn ? null : !fav &&
+              {currentUser?(fav && completed && !checkedIn ? null : !fav &&
                 completed &&
                 !checkedIn ? (
                 <>
@@ -1331,7 +1374,7 @@ export default function DisplayCamp() {
                     </div>
                   ) : null}
                 </>
-              )}
+              )):null}
             </div>
           </Card.Body>
         </Card>
