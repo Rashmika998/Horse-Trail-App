@@ -24,10 +24,10 @@ function MyProfile() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [ridingLevel, setRidingLevel] = useState("");
   const { currentUser } = useAuth();
-  const [state, setState]= useState({
+  const [state, setState] = useState({
     latitude: null,
     longitude: null,
-    userAddress : null
+    userAddress: null,
   });
 
   const { isLoaded } = useJsApiLoader({
@@ -42,30 +42,28 @@ function MyProfile() {
     }
     setActiveMarker(marker);
   };
-  function getLocation() {
-   
-  }
+  function getLocation() {}
 
   function getCoordinates(position) {
-   setState({
-    latitude: position.coords.latitude,
-    longitude: position.coords.longitude,
-   })
+    setState({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude,
+    });
   }
-  
-  function handleLocationError(error){
-    switch(error.code) {
+
+  function handleLocationError(error) {
+    switch (error.code) {
       case error.PERMISSION_DENIED:
-       alert("User denied the request for Geolocation.") 
+        alert("User denied the request for Geolocation.");
         break;
       case error.POSITION_UNAVAILABLE:
-        alert("Location information is unavailable.") 
+        alert("Location information is unavailable.");
         break;
       case error.TIMEOUT:
-        alert("The request to get user location timed out.")
+        alert("The request to get user location timed out.");
         break;
       case error.UNKNOWN_ERROR:
-       alert("An unknown error occurred.") 
+        alert("An unknown error occurred.");
         break;
     }
   }
@@ -75,8 +73,12 @@ function MyProfile() {
 
   useEffect(() => {
     getUserDetails();
-    if(navigator.geolocation)
-    {(navigator.geolocation.getCurrentPosition(getCoordinates,handleLocationError))}
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        getCoordinates,
+        handleLocationError
+      );
+    }
   }, []);
 
   const docRef = db.collection("users").doc(currentUser.uid);
@@ -102,13 +104,13 @@ function MyProfile() {
     <BodyContent>
       <div className="container-fluid" style={{ paddingTop: "40px" }}>
         <div className="row">
-          <div className="col-lg-6">
-            <div className="card">
+          <div className="col-lg-5">
+            <div className="card " style={{ height: "420px" }}>
               <div className="card-header">Personal Info</div>
-              <div className="card-body">
+              <div className="card-body mx-auto mt-5">
                 <h5 className="card-title"></h5>
                 <table className="table table-borderless">
-                  <tbody style={{ fontSize: "12px" }}>
+                  <tbody style={{ fontSize: "15px" }}>
                     <tr>
                       <th>Email</th>
                       <td>{currentUser.email}</td>
@@ -143,125 +145,153 @@ function MyProfile() {
               </div>
             </div>
           </div>
-          <div className="col-lg-6">
-            <div className="card">
+          <div className="col-lg-7">
+            <div className="card" style={{ height: "420px" }}>
               <div className="card-header">Location</div>
               <div className="card-body">
                 <h5 className="card-title"></h5>
-                
-      {(isLoaded && state.latitude!=null && state.longitude!=null)?<GoogleMap
-      onLoad={(map) => {
-        const bounds = new window.google.maps.LatLngBounds();
 
-          var lng = state.longitude;
-          var lat = state.latitude;
-          console.log(lng)
-          bounds.extend({ lat: lat, lng: lng });
-        
-       // map.fitBounds(bounds);
-       
-        map.setCenter(new window.google.maps.LatLng(lat, lng));
-        map.setZoom(17);
-      }}
-      onClick={() => setActiveMarker(null)}
-      mapContainerStyle={{ width: "100%", height: "50vh" }}
-    >
-   <MarkerF
-                
-                label="t"
-                position={{lat: Number(state.latitude), lng: Number(state.longitude)}}
-               
-              >
-              </MarkerF>
-    </GoogleMap>:""
-   }      
-      
+                {isLoaded &&
+                state.latitude != null &&
+                state.longitude != null ? (
+                  <GoogleMap
+                    onLoad={(map) => {
+                      const bounds = new window.google.maps.LatLngBounds();
+
+                      var lng = state.longitude;
+                      var lat = state.latitude;
+                      console.log(lng);
+                      bounds.extend({ lat: lat, lng: lng });
+
+                      // map.fitBounds(bounds);
+
+                      map.setCenter(new window.google.maps.LatLng(lat, lng));
+                      map.setZoom(17);
+                    }}
+                    onClick={() => setActiveMarker(null)}
+                    mapContainerStyle={{ width: "100%", height: "50vh" }}
+                  >
+                    <MarkerF
+                      label=""
+                      position={{
+                        lat: Number(state.latitude),
+                        lng: Number(state.longitude),
+                      }}
+                    ></MarkerF>
+                  </GoogleMap>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
           </div>
         </div>
-        <div className="row" style={{paddingTop:"15px"}}>
+        <div className="row" style={{ paddingTop: "15px" }}>
           <div className="col-lg-6">
             <div className="card">
-             
               <div className="card-body text-center">
                 <h5 className="card-title"></h5>
                 <Link to="/added-camps" className="btn btn-success col-lg-5 ">
-                Added Trails
-            </Link>
-            <Link to="/add-camps" className="btn btn-primary col-lg-5" style={{marginLeft:"15px"}}>
-                Add Trails
-            </Link>
+                  Added Trails
+                </Link>
+                <Link
+                  to="/add-camps"
+                  className="btn btn-primary col-lg-5"
+                  style={{ marginLeft: "15px" }}
+                >
+                  Add Trails
+                </Link>
               </div>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="card">
-             
               <div className="card-body text-center">
                 <h5 className="card-title"></h5>
-               
+
                 <Link to="/added-camps" className="btn btn-success col-lg-5">
-                Added Camps
-            </Link>
-            <Link to="/add-camps" className="btn btn-primary col-lg-5" style={{marginLeft:"15px"}}>
-                Add Camps
-            </Link>
+                  Added Camps
+                </Link>
+                <Link
+                  to="/add-camps"
+                  className="btn btn-primary col-lg-5"
+                  style={{ marginLeft: "15px" }}
+                >
+                  Add Camps
+                </Link>
               </div>
             </div>
           </div>
-          </div>
-        <div className="row" style={{paddingTop:"15px"}}>
+        </div>
+        <div className="row" style={{ paddingTop: "15px" }}>
           <div className="col-lg-6">
             <div className="card">
-            <div className="card-header">Trails</div>
+              <div className="card-header">Trails</div>
               <div className="card-body">
-              <div className="row text-center ml-4 mr-4 mt-2">
-          <div className="col-md-4" style={{marginTop:"5px"}}>
-            <Link to="/my-trails-list/checkedIn" className="btn btn-warning">
-              <FaHorse /> Trails to Ride
-            </Link>
-          </div>
-          <div className="col-md-4" style={{marginTop:"5px"}}>
-            <Link to="/my-trails-list/completed" className="btn btn-success">
-              <FaCheckCircle /> Completed Trails
-            </Link>
-          </div>
-          <div className="col-md-4" style={{marginTop:"5px"}}>
-            <Link to="/my-trails-list/favourites" className="btn btn-danger">
-              <FaHeart /> Favourite Trails
-            </Link>
-          </div>
-        </div>
+                <div className="row text-center ml-4 mr-4 mt-2">
+                  <div className="col-md-4" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/my-trails-list/checkedIn"
+                      className="btn btn-warning"
+                    >
+                      <FaHorse /> Trails to Ride
+                    </Link>
+                  </div>
+                  <div className="col-md-4" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/my-trails-list/completed"
+                      className="btn btn-success"
+                    >
+                      <FaCheckCircle /> Completed Trails
+                    </Link>
+                  </div>
+                  <div className="col-md-4" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/my-trails-list/favourites"
+                      className="btn btn-danger"
+                    >
+                      <FaHeart /> Favourite Trails
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
           <div className="col-lg-6">
             <div className="card">
-            <div className="card-header">Camps</div>
+              <div className="card-header">Camps</div>
               <div className="card-body">
-              <div className="row text-center ml-4 mr-4 mt-2">
-          <div className="col-md-4" style={{marginTop:"5px"}}>
-            <Link to="/my-camps-list/checkedIn" className="btn btn-warning">
-              <FaHorse /> Camps to Ride
-            </Link>
-          </div>
-          <div className="col-md-4" style={{marginTop:"5px"}}>
-            <Link to="/my-camps-list/completed" className="btn btn-success">
-              <FaCheckCircle /> Visited Camps
-            </Link>
-          </div>
-          <div className="col-md-4" style={{marginTop:"5px"}}>
-            <Link to="/my-camps-list/favourites" className="btn btn-danger">
-              <FaHeart /> Favourite Camps
-            </Link>
-          </div>
-        </div>
+                <div className="row text-center ml-4 mr-4 mt-2">
+                  <div className="col-md-4" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/my-camps-list/checkedIn"
+                      className="btn btn-warning"
+                    >
+                      <FaHorse /> Camps to Ride
+                    </Link>
+                  </div>
+                  <div className="col-md-4" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/my-camps-list/completed"
+                      className="btn btn-success"
+                    >
+                      <FaCheckCircle /> Visited Camps
+                    </Link>
+                  </div>
+                  <div className="col-md-4" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/my-camps-list/favourites"
+                      className="btn btn-danger"
+                    >
+                      <FaHeart /> Favourite Camps
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          </div>
         </div>
+      </div>
     </BodyContent>
   );
 }
