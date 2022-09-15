@@ -17,11 +17,11 @@ export const data = [
   },
   {
     to: "/login",
-    text: "Sign In",
+    text: "SignIn",
   },
   {
     to: "/register",
-    text: "Sign Up",
+    text: "SignUp",
   },
 ];
 
