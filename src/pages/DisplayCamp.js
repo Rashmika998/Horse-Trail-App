@@ -22,7 +22,11 @@ const styles = {
 export default function DisplayCamp() {
   var url = document.location.href;
   var id = url.toString().split("/")[4];
-  let logInButton = <Link className="text-center" to='/login'><div className="btn btn-outline-primary" >Log in</div></Link>
+  let logInButton = (
+    <Link className="text-center" to="/login">
+      <div className="btn btn-outline-primary">Log in</div>
+    </Link>
+  );
   const { currentUser } = useAuth();
   const [error, setError] = useState("");
   const [userID, setUserID] = useState(null);
@@ -114,7 +118,11 @@ export default function DisplayCamp() {
     } else {
       setUserID(null);
     }
-    if(currentUser){setError("");}else{setError("You are not logged in. Please log in to view all details.");}
+    if (currentUser) {
+      setError("");
+    } else {
+      setError("You are not logged in. Please log in to view all details.");
+    }
     setCampID(id);
     setCheckInStates(id);
 
@@ -130,14 +138,16 @@ export default function DisplayCamp() {
           .catch((e) => {
             console.log(e);
           });
-        const website = document.getElementById("website");
-        website.setAttribute("href", response.data().website);
-        const fb = document.getElementById("fb");
-        fb.setAttribute("href", response.data().facebook);
-        const twitter = document.getElementById("twitter");
-        twitter.setAttribute("href", response.data().twitter);
-        const insta = document.getElementById("insta");
-        insta.setAttribute("href", response.data().instagram);
+        if (currentUser) {
+          const website = document.getElementById("website");
+          website.setAttribute("href", response.data().website);
+          const fb = document.getElementById("fb");
+          fb.setAttribute("href", response.data().facebook);
+          const twitter = document.getElementById("twitter");
+          twitter.setAttribute("href", response.data().twitter);
+          const insta = document.getElementById("insta");
+          insta.setAttribute("href", response.data().instagram);
+        }
 
         const pathBanner = response.data().campName;
         FireStoreService.getCampImages(
@@ -145,8 +155,10 @@ export default function DisplayCamp() {
           response.data().bannerName
         )
           .then((res) => {
-            const bannerImg = document.getElementById("banner");
-            bannerImg.setAttribute("src", res);
+            if (currentUser) {
+              const bannerImg = document.getElementById("banner");
+              bannerImg.setAttribute("src", res);
+            }
           })
           .catch((e) => {
             console.log(e);
@@ -157,8 +169,10 @@ export default function DisplayCamp() {
           response.data().imageGal1Name
         )
           .then((gal1) => {
-            const imageGal1 = document.getElementById("imageGal1");
-            imageGal1.setAttribute("src", gal1);
+            if (currentUser) {
+              const imageGal1 = document.getElementById("imageGal1");
+              imageGal1.setAttribute("src", gal1);
+            }
           })
           .catch((e) => {
             console.log(e);
@@ -169,8 +183,10 @@ export default function DisplayCamp() {
           response.data().imageGal2Name
         )
           .then((gal2) => {
-            const imageGal2 = document.getElementById("imageGal2");
-            imageGal2.setAttribute("src", gal2);
+            if (currentUser) {
+              const imageGal2 = document.getElementById("imageGal2");
+              imageGal2.setAttribute("src", gal2);
+            }
           })
           .catch((e) => {
             console.log(e);
@@ -181,19 +197,23 @@ export default function DisplayCamp() {
           response.data().imageGal3Name
         )
           .then((gal3) => {
-            const imageGal3 = document.getElementById("imageGal3");
-            imageGal3.setAttribute("src", gal3);
+            if (currentUser) {
+              const imageGal3 = document.getElementById("imageGal3");
+              imageGal3.setAttribute("src", gal3);
+            }
           })
           .catch((e) => {
             console.log(e);
           });
 
-        displayCampUsers("reservation", response.data().reservation);
-        displayCampUsers(
-          "paperworkRequired",
-          response.data().paperworkRequired
-        );
-        displayCampSites(response.data().campSiteTypesCheck.campSiteTypes);
+        if (currentUser) {
+          displayCampUsers("reservation", response.data().reservation);
+          displayCampUsers(
+            "paperworkRequired",
+            response.data().paperworkRequired
+          );
+          displayCampSites(response.data().campSiteTypesCheck.campSiteTypes);
+        }
         displaySeasons(response.data().bestSeasonsCheck.bestSeasons);
         displayAmenities(response.data().amenitiesCheck.amenities);
 
@@ -343,53 +363,55 @@ export default function DisplayCamp() {
   }
 
   function displayAmenities(check) {
-    const restroom = document.getElementById("restrooms");
-    const water = document.getElementById("water");
-    const corrals = document.getElementById("corrals");
-    const restaurant = document.getElementById("restaurant");
+    if (currentUser) {
+      const restroom = document.getElementById("restrooms");
+      const water = document.getElementById("water");
+      const restaurant = document.getElementById("restaurant");
+      restroom.setAttribute(
+        "src",
+        "https://img.icons8.com/ios/50/000000/cottage--v1.png"
+      );
+      water.setAttribute(
+        "src",
+        "https://img.icons8.com/ios/50/000000/bottle-of-water.png"
+      );
+      restaurant.setAttribute(
+        "src",
+        "https://img.icons8.com/ios/50/000000/restaurant--v1.png"
+      );
+      if (check.Restrooms == true) {
+        restroom.setAttribute(
+          "src",
+          "https://img.icons8.com/ios-filled/50/000000/cottage--v1.png"
+        );
+      }
+      if (check.Water == true) {
+        water.setAttribute(
+          "src",
+          "https://img.icons8.com/ios-filled/50/000000/bottle-of-water.png"
+        );
+      }
+      if (check.Restaurants == true) {
+        restaurant.setAttribute(
+          "src",
+          "https://img.icons8.com/ios-filled/50/000000/restaurant--v1.png"
+        );
+      }
+    }
     const hookup = document.getElementById("hookup");
-    restroom.setAttribute(
-      "src",
-      "https://img.icons8.com/ios/50/000000/cottage--v1.png"
-    );
-    water.setAttribute(
-      "src",
-      "https://img.icons8.com/ios/50/000000/bottle-of-water.png"
-    );
+    const corrals = document.getElementById("corrals");
     corrals.setAttribute(
       "src",
       "https://img.icons8.com/ios/50/000000/coral.png"
-    );
-    restaurant.setAttribute(
-      "src",
-      "https://img.icons8.com/ios/50/000000/restaurant--v1.png"
     );
     hookup.setAttribute(
       "src",
       "https://img.icons8.com/ios/50/000000/wired-network-connection.png"
     );
-    if (check.Restrooms == true) {
-      restroom.setAttribute(
-        "src",
-        "https://img.icons8.com/ios-filled/50/000000/cottage--v1.png"
-      );
-    }
-    if (check.Water == true) {
-      water.setAttribute(
-        "src",
-        "https://img.icons8.com/ios-filled/50/000000/bottle-of-water.png"
-      );
-    }
     if (check.Corrals == true) {
       corrals.setAttribute(
         "src",
         "https://img.icons8.com/ios-filled/50/000000/coral.png"
-      );
-    }
-    if (check.Restaurants == true) {
-      restaurant.setAttribute(
-        "src",
-        "https://img.icons8.com/ios-filled/50/000000/restaurant--v1.png"
       );
     }
     if (check.Hookup == true) {
@@ -517,7 +539,11 @@ export default function DisplayCamp() {
       className="container"
       style={{ paddingTop: "100px", paddingBottom: "100px" }}
     >
-      {error && <Alert className="text-center" variant="danger">{error}</Alert>}
+      {error && (
+        <Alert className="text-center" variant="danger">
+          {error}
+        </Alert>
+      )}
       {campDetails.length != 0 ? (
         <Card style={{ border: "none" }}>
           <Card.Body>
@@ -544,18 +570,20 @@ export default function DisplayCamp() {
               </h3>
             </Card.Title>
             <div className="row p-3">
-            {currentUser?(<img
-                alt="Banner Image"
-                id="banner"
-                style={{
-                  display: "block",
-                  width: "30%",
-                  height: "auto",
-                  margin: "0px auto",
-                }}
-              ></img>):logInButton}
-            
-              
+              {currentUser ? (
+                <img
+                  alt="Banner Image"
+                  id="banner"
+                  style={{
+                    display: "block",
+                    width: "30%",
+                    height: "auto",
+                    margin: "0px auto",
+                  }}
+                ></img>
+              ) : (
+                logInButton
+              )}
             </div>
             <div className="row text-center">
               <div className="col md-3">
@@ -571,8 +599,11 @@ export default function DisplayCamp() {
                       Road to Camp
                     </Card.Title>
                     <div>
-                    {currentUser?(<h5>{campDetails.roadToCamp}</h5>):logInButton}
-                      
+                      {currentUser ? (
+                        <h5>{campDetails.roadToCamp}</h5>
+                      ) : (
+                        logInButton
+                      )}
                     </div>
                   </Card.Body>
                 </Card>
@@ -589,9 +620,8 @@ export default function DisplayCamp() {
                     >
                       City
                     </Card.Title>
-                    
-                    {currentUser?(<div>{campDetails.city}</div>):logInButton}
-                    
+
+                    {currentUser ? <div>{campDetails.city}</div> : logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -607,9 +637,7 @@ export default function DisplayCamp() {
                     >
                       Phone
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.phone}</div>):logInButton}
-                    
-                    
+                    {currentUser ? <div>{campDetails.phone}</div> : logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -625,9 +653,7 @@ export default function DisplayCamp() {
                     >
                       Email
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.email}</div>):logInButton}
-                    
-                    
+                    {currentUser ? <div>{campDetails.email}</div> : logInButton}
                   </Card.Body>
                 </Card>
               </div>
@@ -647,26 +673,28 @@ export default function DisplayCamp() {
                       Amenities
                     </Card.Title>
                     <div className="row">
-                    <div className="col md-2">
+                      <div className="col md-2">
                         <img alt="Corrals" id="corrals"></img>
                       </div>
-                      
+
                       <div className="col md-2">
                         <img alt="Hookup" id="hookup"></img>
                       </div>
-                      {currentUser?(<>
-                        <div className="col md-2">
-                        <img alt="Restrooms" id="restrooms"></img>
-                      </div>
-                      <div className="col md-2">
-                        <img alt="Water" id="water"></img>
-                      </div>
-                      <div className="col md-2">
-                        <img alt="Restaurant" id="restaurant"></img>
-                      </div>
-                      </>):logInButton}
-                      
-                      
+                      {currentUser ? (
+                        <>
+                          <div className="col md-2">
+                            <img alt="Restrooms" id="restrooms"></img>
+                          </div>
+                          <div className="col md-2">
+                            <img alt="Water" id="water"></img>
+                          </div>
+                          <div className="col md-2">
+                            <img alt="Restaurant" id="restaurant"></img>
+                          </div>
+                        </>
+                      ) : (
+                        logInButton
+                      )}
                     </div>
                   </Card.Body>
                 </Card>
@@ -683,19 +711,21 @@ export default function DisplayCamp() {
                     >
                       Camp Users
                     </Card.Title>
-                    {currentUser?(<div className="row">
-                      <div className="col md-2">
-                        <img alt="Reservation" id="reservation"></img>
+                    {currentUser ? (
+                      <div className="row">
+                        <div className="col md-2">
+                          <img alt="Reservation" id="reservation"></img>
+                        </div>
+                        <div className="col md-2">
+                          <img
+                            alt="PaperWork Required"
+                            id="paperWorkRequired"
+                          ></img>
+                        </div>
                       </div>
-                      <div className="col md-2">
-                        <img
-                          alt="PaperWork Required"
-                          id="paperWorkRequired"
-                        ></img>
-                      </div>
-                    </div>):logInButton}
-                    
-                    
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -743,22 +773,24 @@ export default function DisplayCamp() {
                     >
                       Camp Site Types
                     </Card.Title>
-                    {currentUser?(<div className="row">
-                      <div className="col md-3">
-                        <img alt="Dispersed" id="dispersed"></img>
+                    {currentUser ? (
+                      <div className="row">
+                        <div className="col md-3">
+                          <img alt="Dispersed" id="dispersed"></img>
+                        </div>
+                        <div className="col md-3">
+                          <img alt="Tent Site" id="tentSite"></img>
+                        </div>
+                        <div className="col md-3">
+                          <img alt="Rv Site" id="rvSite"></img>
+                        </div>
+                        <div className="col md-3">
+                          <img alt="Cabins" id="cabins"></img>
+                        </div>
                       </div>
-                      <div className="col md-3">
-                        <img alt="Tent Site" id="tentSite"></img>
-                      </div>
-                      <div className="col md-3">
-                        <img alt="Rv Site" id="rvSite"></img>
-                      </div>
-                      <div className="col md-3">
-                        <img alt="Cabins" id="cabins"></img>
-                      </div>
-                    </div>):logInButton}
-                    
-                    
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -778,9 +810,11 @@ export default function DisplayCamp() {
                     >
                       Restrictions
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.restrictions}</div>):logInButton}
-                    
-                    
+                    {currentUser ? (
+                      <div>{campDetails.restrictions}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -796,9 +830,11 @@ export default function DisplayCamp() {
                     >
                       Pet policy
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.petPolicy}</div>):logInButton}
-                    
-                    
+                    {currentUser ? (
+                      <div>{campDetails.petPolicy}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -814,8 +850,11 @@ export default function DisplayCamp() {
                     >
                       Reservation Link
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.reservationLink}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.reservationLink}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -831,8 +870,11 @@ export default function DisplayCamp() {
                     >
                       Reservation Call
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.reservationCall}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.reservationCall}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -851,8 +893,11 @@ export default function DisplayCamp() {
                     >
                       Reservation Description
                     </Card.Title>
-                    {currentUser?( <div>{campDetails.reservationDescription}</div>):logInButton}
-                   
+                    {currentUser ? (
+                      <div>{campDetails.reservationDescription}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -868,8 +913,11 @@ export default function DisplayCamp() {
                     >
                       Reservation Email
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.reservationEmail}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.reservationEmail}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -885,8 +933,11 @@ export default function DisplayCamp() {
                     >
                       Horse Site
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.horseSite}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.horseSite}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -902,8 +953,11 @@ export default function DisplayCamp() {
                     >
                       Cost Per Night
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.costPerNight}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.costPerNight}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -922,37 +976,39 @@ export default function DisplayCamp() {
                     >
                       Links
                     </Card.Title>
-                    {currentUser?(<>
-                      <a id="website">
-                      <img
-                        alt="Website"
-                        src="https://img.icons8.com/ios-filled/50/000000/internet.png"
-                      ></img>
-                    </a>
+                    {currentUser ? (
+                      <>
+                        <a id="website">
+                          <img
+                            alt="Website"
+                            src="https://img.icons8.com/ios-filled/50/000000/internet.png"
+                          ></img>
+                        </a>
 
-                    <a id="fb">
-                      <img
-                        alt="Facebook"
-                        src="https://img.icons8.com/ios-filled/50/000000/facebook-new.png"
-                      ></img>
-                    </a>
+                        <a id="fb">
+                          <img
+                            alt="Facebook"
+                            src="https://img.icons8.com/ios-filled/50/000000/facebook-new.png"
+                          ></img>
+                        </a>
 
-                    <a id="twitter">
-                      <img
-                        alt="Twitter"
-                        src="https://img.icons8.com/ios-filled/50/000000/twitter.png"
-                      ></img>
-                    </a>
+                        <a id="twitter">
+                          <img
+                            alt="Twitter"
+                            src="https://img.icons8.com/ios-filled/50/000000/twitter.png"
+                          ></img>
+                        </a>
 
-                    <a id="insta">
-                      <img
-                        alt="Instagram"
-                        src="https://img.icons8.com/ios-filled/50/000000/instagram-new--v1.png"
-                      ></img>
-                    </a>
-                    </>):logInButton}
-                    
-                    
+                        <a id="insta">
+                          <img
+                            alt="Instagram"
+                            src="https://img.icons8.com/ios-filled/50/000000/instagram-new--v1.png"
+                          ></img>
+                        </a>
+                      </>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -968,8 +1024,11 @@ export default function DisplayCamp() {
                     >
                       Camp Notes
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.campNotes}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.campNotes}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -985,8 +1044,11 @@ export default function DisplayCamp() {
                     >
                       Camp Description
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.campDescription}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.campDescription}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -1003,8 +1065,11 @@ export default function DisplayCamp() {
                     >
                       Reservations and Pricing
                     </Card.Title>
-                    {currentUser?(<div>{campDetails.resPricing}</div>):logInButton}
-                    
+                    {currentUser ? (
+                      <div>{campDetails.resPricing}</div>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -1048,7 +1113,11 @@ export default function DisplayCamp() {
                     >
                       Nearby Places to Ride
                     </Card.Title>
-                    {currentUser?(<GetNearbyPlaces id={campID} type="camp" />):logInButton}
+                    {currentUser ? (
+                      <GetNearbyPlaces id={campID} type="camp" />
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -1064,18 +1133,20 @@ export default function DisplayCamp() {
                     >
                       Parking Image
                     </Card.Title>
-                    {currentUser?(<img
-                      alt="Parking Image"
-                      id="parkingImage"
-                      style={{
-                        display: "block",
-                        width: "30%",
-                        height: "auto",
-                        margin: "0px auto",
-                      }}
-                    ></img>):logInButton}
-                   
-                    
+                    {currentUser ? (
+                      <img
+                        alt="Parking Image"
+                        id="parkingImage"
+                        style={{
+                          display: "block",
+                          width: "30%",
+                          height: "auto",
+                          margin: "0px auto",
+                        }}
+                      ></img>
+                    ) : (
+                      logInButton
+                    )}
                   </Card.Body>
                 </Card>
               </div>
@@ -1093,288 +1164,295 @@ export default function DisplayCamp() {
                   >
                     Camp Gallery
                   </Card.Title>
-                  {currentUser?(<div
-                    id="carouselExampleIndicators"
-                    className="carousel slide"
-                    data-bs-ride="true"
-                  >
-                    <div className="carousel-indicators">
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to="0"
-                        className="active"
-                        aria-current="true"
-                        aria-label="Slide 1"
-                      ></button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to="1"
-                        aria-label="Slide 2"
-                      ></button>
-                      <button
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide-to="2"
-                        aria-label="Slide 3"
-                      ></button>
-                    </div>
-                    <div className="carousel-inner">
-                      <div className="carousel-item active">
-                        <img
-                          alt="Gallery Image 01"
-                          id="imageGal1"
-                          className="d-block w-25"
-                          style={{
-                            display: "block",
-                            width: "40%",
-                            height: "auto",
-                            margin: "0px auto",
-                          }}
-                        ></img>
-                      </div>
-                      <div className="carousel-item">
-                        <img
-                          alt="Gallery Image 02"
-                          id="imageGal2"
-                          className="d-block w-25"
-                          style={{
-                            display: "block",
-                            width: "40%",
-                            height: "auto",
-                            margin: "0px auto",
-                          }}
-                        ></img>
-                      </div>
-                      <div className="carousel-item">
-                        <img
-                          alt="Gallery Image 03"
-                          id="imageGal3"
-                          className="d-block w-25"
-                          style={{
-                            display: "block",
-                            width: "40%",
-                            height: "auto",
-                            margin: "0px auto",
-                          }}
-                        ></img>
-                      </div>
-                    </div>
-                    <button
-                      className="carousel-control-prev"
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide="prev"
+                  {currentUser ? (
+                    <div
+                      id="carouselExampleIndicators"
+                      className="carousel slide"
+                      data-bs-ride="true"
                     >
-                      <span
-                        className="carousel-control-prev-icon"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="visually-hidden">Previous</span>
-                    </button>
-                    <button
-                      className="carousel-control-next"
-                      type="button"
-                      data-bs-target="#carouselExampleIndicators"
-                      data-bs-slide="next"
-                    >
-                      <span
-                        className="carousel-control-next-icon"
-                        aria-hidden="true"
-                      ></span>
-                      <span className="visually-hidden">Next</span>
-                    </button>
-                  </div>):logInButton}
-                  
-                  
+                      <div className="carousel-indicators">
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide-to="0"
+                          className="active"
+                          aria-current="true"
+                          aria-label="Slide 1"
+                        ></button>
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide-to="1"
+                          aria-label="Slide 2"
+                        ></button>
+                        <button
+                          type="button"
+                          data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide-to="2"
+                          aria-label="Slide 3"
+                        ></button>
+                      </div>
+                      <div className="carousel-inner">
+                        <div className="carousel-item active">
+                          <img
+                            alt="Gallery Image 01"
+                            id="imageGal1"
+                            className="d-block w-25"
+                            style={{
+                              display: "block",
+                              width: "40%",
+                              height: "auto",
+                              margin: "0px auto",
+                            }}
+                          ></img>
+                        </div>
+                        <div className="carousel-item">
+                          <img
+                            alt="Gallery Image 02"
+                            id="imageGal2"
+                            className="d-block w-25"
+                            style={{
+                              display: "block",
+                              width: "40%",
+                              height: "auto",
+                              margin: "0px auto",
+                            }}
+                          ></img>
+                        </div>
+                        <div className="carousel-item">
+                          <img
+                            alt="Gallery Image 03"
+                            id="imageGal3"
+                            className="d-block w-25"
+                            style={{
+                              display: "block",
+                              width: "40%",
+                              height: "auto",
+                              margin: "0px auto",
+                            }}
+                          ></img>
+                        </div>
+                      </div>
+                      <button
+                        className="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="prev"
+                      >
+                        <span
+                          className="carousel-control-prev-icon"
+                          aria-hidden="true"
+                        ></span>
+                        <span className="visually-hidden">Previous</span>
+                      </button>
+                      <button
+                        className="carousel-control-next"
+                        type="button"
+                        data-bs-target="#carouselExampleIndicators"
+                        data-bs-slide="next"
+                      >
+                        <span
+                          className="carousel-control-next-icon"
+                          aria-hidden="true"
+                        ></span>
+                        <span className="visually-hidden">Next</span>
+                      </button>
+                    </div>
+                  ) : (
+                    logInButton
+                  )}
                 </Card.Body>
               </Card>
             </div>
             <br></br>
             <div>
-              {currentUser?(fav && completed && !checkedIn ? null : !fav &&
-                completed &&
-                !checkedIn ? (
-                <>
-                  <div
-                    className="btn btn-outline-danger"
-                    onClick={(event) => onClickAddFavourite(event, campID)}
-                  >
-                    Add to favourites&nbsp;
-                    <FaHeart className="justify-content-center" />
-                  </div>
-                  &nbsp; &nbsp; &nbsp; &nbsp;
-                  {checkIn == "Waiting" ? (
+              {currentUser ? (
+                fav && completed && !checkedIn ? null : !fav &&
+                  completed &&
+                  !checkedIn ? (
+                  <>
                     <div
-                      class="spinner-border text-primary "
-                      role="status"
-                    ></div>
-                  ) : null}
-                  {checkIn == "Success" ? (
-                    <div class="alert alert-success mt-4" role="alert">
-                      Change has been saved successfully.
+                      className="btn btn-outline-danger"
+                      onClick={(event) => onClickAddFavourite(event, campID)}
+                    >
+                      Add to favourites&nbsp;
+                      <FaHeart className="justify-content-center" />
                     </div>
-                  ) : null}
-                  {checkIn == "Error" ? (
-                    <div class="alert alert-danger mt-4" role="alert">
-                      Error occurred! Please try again.
-                    </div>
-                  ) : null}
-                </>
-              ) : checkedIn == false ? (
-                <div>
-                  {
-                    completed ? (
-                      <div>
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    {checkIn == "Waiting" ? (
+                      <div
+                        class="spinner-border text-primary "
+                        role="status"
+                      ></div>
+                    ) : null}
+                    {checkIn == "Success" ? (
+                      <div class="alert alert-success mt-4" role="alert">
+                        Change has been saved successfully.
+                      </div>
+                    ) : null}
+                    {checkIn == "Error" ? (
+                      <div class="alert alert-danger mt-4" role="alert">
+                        Error occurred! Please try again.
+                      </div>
+                    ) : null}
+                  </>
+                ) : checkedIn == false ? (
+                  <div>
+                    {
+                      completed ? (
                         <div>
-                          <div className="row">
-                            <div
-                              className="form-radio col-md-5"
-                              style={{ marginBottom: "15px" }}
-                            >
-                              <label style={{ marginBottom: "5px" }}>
-                                <h4>Rate the Trail</h4>(submit the rate by
-                                clicking the required stars)
-                              </label>
-                              <div style={styles.stars}>
-                                {stars.map((_, index) => {
-                                  return (
-                                    <FaStar
-                                      key={index}
-                                      size={24}
-                                      onClick={() => handleClick(index + 1)}
-                                      onMouseOver={() =>
-                                        handleMouseOver(index + 1)
-                                      }
-                                      onMouseLeave={handleMouseLeave}
-                                      color={
-                                        (hoverValue || currentValue) > index
-                                          ? colors.orange
-                                          : colors.grey
-                                      }
-                                      style={{
-                                        marginRight: 10,
-                                        cursor: "pointer",
-                                      }}
-                                    />
-                                  );
-                                })}
+                          <div>
+                            <div className="row">
+                              <div
+                                className="form-radio col-md-5"
+                                style={{ marginBottom: "15px" }}
+                              >
+                                <label style={{ marginBottom: "5px" }}>
+                                  <h4>Rate the Trail</h4>(submit the rate by
+                                  clicking the required stars)
+                                </label>
+                                <div style={styles.stars}>
+                                  {stars.map((_, index) => {
+                                    return (
+                                      <FaStar
+                                        key={index}
+                                        size={24}
+                                        onClick={() => handleClick(index + 1)}
+                                        onMouseOver={() =>
+                                          handleMouseOver(index + 1)
+                                        }
+                                        onMouseLeave={handleMouseLeave}
+                                        color={
+                                          (hoverValue || currentValue) > index
+                                            ? colors.orange
+                                            : colors.grey
+                                        }
+                                        style={{
+                                          marginRight: 10,
+                                          cursor: "pointer",
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                                <br></br>
+                                {rateResult ? (
+                                  <div class="alert alert-info" role="alert">
+                                    {rateResult}
+                                  </div>
+                                ) : null}
                               </div>
-                              <br></br>
-                              {rateResult ? (
-                                <div class="alert alert-info" role="alert">
-                                  {rateResult}
+                              <div className="col-md-7">
+                                <form className="needs-validation">
+                                  <div
+                                    className="form-group"
+                                    style={{ marginBottom: "15px" }}
+                                  >
+                                    <label style={{ marginBottom: "5px" }}>
+                                      Add Review
+                                    </label>
+                                    <textarea
+                                      name="review"
+                                      className="form-control"
+                                      onChange={(e) => {
+                                        setReview(e.target.value);
+                                      }}
+                                    ></textarea>
+                                  </div>
+                                  {reviewResult ? (
+                                    <div class="alert alert-info" role="alert">
+                                      {reviewResult}
+                                    </div>
+                                  ) : null}
+                                  <div className="d-grid">
+                                    <button
+                                      className="btn btn-block"
+                                      type="submit"
+                                      style={{
+                                        marginTop: "15px",
+                                        backgroundColor: "#071c2f",
+                                        color: "white",
+                                      }}
+                                      onClick={submitReview}
+                                    >
+                                      Add Review
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <form className="needs-validation">
+                          <div className="row">
+                            <div className="col-md-5">
+                              <button
+                                className="btn btn-primary"
+                                onClick={addCheckIn}
+                              >
+                                Check In
+                              </button>
+                              &nbsp; &nbsp; &nbsp; &nbsp;
+                              {checkIn == "Waiting" ? (
+                                <div
+                                  class="spinner-border text-primary "
+                                  role="status"
+                                ></div>
+                              ) : null}
+                              {checkIn == "Success" ? (
+                                <div
+                                  class="alert alert-success mt-4"
+                                  role="alert"
+                                >
+                                  Change has been saved successfully. Please
+                                  referesh the page.
+                                </div>
+                              ) : null}
+                              {checkIn == "Error" ? (
+                                <div
+                                  class="alert alert-danger mt-4"
+                                  role="alert"
+                                >
+                                  Error occurred! Please try again.
                                 </div>
                               ) : null}
                             </div>
-                            <div className="col-md-7">
-                              <form className="needs-validation">
-                                <div
-                                  className="form-group"
-                                  style={{ marginBottom: "15px" }}
-                                >
-                                  <label style={{ marginBottom: "5px" }}>
-                                    Add Review
-                                  </label>
-                                  <textarea
-                                    name="review"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      setReview(e.target.value);
-                                    }}
-                                  ></textarea>
-                                </div>
-                                {reviewResult ? (
-                                  <div class="alert alert-info" role="alert">
-                                    {reviewResult}
-                                  </div>
-                                ) : null}
-                                <div className="d-grid">
-                                  <button
-                                    className="btn btn-block"
-                                    type="submit"
-                                    style={{
-                                      marginTop: "15px",
-                                      backgroundColor: "#071c2f",
-                                      color: "white",
-                                    }}
-                                    onClick={submitReview}
-                                  >
-                                    Add Review
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <form className="needs-validation">
-                        <div className="row">
-                          <div className="col-md-5">
-                            <button
-                              className="btn btn-primary"
-                              onClick={addCheckIn}
-                            >
-                              Check In
-                            </button>
-                            &nbsp; &nbsp; &nbsp; &nbsp;
-                            {checkIn == "Waiting" ? (
-                              <div
-                                class="spinner-border text-primary "
-                                role="status"
-                              ></div>
-                            ) : null}
-                            {checkIn == "Success" ? (
-                              <div
-                                class="alert alert-success mt-4"
-                                role="alert"
-                              >
-                                Change has been saved successfully. Please
-                                referesh the page.
-                              </div>
-                            ) : null}
-                            {checkIn == "Error" ? (
-                              <div class="alert alert-danger mt-4" role="alert">
-                                Error occurred! Please try again.
-                              </div>
-                            ) : null}
-                          </div>
-                        </div>
-                      </form>
-                    ) /**display it as checked in */
-                  }
-                </div>
-              ) : (
-                <>
-                  <button className="btn btn-secondary">Checked In</button>
-                  &nbsp;&nbsp;
-                  <div
-                    className="btn btn-success"
-                    onClick={(event) => onClickCompleted(event, campID)}
-                  >
-                    <FaCheckCircle /> &nbsp;Mark As Completed
+                        </form>
+                      ) /**display it as checked in */
+                    }
                   </div>
-                  &nbsp; &nbsp; &nbsp; &nbsp;
-                  {checkIn == "Waiting" ? (
+                ) : (
+                  <>
+                    <button className="btn btn-secondary">Checked In</button>
+                    &nbsp;&nbsp;
                     <div
-                      class="spinner-border text-primary "
-                      role="status"
-                    ></div>
-                  ) : null}
-                  {checkIn == "Success" ? (
-                    <div class="alert alert-success mt-4" role="alert">
-                      Change has been saved successfully.
+                      className="btn btn-success"
+                      onClick={(event) => onClickCompleted(event, campID)}
+                    >
+                      <FaCheckCircle /> &nbsp;Mark As Completed
                     </div>
-                  ) : null}
-                  {checkIn == "Error" ? (
-                    <div class="alert alert-danger mt-4" role="alert">
-                      Error occurred! Please try again.
-                    </div>
-                  ) : null}
-                </>
-              )):null}
+                    &nbsp; &nbsp; &nbsp; &nbsp;
+                    {checkIn == "Waiting" ? (
+                      <div
+                        class="spinner-border text-primary "
+                        role="status"
+                      ></div>
+                    ) : null}
+                    {checkIn == "Success" ? (
+                      <div class="alert alert-success mt-4" role="alert">
+                        Change has been saved successfully.
+                      </div>
+                    ) : null}
+                    {checkIn == "Error" ? (
+                      <div class="alert alert-danger mt-4" role="alert">
+                        Error occurred! Please try again.
+                      </div>
+                    ) : null}
+                  </>
+                )
+              ) : null}
             </div>
           </Card.Body>
         </Card>
