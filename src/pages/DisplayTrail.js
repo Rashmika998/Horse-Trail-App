@@ -6,6 +6,8 @@ import GetNearbyPlaces from "./GetNearbyPlaces";
 import DataTable from "react-data-table-component";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
+import { BodyContent } from "../globalStyles";
+import { height } from "@mui/system";
 
 const colors = {
   orange: "#FFBA5A",
@@ -46,7 +48,7 @@ export default function DisplayTrail() {
   const [checkedIn, setChekedIn] = useState(false); //checked in state
   const [completed, setCompleted] = useState(false); //completed state
   const [fav, setFav] = useState(false); //fav state
-
+  const [bannerURL, setBannerURL] = useState("");
   const handleClick = (value) => {
     setCurrentValue(value);
     FireStoreService.addRatings(trailID, value)
@@ -144,6 +146,7 @@ export default function DisplayTrail() {
           .then((res) => {
             if (currentUser) {
               const bannerImg = document.getElementById("banner");
+              setBannerURL(res);
               bannerImg.setAttribute("src", res);
             }
           })
@@ -548,790 +551,807 @@ export default function DisplayTrail() {
   }
 
   return (
-    <div
-      className="container"
-      style={{ paddingTop: "100px", paddingBottom: "100px" }}
+    <BodyContent
+      style={{
+        backgroundImage: `url(${bannerURL})`,
+        height: "100%",
+        position:"absolute"
+      }}
     >
-      {error && (
-        <Alert className="text-center" variant="danger">
-          {error}
-        </Alert>
-      )}
-      {trailDetails.length != 0 ? (
-        <Card style={{ border: "none" }}>
-          <Card.Body>
-            <Card.Title>
-              <h1 className="text-center">{trailDetails.trailName}</h1>
-              <h2 className="text-center">{trailDetails.parkName}</h2>
-              <h3 className="text-center">{trailDetails.trailType}</h3>
-              <h4 className="text-center">{trailDetails.state}</h4>
-              <div style={styles.stars} className="justify-content-center">
-                <FaStar
-                  size={24}
-                  style={{
-                    marginRight: 10,
-                    cursor: "pointer",
-                    color: "orange",
-                  }}
-                />
-                <div id="starRate"></div>
+      <div
+        className="container"
+        style={{
+          paddingTop: "100px",
+          paddingBottom: "100px",
+        }}
+      >
+        {error && (
+          <Alert className="text-center" variant="danger">
+            {error}
+          </Alert>
+        )}
+
+        {trailDetails.length != 0 ? (
+          <Card style={{ border: "none" }}>
+            <Card.Body>
+              <Card.Title>
+                <h1 className="text-center">{trailDetails.trailName}</h1>
+                <h2 className="text-center">{trailDetails.parkName}</h2>
+                <h3 className="text-center">{trailDetails.trailType}</h3>
+                <h4 className="text-center">{trailDetails.state}</h4>
+                <div style={styles.stars} className="justify-content-center">
+                  <FaStar
+                    size={24}
+                    style={{
+                      marginRight: 10,
+                      cursor: "pointer",
+                      color: "orange",
+                    }}
+                  />
+                  <div id="starRate"></div>
+                </div>
+                <h3 className="text-center">
+                  {fav && completed && !checkedIn ? (
+                    <FaHeart className="justify-content-center" color="red" />
+                  ) : null}
+                </h3>
+              </Card.Title>
+              <div className="row p-3">
+                {currentUser ? (
+                <></>
+                    // <img
+                    //   alt="Banner Image"
+                    //   id="banner"
+                    //   style={{
+                    //     display: "block",
+                    //     width: "30%",
+                    //     height: "auto",
+                    //     margin: "0px auto",
+                    //   }}
+                    // ></img>
+                 
+                ) : (
+                  logInButton
+                )}
               </div>
-              <h3 className="text-center">
-                {fav && completed && !checkedIn ? (
-                  <FaHeart className="justify-content-center" color="red" />
-                ) : null}
-              </h3>
-            </Card.Title>
-            <div className="row p-3">
-              {currentUser ? (
-                <img
-                  alt="Banner Image"
-                  id="banner"
-                  style={{
-                    display: "block",
-                    width: "30%",
-                    height: "auto",
-                    margin: "0px auto",
-                  }}
-                ></img>
-              ) : (
-                logInButton
-              )}
-            </div>
-            <div className="row text-center">
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Miles
-                    </Card.Title>
-                    <div>
-                      <h5>{trailDetails.miles}</h5>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Elevation Gain
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.elevationGain}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-6">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Head
-                    </Card.Title>
-                    {currentUser ? (
-                      <div className="row">
-                        <div className="col md-4">
-                          <img alt="Restrooms" id="restrooms"></img>
-                        </div>
-                        <div className="col md-4">
-                          <img alt="Water" id="water"></img>
-                        </div>
-                        <div className="col md-4">
-                          <img alt="Corrals" id="corrals"></img>
-                        </div>
+              <div className="row text-center">
+                <div className="col md-3">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Miles
+                      </Card.Title>
+                      <div>
+                        <h5>{trailDetails.miles}</h5>
                       </div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-            <br></br>
-            <div className="row text-center">
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Users
-                    </Card.Title>
-                    <div className="row">
-                      <div className="col md-3">
-                        <img alt="Bikers" id="bikers"></img>
-                      </div>
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-3">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Elevation Gain
+                      </Card.Title>
                       {currentUser ? (
-                        <>
-                          <div className="col md-3">
-                            <img alt="Hikers" id="hikers"></img>
-                          </div>
-                          <div className="col md-3">
-                            <img alt="Dogs" id="dogs"></img>
-                          </div>
-                          <div className="col md-3">
-                            <img alt="ATV or OffRoad" id="atvOrOffroad"></img>
-                          </div>
-                        </>
+                        <div>{trailDetails.elevationGain}</div>
                       ) : (
                         logInButton
                       )}
-                    </div>
-                  </Card.Body>
-                </Card>
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-6">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Trail Head
+                      </Card.Title>
+                      {currentUser ? (
+                        <div className="row">
+                          <div className="col md-4">
+                            <img alt="Restrooms" id="restrooms"></img>
+                          </div>
+                          <div className="col md-4">
+                            <img alt="Water" id="water"></img>
+                          </div>
+                          <div className="col md-4">
+                            <img alt="Corrals" id="corrals"></img>
+                          </div>
+                        </div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
               </div>
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Obstacles
-                    </Card.Title>
-                    {currentUser ? (
+              <br></br>
+              <div className="row text-center">
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Trail Users
+                      </Card.Title>
                       <div className="row">
-                        <div className="col md-4">
-                          <img alt="Bridges" id="bridges"></img>
+                        <div className="col md-3">
+                          <img alt="Bikers" id="bikers"></img>
                         </div>
-                        <div className="col md-4">
-                          <img alt="Water Crossings" id="waterCrossing"></img>
-                        </div>
-                        <div className="col md-4">
-                          <img alt="Rocks" id="rocks"></img>
-                        </div>
+                        {currentUser ? (
+                          <>
+                            <div className="col md-3">
+                              <img alt="Hikers" id="hikers"></img>
+                            </div>
+                            <div className="col md-3">
+                              <img alt="Dogs" id="dogs"></img>
+                            </div>
+                            <div className="col md-3">
+                              <img alt="ATV or OffRoad" id="atvOrOffroad"></img>
+                            </div>
+                          </>
+                        ) : (
+                          logInButton
+                        )}
                       </div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Seasons
-                    </Card.Title>
-                    <div className="row">
-                      <div className="col md-3">
-                        <img alt="Spring" id="spring"></img>
-                      </div>
-                      <div className="col md-3">
-                        <img alt="Summer" id="summer"></img>
-                      </div>
-                      <div className="col md-3">
-                        <img alt="Fall" id="fall"></img>
-                      </div>
-                      <div className="col md-3">
-                        <img alt="Winter" id="winter"></img>
-                      </div>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-            <br></br>
-            <div className="row text-center">
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Description
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.description}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Notes
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.trailNotes}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Restrictions
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.restrictions}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-            <br></br>
-            <div className="row text-center">
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Parking Spots
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.parkingSpots}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Parking Notes
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.parkingNotes}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Keywords/Trail Tags
-                    </Card.Title>
-                    <div>{trailDetails.keywords}</div>
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Map Link
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>
-                        <a
-                          id="trailMapLink"
-                          target="_blank"
-                          style={{ textDecoration: "none" }}
-                        >
-                          Click Here
-                        </a>
-                      </div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-            <br></br>
-            <div className="row text-center">
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Map
-                    </Card.Title>
-                    {currentUser ? (
-                      <img
-                        alt="Trail map Image"
-                        id="trailMapImage"
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
                         style={{
-                          display: "block",
-                          width: "30%",
-                          height: "auto",
-                          margin: "0px auto",
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
                         }}
-                      ></img>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Parking Image
-                    </Card.Title>
-                    {currentUser ? (
-                      <img
-                        alt="Parking Image"
-                        id="parkingImage"
+                      >
+                        Obstacles
+                      </Card.Title>
+                      {currentUser ? (
+                        <div className="row">
+                          <div className="col md-4">
+                            <img alt="Bridges" id="bridges"></img>
+                          </div>
+                          <div className="col md-4">
+                            <img alt="Water Crossings" id="waterCrossing"></img>
+                          </div>
+                          <div className="col md-4">
+                            <img alt="Rocks" id="rocks"></img>
+                          </div>
+                        </div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
                         style={{
-                          display: "block",
-                          width: "30%",
-                          height: "auto",
-                          margin: "0px auto",
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
                         }}
-                      ></img>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-            <br></br>
-            <div className="row text-center">
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Trail Reviews
-                    </Card.Title>
-                    <DataTable
-                      responsive
-                      columns={columns}
-                      data={allReviews}
-                      striped={true}
-                      highlightOnHover={true}
-                      pagination
-                      paginationComponent={BootyPagination}
-                      defaultSortFieldID={1}
-                    />
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-4">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title
-                      style={{
-                        backgroundColor: "#101522",
-                        color: "white",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      Nearby Horse Camping
-                    </Card.Title>
-                    {currentUser ? (
-                      <div>
-                        <GetNearbyPlaces id={trailID} type="trail" />
-                      </div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-            </div>
-            <div className="row text-center">
-              <Card style={{ border: "none" }}>
-                <Card.Body>
-                  <Card.Title
-                    style={{
-                      backgroundColor: "#101522",
-                      color: "white",
-                      borderRadius: "5px",
-                    }}
-                  >
-                    Trail Gallery
-                  </Card.Title>
-                  {currentUser ? (
-                    <div
-                      id="carouselExampleIndicators"
-                      className="carousel slide"
-                      data-bs-ride="true"
-                    >
-                      <div className="carousel-indicators">
-                        <button
-                          type="button"
-                          data-bs-target="#carouselExampleIndicators"
-                          data-bs-slide-to="0"
-                          className="active"
-                          aria-current="true"
-                          aria-label="Slide 1"
-                        ></button>
-                        <button
-                          type="button"
-                          data-bs-target="#carouselExampleIndicators"
-                          data-bs-slide-to="1"
-                          aria-label="Slide 2"
-                        ></button>
-                        <button
-                          type="button"
-                          data-bs-target="#carouselExampleIndicators"
-                          data-bs-slide-to="2"
-                          aria-label="Slide 3"
-                        ></button>
-                      </div>
-                      <div className="carousel-inner">
-                        <div className="carousel-item active">
-                          <img
-                            alt="Gallery Image 01"
-                            id="imageGal1"
-                            className="d-block w-25"
-                            style={{
-                              display: "block",
-                              width: "40%",
-                              height: "auto",
-                              margin: "0px auto",
-                            }}
-                          ></img>
-                        </div>
-                        <div className="carousel-item">
-                          <img
-                            alt="Gallery Image 02"
-                            id="imageGal2"
-                            className="d-block w-25"
-                            style={{
-                              display: "block",
-                              width: "40%",
-                              height: "auto",
-                              margin: "0px auto",
-                            }}
-                          ></img>
-                        </div>
-                        <div className="carousel-item">
-                          <img
-                            alt="Gallery Image 03"
-                            id="imageGal3"
-                            className="d-block w-25"
-                            style={{
-                              display: "block",
-                              width: "40%",
-                              height: "auto",
-                              margin: "0px auto",
-                            }}
-                          ></img>
-                        </div>
-                      </div>
-                      <button
-                        className="carousel-control-prev"
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="prev"
                       >
-                        <span
-                          className="carousel-control-prev-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Previous</span>
-                      </button>
-                      <button
-                        className="carousel-control-next"
-                        type="button"
-                        data-bs-target="#carouselExampleIndicators"
-                        data-bs-slide="next"
+                        Seasons
+                      </Card.Title>
+                      <div className="row">
+                        <div className="col md-3">
+                          <img alt="Spring" id="spring"></img>
+                        </div>
+                        <div className="col md-3">
+                          <img alt="Summer" id="summer"></img>
+                        </div>
+                        <div className="col md-3">
+                          <img alt="Fall" id="fall"></img>
+                        </div>
+                        <div className="col md-3">
+                          <img alt="Winter" id="winter"></img>
+                        </div>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
+              <br></br>
+              <div className="row text-center">
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
                       >
-                        <span
-                          className="carousel-control-next-icon"
-                          aria-hidden="true"
-                        ></span>
-                        <span className="visually-hidden">Next</span>
-                      </button>
-                    </div>
-                  ) : (
-                    logInButton
-                  )}
-                </Card.Body>
-              </Card>
-            </div>
-            <br></br>
-            <div>
-              {currentUser ? (
-                fav && completed && !checkedIn ? null : !fav &&
-                  completed &&
-                  !checkedIn ? (
-                  <>
-                    <div
-                      className="btn btn-outline-danger"
-                      onClick={(event) => onClickAddFavourite(event, trailID)}
-                    >
-                      Add to favourites&nbsp;
-                      <FaHeart className="justify-content-center" />
-                    </div>
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                    {checkIn == "Waiting" ? (
-                      <div
-                        class="spinner-border text-primary "
-                        role="status"
-                      ></div>
-                    ) : null}
-                    {checkIn == "Success" ? (
-                      <div class="alert alert-success mt-4" role="alert">
-                        Change has been saved successfully.
-                      </div>
-                    ) : null}
-                    {checkIn == "Error" ? (
-                      <div class="alert alert-danger mt-4" role="alert">
-                        Error occurred! Please try again.
-                      </div>
-                    ) : null}
-                  </>
-                ) : checkedIn == false ? (
-                  <div>
-                    {completed ? (
-                      <div>
+                        Trail Description
+                      </Card.Title>
+                      {currentUser ? (
+                        <div>{trailDetails.description}</div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Trail Notes
+                      </Card.Title>
+                      {currentUser ? (
+                        <div>{trailDetails.trailNotes}</div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Restrictions
+                      </Card.Title>
+                      {currentUser ? (
+                        <div>{trailDetails.restrictions}</div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
+              <br></br>
+              <div className="row text-center">
+                <div className="col md-3">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Parking Spots
+                      </Card.Title>
+                      {currentUser ? (
+                        <div>{trailDetails.parkingSpots}</div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-3">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Parking Notes
+                      </Card.Title>
+                      {currentUser ? (
+                        <div>{trailDetails.parkingNotes}</div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-3">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Keywords/Trail Tags
+                      </Card.Title>
+                      <div>{trailDetails.keywords}</div>
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-3">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Trail Map Link
+                      </Card.Title>
+                      {currentUser ? (
                         <div>
-                          <div className="row">
-                            <div
-                              className="form-radio col-md-5"
-                              style={{ marginBottom: "15px" }}
-                            >
-                              <label style={{ marginBottom: "5px" }}>
-                                <h4>Rate the Trail</h4>(submit the rate by
-                                clicking the required stars)
-                              </label>
-                              <div style={styles.stars}>
-                                {stars.map((_, index) => {
-                                  return (
-                                    <FaStar
-                                      key={index}
-                                      size={24}
-                                      onClick={() => handleClick(index + 1)}
-                                      onMouseOver={() =>
-                                        handleMouseOver(index + 1)
-                                      }
-                                      onMouseLeave={handleMouseLeave}
-                                      color={
-                                        (hoverValue || currentValue) > index
-                                          ? colors.orange
-                                          : colors.grey
-                                      }
-                                      style={{
-                                        marginRight: 10,
-                                        cursor: "pointer",
-                                      }}
-                                    />
-                                  );
-                                })}
+                          <a
+                            id="trailMapLink"
+                            target="_blank"
+                            style={{ textDecoration: "none" }}
+                          >
+                            Click Here
+                          </a>
+                        </div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
+              <br></br>
+              <div className="row text-center">
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Trail Map
+                      </Card.Title>
+                      {currentUser ? (
+                        <img
+                          alt="Trail map Image"
+                          id="trailMapImage"
+                          style={{
+                            display: "block",
+                            width: "30%",
+                            height: "auto",
+                            margin: "0px auto",
+                          }}
+                        ></img>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Parking Image
+                      </Card.Title>
+                      {currentUser ? (
+                        <img
+                          alt="Parking Image"
+                          id="parkingImage"
+                          style={{
+                            display: "block",
+                            width: "30%",
+                            height: "auto",
+                            margin: "0px auto",
+                          }}
+                        ></img>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
+              <br></br>
+              <div className="row text-center">
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Trail Reviews
+                      </Card.Title>
+                      <DataTable
+                        responsive
+                        columns={columns}
+                        data={allReviews}
+                        striped={true}
+                        highlightOnHover={true}
+                        pagination
+                        paginationComponent={BootyPagination}
+                        defaultSortFieldID={1}
+                      />
+                    </Card.Body>
+                  </Card>
+                </div>
+                <div className="col md-4">
+                  <Card style={{ border: "none" }}>
+                    <Card.Body>
+                      <Card.Title
+                        style={{
+                          backgroundColor: "#101522",
+                          color: "white",
+                          borderRadius: "5px",
+                        }}
+                      >
+                        Nearby Horse Camping
+                      </Card.Title>
+                      {currentUser ? (
+                        <div>
+                          <GetNearbyPlaces id={trailID} type="trail" />
+                        </div>
+                      ) : (
+                        logInButton
+                      )}
+                    </Card.Body>
+                  </Card>
+                </div>
+              </div>
+              <div className="row text-center">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title
+                      style={{
+                        backgroundColor: "#101522",
+                        color: "white",
+                        borderRadius: "5px",
+                      }}
+                    >
+                      Trail Gallery
+                    </Card.Title>
+                    {currentUser ? (
+                      <div
+                        id="carouselExampleIndicators"
+                        className="carousel slide"
+                        data-bs-ride="true"
+                      >
+                        <div className="carousel-indicators">
+                          <button
+                            type="button"
+                            data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide-to="0"
+                            className="active"
+                            aria-current="true"
+                            aria-label="Slide 1"
+                          ></button>
+                          <button
+                            type="button"
+                            data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide-to="1"
+                            aria-label="Slide 2"
+                          ></button>
+                          <button
+                            type="button"
+                            data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide-to="2"
+                            aria-label="Slide 3"
+                          ></button>
+                        </div>
+                        <div className="carousel-inner">
+                          <div className="carousel-item active">
+                            <img
+                              alt="Gallery Image 01"
+                              id="imageGal1"
+                              className="d-block w-25"
+                              style={{
+                                display: "block",
+                                width: "40%",
+                                height: "auto",
+                                margin: "0px auto",
+                              }}
+                            ></img>
+                          </div>
+                          <div className="carousel-item">
+                            <img
+                              alt="Gallery Image 02"
+                              id="imageGal2"
+                              className="d-block w-25"
+                              style={{
+                                display: "block",
+                                width: "40%",
+                                height: "auto",
+                                margin: "0px auto",
+                              }}
+                            ></img>
+                          </div>
+                          <div className="carousel-item">
+                            <img
+                              alt="Gallery Image 03"
+                              id="imageGal3"
+                              className="d-block w-25"
+                              style={{
+                                display: "block",
+                                width: "40%",
+                                height: "auto",
+                                margin: "0px auto",
+                              }}
+                            ></img>
+                          </div>
+                        </div>
+                        <button
+                          className="carousel-control-prev"
+                          type="button"
+                          data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide="prev"
+                        >
+                          <span
+                            className="carousel-control-prev-icon"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button
+                          className="carousel-control-next"
+                          type="button"
+                          data-bs-target="#carouselExampleIndicators"
+                          data-bs-slide="next"
+                        >
+                          <span
+                            className="carousel-control-next-icon"
+                            aria-hidden="true"
+                          ></span>
+                          <span className="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                    ) : (
+                      logInButton
+                    )}
+                  </Card.Body>
+                </Card>
+              </div>
+              <br></br>
+              <div>
+                {currentUser ? (
+                  fav && completed && !checkedIn ? null : !fav &&
+                    completed &&
+                    !checkedIn ? (
+                    <>
+                      <div
+                        className="btn btn-outline-danger"
+                        onClick={(event) => onClickAddFavourite(event, trailID)}
+                      >
+                        Add to favourites&nbsp;
+                        <FaHeart className="justify-content-center" />
+                      </div>
+                      &nbsp; &nbsp; &nbsp; &nbsp;
+                      {checkIn == "Waiting" ? (
+                        <div
+                          class="spinner-border text-primary "
+                          role="status"
+                        ></div>
+                      ) : null}
+                      {checkIn == "Success" ? (
+                        <div class="alert alert-success mt-4" role="alert">
+                          Change has been saved successfully.
+                        </div>
+                      ) : null}
+                      {checkIn == "Error" ? (
+                        <div class="alert alert-danger mt-4" role="alert">
+                          Error occurred! Please try again.
+                        </div>
+                      ) : null}
+                    </>
+                  ) : checkedIn == false ? (
+                    <div>
+                      {completed ? (
+                        <div>
+                          <div>
+                            <div className="row">
+                              <div
+                                className="form-radio col-md-5"
+                                style={{ marginBottom: "15px" }}
+                              >
+                                <label style={{ marginBottom: "5px" }}>
+                                  <h4>Rate the Trail</h4>(submit the rate by
+                                  clicking the required stars)
+                                </label>
+                                <div style={styles.stars}>
+                                  {stars.map((_, index) => {
+                                    return (
+                                      <FaStar
+                                        key={index}
+                                        size={24}
+                                        onClick={() => handleClick(index + 1)}
+                                        onMouseOver={() =>
+                                          handleMouseOver(index + 1)
+                                        }
+                                        onMouseLeave={handleMouseLeave}
+                                        color={
+                                          (hoverValue || currentValue) > index
+                                            ? colors.orange
+                                            : colors.grey
+                                        }
+                                        style={{
+                                          marginRight: 10,
+                                          cursor: "pointer",
+                                        }}
+                                      />
+                                    );
+                                  })}
+                                </div>
+                                <br></br>
+                                {rateResult ? (
+                                  <div class="alert alert-info" role="alert">
+                                    {rateResult}
+                                  </div>
+                                ) : null}
                               </div>
-                              <br></br>
-                              {rateResult ? (
-                                <div class="alert alert-info" role="alert">
-                                  {rateResult}
+
+                              <div className="col-md-7">
+                                <form className="needs-validation">
+                                  <div
+                                    className="form-group"
+                                    style={{ marginBottom: "15px" }}
+                                  >
+                                    <label style={{ marginBottom: "5px" }}>
+                                      Add Review
+                                    </label>
+                                    <textarea
+                                      required
+                                      name="review"
+                                      className="form-control"
+                                      onChange={(e) => {
+                                        setReview(e.target.value);
+                                      }}
+                                    ></textarea>
+                                  </div>
+                                  {reviewResult ? (
+                                    <div class="alert alert-info" role="alert">
+                                      {reviewResult}
+                                    </div>
+                                  ) : null}
+                                  <div className="d-grid">
+                                    <button
+                                      className="btn btn-block"
+                                      type="submit"
+                                      style={{
+                                        marginTop: "15px",
+                                        backgroundColor: "#071c2f",
+                                        color: "white",
+                                      }}
+                                      onClick={submitReview}
+                                    >
+                                      Add Review
+                                    </button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <form className="needs-validation">
+                          <div className="row">
+                            <div className="col-md-5">
+                              <button
+                                className="btn btn-primary"
+                                onClick={addCheckIn}
+                              >
+                                Check In
+                              </button>
+                              &nbsp; &nbsp; &nbsp; &nbsp;
+                              {checkIn == "Waiting" ? (
+                                <div
+                                  class="spinner-border text-primary "
+                                  role="status"
+                                ></div>
+                              ) : null}
+                              {checkIn == "Success" ? (
+                                <div
+                                  class="alert alert-success mt-4"
+                                  role="alert"
+                                >
+                                  Change has been saved successfully.
+                                </div>
+                              ) : null}
+                              {checkIn == "Error" ? (
+                                <div
+                                  class="alert alert-danger mt-4"
+                                  role="alert"
+                                >
+                                  Error occurred! Please try again.
                                 </div>
                               ) : null}
                             </div>
-
-                            <div className="col-md-7">
-                              <form className="needs-validation">
-                                <div
-                                  className="form-group"
-                                  style={{ marginBottom: "15px" }}
-                                >
-                                  <label style={{ marginBottom: "5px" }}>
-                                    Add Review
-                                  </label>
-                                  <textarea
-                                    required
-                                    name="review"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      setReview(e.target.value);
-                                    }}
-                                  ></textarea>
-                                </div>
-                                {reviewResult ? (
-                                  <div class="alert alert-info" role="alert">
-                                    {reviewResult}
-                                  </div>
-                                ) : null}
-                                <div className="d-grid">
-                                  <button
-                                    className="btn btn-block"
-                                    type="submit"
-                                    style={{
-                                      marginTop: "15px",
-                                      backgroundColor: "#071c2f",
-                                      color: "white",
-                                    }}
-                                    onClick={submitReview}
-                                  >
-                                    Add Review
-                                  </button>
-                                </div>
-                              </form>
-                            </div>
                           </div>
-                        </div>
-                      </div>
-                    ) : (
-                      <form className="needs-validation">
-                        <div className="row">
-                          <div className="col-md-5">
-                            <button
-                              className="btn btn-primary"
-                              onClick={addCheckIn}
-                            >
-                              Check In
-                            </button>
-                            &nbsp; &nbsp; &nbsp; &nbsp;
-                            {checkIn == "Waiting" ? (
-                              <div
-                                class="spinner-border text-primary "
-                                role="status"
-                              ></div>
-                            ) : null}
-                            {checkIn == "Success" ? (
-                              <div
-                                class="alert alert-success mt-4"
-                                role="alert"
-                              >
-                                Change has been saved successfully.
-                              </div>
-                            ) : null}
-                            {checkIn == "Error" ? (
-                              <div class="alert alert-danger mt-4" role="alert">
-                                Error occurred! Please try again.
-                              </div>
-                            ) : null}
-                          </div>
-                        </div>
-                      </form>
-                    )}
-                  </div>
-                ) : (
-                  <>
-                    <button className="btn btn-secondary">Checked In</button>
-                    &nbsp;&nbsp;
-                    <div
-                      className="btn btn-success"
-                      onClick={(event) => onClickCompleted(event, trailID)}
-                    >
-                      <FaCheckCircle /> &nbsp;Mark As Completed
+                        </form>
+                      )}
                     </div>
-                    &nbsp; &nbsp; &nbsp; &nbsp;
-                    {checkIn == "Waiting" ? (
+                  ) : (
+                    <>
+                      <button className="btn btn-secondary">Checked In</button>
+                      &nbsp;&nbsp;
                       <div
-                        class="spinner-border text-primary "
-                        role="status"
-                      ></div>
-                    ) : null}
-                    {checkIn == "Success" ? (
-                      <div class="alert alert-success mt-4" role="alert">
-                        Change has been saved successfully. Please referesh the
-                        page.
+                        className="btn btn-success"
+                        onClick={(event) => onClickCompleted(event, trailID)}
+                      >
+                        <FaCheckCircle /> &nbsp;Mark As Completed
                       </div>
-                    ) : null}
-                    {checkIn == "Error" ? (
-                      <div class="alert alert-danger mt-4" role="alert">
-                        Error occurred! Please try again.
-                      </div>
-                    ) : null}
-                  </>
-                )
-              ) : null}
-            </div>
-          </Card.Body>
-        </Card>
-      ) : (
-        <div className="mt-5">
-          <div className="spinner-border" role="status"></div>
-        </div>
-      )}
-    </div>
+                      &nbsp; &nbsp; &nbsp; &nbsp;
+                      {checkIn == "Waiting" ? (
+                        <div
+                          class="spinner-border text-primary "
+                          role="status"
+                        ></div>
+                      ) : null}
+                      {checkIn == "Success" ? (
+                        <div class="alert alert-success mt-4" role="alert">
+                          Change has been saved successfully. Please referesh
+                          the page.
+                        </div>
+                      ) : null}
+                      {checkIn == "Error" ? (
+                        <div class="alert alert-danger mt-4" role="alert">
+                          Error occurred! Please try again.
+                        </div>
+                      ) : null}
+                    </>
+                  )
+                ) : null}
+              </div>
+            </Card.Body>
+          </Card>
+        ) : (
+          <div className="mt-5">
+            <div className="spinner-border" role="status"></div>
+          </div>
+        )}
+      </div>
+    </BodyContent>
   );
 }
