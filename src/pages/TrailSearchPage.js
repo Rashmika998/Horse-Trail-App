@@ -2,12 +2,15 @@ import { React, useState, useEffect } from "react";
 import { BodyContent } from "../globalStyles";
 import { FaListUl, FaMapMarkedAlt } from "react-icons/fa";
 import FireStoreService from "../utils/services/trails/FireStoreService";
-import { Card, Col } from "react-bootstrap";
+import { Card, Col, Alert } from "react-bootstrap";
 import GoogleMapPage from "./GoogleMapTrailsPage";
 import Slider from "@mui/material/Slider";
 import Box from "@mui/material/Box";
+import { useAuth } from "../contexts/AuthContext";
 
 function SearchPage() {
+  const { currentUser } = useAuth();
+  const [error, setError] = useState("");
   const [inputs, setInputs] = useState({
     inputTrailType: "Any",
     inputSeason: "Any",
@@ -101,6 +104,7 @@ function SearchPage() {
   };
 
   useEffect(() => {
+    if(currentUser){setError("");}else{setError("You are not logged in");}
     getList();
   }, []);
 
@@ -115,10 +119,13 @@ function SearchPage() {
     },
   ];
 
+  
+
   return (
     <>
       <BodyContent>
         <div className="container" style={{ paddingTop: "20px" }}>
+        {error && <Alert className="text-center" variant="danger">{error}</Alert>}
           <form onSubmit={handleSubmit}>
             <div className="row">
               <label className="mb-5">Length of Trail (Miles)</label>
