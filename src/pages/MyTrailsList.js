@@ -4,6 +4,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
+import Background from "../components/AddPage/TrailPage.jpg";
 
 function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
@@ -113,136 +114,150 @@ function MyTrailsList() {
   };
 
   return (
-    <BodyContent>
-      <div className="text-center">
-        {trailsType == "checkedIn" ? <h3>Trails to Ride</h3> : ""}
-        {trailsType == "completed" ? <h3>Completed Trails</h3> : ""}
-        {trailsType == "favourites" ? <h3>Favourite Trails</h3> : ""}
-
-        {pageLoading == true ? (
-          <div className="mt-3 mx-auto text-center">
-            <div className="spinner-border" role="status"></div>
+    <BodyContent
+      style={{
+        backgroundImage: `url(${Background})`,
+        position: "absolute",
+      }}
+    >
+      <div className="container">
+        <div className="text-center ">
+          <div className="shadow p-2 mb-1 card font-weight-bold rounded">
+            {trailsType == "checkedIn" ? <h3>Trails to Ride</h3> : ""}
+            {trailsType == "completed" ? <h3>Completed Trails</h3> : ""}
+            {trailsType == "favourites" ? <h3>Favourite Trails</h3> : ""}
           </div>
-        ) : (
-          ""
-        )}
-
-        {pageLoading == false && trails.length == 0 ? (
-          <div className="mt-3 mx-auto text-center">No trails added</div>
-        ) : (
-          ""
-        )}
-      </div>
-      <div className="row text-center">
-        <div className="col-5 mx-auto">
-          {show && completedError && !loading ? (
-            <Alert variant="danger" onClose={() => setShow(false)} dismissible>
-              <p>Error in marking the trail as completed</p>
-            </Alert>
+          {pageLoading == true ? (
+            <div className="mt-3 mx-auto text-center">
+              <div className="spinner-border text-light" role="status"></div>
+            </div>
           ) : (
             ""
           )}
 
-          {show && markCompleted && !loading ? (
-            <Modal
-              show={markCompleted}
-              backdrop="static"
-              keyboard={false}
-              className="mt-5 pt-5"
-            >
-              <Modal.Body className="text-center">
-                Added the trail to completed list
-                <Button
-                  className="mt-3"
-                  style={{ width: "60%" }}
-                  variant="success"
-                  onClick={() => {
-                    setShow(false);
-                    window.location.reload();
-                  }}
-                >
-                  Ok
-                </Button>
-              </Modal.Body>
-            </Modal>
-          ) : (
-            ""
-          )}
-
-          {loading ? (
-            <Alert variant="info">
-              <p>Processing the action</p>
-            </Alert>
+          {pageLoading == false && trails.length == 0 ? (
+            <div className="mt-3 mx-auto text-center shadow p-2 mb-1 card font-weight-bold rounded">
+              No trails added
+            </div>
           ) : (
             ""
           )}
         </div>
-      </div>
+        <div className="row text-center">
+          <div className="col-5 mx-auto">
+            {show && completedError && !loading ? (
+              <Alert
+                variant="danger"
+                onClose={() => setShow(false)}
+                dismissible
+              >
+                <p>Error in marking the trail as completed</p>
+              </Alert>
+            ) : (
+              ""
+            )}
 
-      <div className="row text-center mx-4">
-        {trails.map((trail) => {
-          //   getImageURL(trail);
-          return (
-            <Col xs={12} md={6} lg={4} key={trail.id}>
-              <Card key={trail.id} className="mt-5 ms-3">
-                <Card.Img
-                  variant="top"
-                  src={imageURL[trail.id]}
-                  height="300vh"
-                />
-                <Card.Body>
-                  <Card.Title>
-                    <a
-                      href={"/display-trail/" + trail.id}
-                      style={{ textDecoration: "none", color: "black" }}
-                    >
-                      <h1 className="text-center">{trail.trailName}</h1>
-                    </a>
-                  </Card.Title>
-                  <h4 className="text-center">{trail.parkName}</h4>
-                  <Card.Text className="text-center">
-                    {trail.miles} MI | {trail.trailType}
-                  </Card.Text>
-                  {trailsType == "checkedIn" ? (
-                    <div
-                      className="btn btn-success"
-                      onClick={(event) => onClickCompleted(event, trail.id)}
-                    >
-                      <FaCheckCircle /> &nbsp;Mark As Completed
-                    </div>
-                  ) : (
-                    ""
-                  )}
+            {show && markCompleted && !loading ? (
+              <Modal
+                show={markCompleted}
+                backdrop="static"
+                keyboard={false}
+                className="mt-5 pt-5"
+              >
+                <Modal.Body className="text-center">
+                  Added the trail to completed list
+                  <Button
+                    className="mt-3"
+                    style={{ width: "60%" }}
+                    variant="success"
+                    onClick={() => {
+                      setShow(false);
+                      window.location.reload();
+                    }}
+                  >
+                    Ok
+                  </Button>
+                </Modal.Body>
+              </Modal>
+            ) : (
+              ""
+            )}
 
-                  {trailsType == "completed" ? (
-                    <div className="row">
-                      {favTrails[trail.id] == false ? (
-                        <div className="mx-2 mt-1">
-                          <div
-                            className="btn btn-danger  mx-2 mt-1"
-                            onClick={(event) =>
-                              onClickAddFavourite(event, trail.id)
-                            }
-                          >
-                            Add to Favourites
+            {loading ? (
+              <Alert variant="info">
+                <p>Processing the action</p>
+              </Alert>
+            ) : (
+              ""
+            )}
+          </div>
+        </div>
+
+        <div className="row text-center mx-4">
+          {trails.map((trail) => {
+            //   getImageURL(trail);
+            return (
+              <Col xs={12} md={6} lg={4} key={trail.id}>
+                <Card key={trail.id} className="mt-5 ms-3">
+                  <Card.Img
+                    variant="top"
+                    src={imageURL[trail.id]}
+                    height="200vh"
+                  />
+                  <Card.Body>
+                    <Card.Title>
+                      <a
+                        href={"/display-trail/" + trail.id}
+                        style={{ textDecoration: "none", color: "black" }}
+                      >
+                        <h1 className="text-center">{trail.trailName}</h1>
+                      </a>
+                    </Card.Title>
+                    <h4 className="text-center">{trail.parkName}</h4>
+                    <Card.Text className="text-center">
+                      {trail.miles} MI | {trail.trailType}
+                    </Card.Text>
+                    {trailsType == "checkedIn" ? (
+                      <div
+                        className="btn btn-success"
+                        onClick={(event) => onClickCompleted(event, trail.id)}
+                      >
+                        <FaCheckCircle /> &nbsp;Mark As Completed
+                      </div>
+                    ) : (
+                      ""
+                    )}
+
+                    {trailsType == "completed" ? (
+                      <div className="row">
+                        {favTrails[trail.id] == false ? (
+                          <div className="mx-2 mt-1">
+                            <div
+                              className="btn btn-outline-danger mx-2 mt-1"
+                              onClick={(event) =>
+                                onClickAddFavourite(event, trail.id)
+                              }
+                            >
+                              Add to Favourites
+                            </div>
                           </div>
-                        </div>
-                      ) : (
-                        <div className="mx-2 mt-1">
-                          <div className="btn btn-danger  mx-2 mt-1">
-                            <FaHeart /> Added to Favourites
+                        ) : (
+                          <div className="mx-2 mt-1">
+                            <div className="btn btn-danger  mx-2 mt-1">
+                              <FaHeart /> Added to Favourites
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                </Card.Body>
-              </Card>
-            </Col>
-          );
-        })}
+                        )}
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </Card.Body>
+                </Card>
+              </Col>
+            );
+          })}
+        </div>
       </div>
     </BodyContent>
   );
