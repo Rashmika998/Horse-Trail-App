@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { BodyContent } from "../globalStyles";
 import EditProfile from "../components/EditProfile/EditProfile";
-import { app, auth } from "../utils/firestore";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../utils/firestore";
-import firebase from "firebase/app";
-import { collection, getDocs } from "firebase/firestore";
-import { FaHorse, FaCheckCircle, FaHeart } from "react-icons/fa";
+
+import {
+  FaCheckCircle,
+  FaHeart,
+  FaMapMarkerAlt,
+  FaUserCircle,
+  FaEdit,
+  FaCampground,
+  FaMountain,
+  FaPlusCircle,
+  FaCheck,
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
 import {
   GoogleMap,
@@ -101,14 +109,24 @@ function MyProfile() {
   }
 
   return (
-    <BodyContent>
-      <div className="container-fluid" style={{ paddingTop: "40px" }}>
+    <BodyContent
+      style={{
+       background: "rgb(5,5,6)",
+background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,12,43,0.2511379551820728) 35%, rgba(20,53,60,0.19791666666666663) 100%)"
+      }}
+    >
+      <div className="container-fluid col-11" style={{ paddingTop: "40px" }}>
         <div className="row">
-          <div className="col-lg-5">
-            <div className="card " style={{ height: "420px" }}>
-              <div className="card-header">Personal Info</div>
-              <div className="card-body mx-auto mt-5">
-                <h5 className="card-title"></h5>
+          <div className="col-lg-4">
+            <div
+              className=" card bg-white  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              style={{ height: "100%", border: "none" }}
+            >
+              <h3 className="mt-2 text-center font-weight-bold">
+                <FaUserCircle /> Personal Information
+              </h3>
+
+              <div className="card-body mx-auto mt-2">
                 <table className="table table-borderless">
                   <tbody style={{ fontSize: "15px" }}>
                     <tr>
@@ -134,23 +152,28 @@ function MyProfile() {
                   </tbody>
                 </table>
                 <button
-                  className="btn btn-primary w-50"
+                  className="btn btn-primary w-50 mt-5 "
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop"
                   onClick={handleClick}
+                  style={{ margin: "0 auto", display: "block" }}
                 >
-                  Edit Profile
+                  <FaEdit /> Edit Profile
                 </button>
                 {<EditProfile />}
               </div>
             </div>
           </div>
-          <div className="col-lg-7">
-            <div className="card" style={{ height: "420px" }}>
-              <div className="card-header">Location</div>
-              <div className="card-body">
-                <h5 className="card-title"></h5>
+          <div className="col-lg-8">
+            <div
+              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              style={{ height: "100%", border: "none" }}
+            >
+              <h3 className="mt-2 text-center font-weight-bold">
+                <FaMapMarkerAlt /> Live Location
+              </h3>
 
+              <div className="card-body">
                 {isLoaded &&
                 state.latitude != null &&
                 state.longitude != null ? (
@@ -186,61 +209,32 @@ function MyProfile() {
             </div>
           </div>
         </div>
-        <div className="row" style={{ paddingTop: "15px" }}>
-          <div className="col-lg-6">
-            <div className="card">
-              <div className="card-body text-center">
-                <h5 className="card-title"></h5>
-                <Link to="/added-trails" className="btn btn-success col-lg-5 ">
-                  Added Trails
-                </Link>
-                <Link
-                  to="/add-trail"
-                  className="btn btn-primary col-lg-5"
-                  style={{ marginLeft: "15px" }}
-                >
-                  Add Trails
-                </Link>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-6">
-            <div className="card">
-              <div className="card-body text-center">
-                <h5 className="card-title"></h5>
 
-                <Link to="/added-camps" className="btn btn-success col-lg-5">
-                  Added Camps
-                </Link>
-                <Link
-                  to="/add-camp"
-                  className="btn btn-primary col-lg-5"
-                  style={{ marginLeft: "15px" }}
-                >
-                  Add Camps
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
         <div className="row" style={{ paddingTop: "15px" }}>
           <div className="col-lg-6">
-            <div className="card">
-              <div className="card-header">Trails</div>
+            <div
+              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              style={{ border: "none" }}
+            >
+              <h3 className="mt-2 text-center font-weight-bold">
+                <FaMountain /> Trails
+              </h3>{" "}
               <div className="card-body">
                 <div className="row text-center ml-4 mr-4 mt-2">
                   <div className="col-md-4" style={{ marginTop: "5px" }}>
                     <Link
                       to="/my-trails-list/checkedIn"
                       className="btn btn-warning"
+                      style={{ width: "100%" }}
                     >
-                      <FaHorse /> Trails to Ride
+                      <FaMountain /> Trails to Ride
                     </Link>
                   </div>
                   <div className="col-md-4" style={{ marginTop: "5px" }}>
                     <Link
                       to="/my-trails-list/completed"
                       className="btn btn-success"
+                      style={{ width: "100%" }}
                     >
                       <FaCheckCircle /> Completed Trails
                     </Link>
@@ -249,8 +243,30 @@ function MyProfile() {
                     <Link
                       to="/my-trails-list/favourites"
                       className="btn btn-danger"
+                      style={{ width: "100%" }}
                     >
                       <FaHeart /> Favourite Trails
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="row text-center mt-2">
+                  <div className="col-md-6" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/added-trails"
+                      className="btn btn-success  "
+                      style={{ width: "100%" }}
+                    >
+                      <FaCheck /> Added Trails
+                    </Link>
+                  </div>
+                  <div className="col-md-6" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/add-trail"
+                      className="btn btn-primary "
+                      style={{ width: "100%" }}
+                    >
+                      <FaPlusCircle /> Add Trails
                     </Link>
                   </div>
                 </div>
@@ -258,22 +274,29 @@ function MyProfile() {
             </div>
           </div>
           <div className="col-lg-6">
-            <div className="card">
-              <div className="card-header">Camps</div>
+            <div
+              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              style={{ border: "none" }}
+            >
+              <h3 className="mt-2 text-center font-weight-bold">
+                <FaCampground /> Camps
+              </h3>
               <div className="card-body">
                 <div className="row text-center ml-4 mr-4 mt-2">
                   <div className="col-md-4" style={{ marginTop: "5px" }}>
                     <Link
                       to="/my-camps-list/checkedIn"
                       className="btn btn-warning"
+                      style={{ width: "100%" }}
                     >
-                      <FaHorse /> Camps to Ride
+                      <FaCampground /> Camps to Ride
                     </Link>
                   </div>
                   <div className="col-md-4" style={{ marginTop: "5px" }}>
                     <Link
                       to="/my-camps-list/completed"
                       className="btn btn-success"
+                      style={{ width: "100%" }}
                     >
                       <FaCheckCircle /> Visited Camps
                     </Link>
@@ -282,8 +305,31 @@ function MyProfile() {
                     <Link
                       to="/my-camps-list/favourites"
                       className="btn btn-danger"
+                      style={{ width: "100%" }}
                     >
                       <FaHeart /> Favourite Camps
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="row text-center mt-2">
+                  <div className="col-md-6" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/added-camps"
+                      className="btn btn-success  "
+                      style={{ width: "100%" }}
+                    >
+                      <FaCheck />
+                      Added Camps
+                    </Link>
+                  </div>
+                  <div className="col-md-6" style={{ marginTop: "5px" }}>
+                    <Link
+                      to="/add-camp"
+                      className="btn btn-primary "
+                      style={{ width: "100%" }}
+                    >
+                      <FaPlusCircle /> Add Camps
                     </Link>
                   </div>
                 </div>
