@@ -3,7 +3,6 @@ import { BodyContent } from "../globalStyles";
 import EditProfile from "../components/EditProfile/EditProfile";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../utils/firestore";
-import Background from "../components/AddPage/ProfilePage.jpg";
 
 import {
   FaCheckCircle,
