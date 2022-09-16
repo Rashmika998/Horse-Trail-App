@@ -650,6 +650,21 @@ function check_Favourite(userID, trailID) {
   });
 }
 
+function deleteCampChecksIn(id) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campCheckIns");
+    query = query.where("campID", "==", id);
+    query
+      .doc(id)
+      .delete()
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
 
 export default {
   addCamp,
@@ -657,6 +672,7 @@ export default {
   addRatings,
   addReview,
   deleteCamp,
+  deleteCampChecksIn,
   getAllCamps,
   getCamp,
   getCampImages,

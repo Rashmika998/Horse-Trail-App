@@ -7,7 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Background from "../components/AddPage/MyTrails.jpg";
 
 function AddedTrails() {
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState(null);
   const [trails, setTrailsList] = useState([]);
   const [show, setShow] = useState(false);
@@ -15,7 +15,6 @@ function AddedTrails() {
   const [loading, setLoading] = useState(true);
 
   const getList = async () => {
-  
     setLoading(true);
 
     const data = await FireStoreService.getMyTrails(userID);
@@ -31,7 +30,6 @@ function AddedTrails() {
       }));
     });
     setLoading(false);
-
   };
 
   const getImageURL = async (trailName, bannerName) => {
@@ -39,14 +37,24 @@ function AddedTrails() {
     return url;
   };
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     getList();
   }, [userID]);
 
   const onDelete = (id) => {
     FireStoreService.deleteTrail(id)
       .then(() => {
-        window.location.reload(true);
+        FireStoreService.deleteTrailChecksIn(id)
+          .then(() => {
+            window.location.reload(true);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       })
       .catch((e) => {
         console.log(e);

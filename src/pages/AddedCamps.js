@@ -7,8 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import Background from "../components/AddPage/MyCamps.jpg";
 
 function AddedCamps() {
-
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState(null);
   const [camps, setCampsList] = useState([]);
   const [show, setShow] = useState(false);
@@ -29,24 +28,33 @@ function AddedCamps() {
         [doc.id]: ImgURL,
       }));
     });
-        setLoading(false);
-
+    setLoading(false);
   };
 
-   const getImageURL = async (campName, bannerName) => {
-     const url = await FireStoreService.getCampImageURL(campName, bannerName);
-     return url;
-   };
+  const getImageURL = async (campName, bannerName) => {
+    const url = await FireStoreService.getCampImageURL(campName, bannerName);
+    return url;
+  };
 
   useEffect(() => {
-    if(currentUser){setUserID(currentUser.uid)}else{setUserID(null)}; 
+    if (currentUser) {
+      setUserID(currentUser.uid);
+    } else {
+      setUserID(null);
+    }
     getList();
   }, [userID]);
 
   const onDelete = (id) => {
     FireStoreService.deleteCamp(id)
       .then(() => {
-        window.location.reload(true);
+        FireStoreService.deleteCampChecksIn(id)
+          .then(() => {
+            window.location.reload(true);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
       })
       .catch((e) => {
         console.log(e);
@@ -77,7 +85,9 @@ function AddedCamps() {
         )}
 
         {loading == false && camps.length == 0 ? (
-          <div className="mt-3  mx-5  text-center shadow p-2 mb-1 card font-weight-bold rounded">No camps added</div>
+          <div className="mt-3  mx-5  text-center shadow p-2 mb-1 card font-weight-bold rounded">
+            No camps added
+          </div>
         ) : (
           ""
         )}

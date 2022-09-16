@@ -684,12 +684,29 @@ function check_Favourite(userID, trailID) {
   });
 }
 
+function deleteTrailChecksIn(id) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("trailCheckIns");
+    query = query.where("trailID", "==", id);
+    query
+      .doc(id)
+      .delete()
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addRatings,
   addTrail,
   addTrailImages,
   addGpxFiles,
   deleteTrail,
+  deleteTrailChecksIn,
   getAllTrails,
   getGpxFiles,
   getRating,
