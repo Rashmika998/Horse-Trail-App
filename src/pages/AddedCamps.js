@@ -4,7 +4,7 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
-import Background from "../components/AddPage/MyCamps.jpg";
+import Background from "../components/AddPage/CampPage.jpg";
 
 function AddedCamps() {
 
@@ -91,7 +91,15 @@ function AddedCamps() {
                 <Card.Img
                   variant="top"
                   src={imageURL[camp.id]}
-                  height="200vh"
+                  height="250vh"
+                  style={{
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                    width: "95%",
+                    margin: "auto",
+                  }}
                 />
                 <Card.Body>
                   <Card.Title>
