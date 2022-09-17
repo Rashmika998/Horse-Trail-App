@@ -9,6 +9,8 @@ import Box from "@mui/material/Box";
 import { useAuth } from "../contexts/AuthContext";
 import "../components/AuthPages/Auth.css";
 import Background from "../components/AddPage/TrailSearchPage.jpg";
+import DataTable from "react-data-table-component";
+
 
 function SearchPage() {
   const { currentUser } = useAuth();
@@ -438,6 +440,8 @@ function SearchPage() {
             >
               {trails.length == 0 ? "No Trails Found" : ""}
               <div className="row text-center">
+               
+
                 {trails.map((trail) => {
                   return (
                     <Col xs={12} md={6} lg={4} key={trail.id}>

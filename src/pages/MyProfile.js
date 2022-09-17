@@ -121,6 +121,7 @@ function MyProfile() {
         <div className="row m-2">
         {(userDetails.type=='admin')?<p className="m-2"><Button href="/register-admin" style={{width: "20vw"}}><FaPlusCircle /> Register new admin</Button></p>: null}
           <div className="col-lg-4 m-1">
+       
             <div
               className=" card bg-white  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -168,6 +169,7 @@ function MyProfile() {
             </div>
           </div>
           <div className="col-lg-7 m-1">
+
             <div
               className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -213,10 +215,11 @@ function MyProfile() {
           </div>
         </div>
 
-        <div className="row m-2" style={{ paddingTop: "15px" }}>
-          <div className="col-lg-6">
+
+        <div className="row" >
+          <div className="col-lg-6 mt-5">
             <div
-              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              className="card  shadow shadow-intensity-xl rounded"
               style={{ border: "none" }}
             >
               <h3 className="mt-2 text-center font-weight-bold">
@@ -276,9 +279,9 @@ function MyProfile() {
               </div>
             </div>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-6 mt-5">
             <div
-              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              className="card  shadow shadow-intensity-xl  rounded"
               style={{ border: "none" }}
             >
               <h3 className="mt-2 text-center font-weight-bold">

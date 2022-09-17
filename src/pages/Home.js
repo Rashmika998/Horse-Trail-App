@@ -1,23 +1,49 @@
 import React from 'react';
-import { BodyContent } from "../globalStyles"; 
+import { HomeContent } from "../globalStyles"; 
+import Carousel from "react-bootstrap/Carousel";
 
 
-// Hero Feature Content Carousel
+import Background1 from "../components/AddPage/Horse.jpg";
+import Background2 from "../components/AddPage/MyTrails.jpg";
+import Background3 from "../components/AddPage/MyCamps.jpg";
 
 const Home = () => {
 	return (
     <>
-      {/* Add Body tag before each component otherwise it won't render :(*/}
-      <BodyContent>
-        <p>home</p>
-        <a href="/my-trails"> Trails List</a>
-        <br></br>
-        <a href="/my-camps"> Camps List</a>
-        <br></br>
-        <a href="/added-trails"> My Trails </a>
-        <br></br>
-        <a href="/added-camps"> My Camps</a>
-      </BodyContent>{" "}
+      <HomeContent>
+        <div className=" mb-3 mx-auto " style={{width:"100%"}}>
+          <Carousel>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={Background1}
+                alt="First slide"
+              />
+              <Carousel.Caption></Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={Background2}
+                alt="Second slide"
+              />
+
+              <Carousel.Caption></Carousel.Caption>
+            </Carousel.Item>
+            <Carousel.Item>
+              <img
+                className="d-block w-100"
+                src={Background3}
+                alt="Third slide"
+              />
+
+              <Carousel.Caption></Carousel.Caption>
+            </Carousel.Item>
+          </Carousel>
+        </div>
+
+        <div>Content</div>
+      </HomeContent>
     </>
   );
 };
