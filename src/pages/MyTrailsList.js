@@ -4,7 +4,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaCheckCircle, FaStar, FaMarker, FaHeart } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
-import Background from "../components/AddPage/TrailPage.jpg";
+import Background from "../components/AddPage/TrailSearchPage.jpg";
 
 function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
@@ -202,7 +202,14 @@ function MyTrailsList() {
                   <Card.Img
                     variant="top"
                     src={imageURL[trail.id]}
-                    height="200vh"
+                    height="250vh"
+                    style={{
+                      paddingLeft: "20px",
+                      paddingRight: "20px",
+                      paddingTop: "20px",
+                      paddingBottom: "20px",
+                     
+                    }}
                   />
                   <Card.Body>
                     <Card.Title>

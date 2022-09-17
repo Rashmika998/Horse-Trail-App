@@ -5,7 +5,7 @@ import FireStoreService from "../utils/services/camps/FireStoreService";
 import { Card,Col, Alert } from "react-bootstrap";
 import GoogleMapPage from "./GoogleMapCampsPage";
 import { useAuth } from "../contexts/AuthContext";
-import Background from "../components/AddPage/CampsSearchPage.jpg";
+import Background from "../components/AddPage/CampPage.jpg";
 
 function SearchPage() {
   const { currentUser } = useAuth();
@@ -103,7 +103,7 @@ function SearchPage() {
         }}
       >
         <div
-          className=" shadow-lg bg-white rounded container"
+          className=" shadow-lg card rounded container"
           style={{ padding: "50px" }}
         >
           {error && (
@@ -402,7 +402,13 @@ function SearchPage() {
                         <Card.Img
                           variant="top"
                           src={imageURL[camp.id]}
-                          height="200vh"
+                          height="250vh"
+                          style={{
+                            paddingLeft: "20px",
+                            paddingRight: "20px",
+                            paddingTop: "20px",
+                            paddingBottom: "20px",
+                          }}
                         />
                         <Card.Body>
                           <Card.Title>
@@ -430,8 +436,6 @@ function SearchPage() {
             </div>
           </div>
         </div>
-       
-        
       </BodyContent>
     </>
   );

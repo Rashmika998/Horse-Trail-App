@@ -4,7 +4,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { Card, Col, Alert, Modal, Button } from "react-bootstrap";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { useAuth } from "../contexts/AuthContext";
-import Background from "../components/AddPage/MyTrails.jpg";
+import Background from "../components/AddPage/TrailSearchPage.jpg";
 
 function AddedTrails() {
   const { currentUser } = useAuth();
@@ -98,11 +98,19 @@ function AddedTrails() {
           //   getImageURL(trail);
           return (
             <Col xs={12} md={6} lg={4} key={trail.id}>
-              <Card key={trail.id} className="mt-5 ms-3">
+              <Card key={trail.id} className="mt-5 ms-3 ">
                 <Card.Img
                   variant="top"
                   src={imageURL[trail.id]}
-                  height="200vh"
+                  height="250vh"
+                  style={{
+                    paddingLeft: "20px",
+                    paddingRight: "20px",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                    width: "95%",
+                    margin:"auto"
+                  }}
                 />
                 <Card.Body>
                   <Card.Title>

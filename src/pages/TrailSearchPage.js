@@ -444,7 +444,13 @@ function SearchPage() {
                         <Card.Img
                           variant="top"
                           src={imageURL[trail.id]}
-                          height="200vh"
+                          height="250vh"
+                          style={{
+                            paddingLeft: "20px",
+                            paddingRight: "20px",
+                            paddingTop: "20px",
+                            paddingBottom: "20px",
+                          }}
                         />
                         <Card.Body>
                           <Card.Title>
