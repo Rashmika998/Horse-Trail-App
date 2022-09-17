@@ -666,11 +666,27 @@ function deleteCampChecksIn(id) {
   });
 }
 
+function deleteReview(id) {
+  return new Promise((resolve, reject) => {
+    var query = db.collection("campsReviews");
+    query
+      .doc(id)
+      .delete()
+      .then(() => {
+        resolve();
+      })
+      .catch((e) => {
+        reject(e);
+      });
+  });
+}
+
 export default {
   addCamp,
   addCampImages,
   addRatings,
   addReview,
+  deleteReview,
   deleteCamp,
   deleteCampChecksIn,
   getAllCamps,

@@ -1,12 +1,14 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
-import { Card, Alert } from "react-bootstrap";
+import UserFireStoreService from "../utils/services/user/FireStoreService";
+import { Card, Alert, Button } from "react-bootstrap";
 import { FaStar, FaCheckCircle, FaHeart } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import GetNearbyPlaces from "./GetNearbyPlaces";
 import { useAuth } from "../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { BodyContent } from "../globalStyles";
+import { FaTrash } from "react-icons/fa";
 
 const colors = {
   orange: "#FFBA5A",
@@ -50,6 +52,7 @@ export default function DisplayCamp() {
   const [completed, setCompleted] = useState(false); //completed state
   const [fav, setFav] = useState(false); //fav state
   const [bannerURL, setBannerURL] = useState("");
+  const [userType, setUserType] = useState([]);
 
   const handleClick = (value) => {
     setCurrentValue(value);
@@ -127,6 +130,13 @@ export default function DisplayCamp() {
     }
     setCampID(id);
     setCheckInStates(id);
+    UserFireStoreService.getUserType(currentUser.uid)
+      .then((res) => {
+        setUserType(res.data().type);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
 
     FireStoreService.getCamp(id)
       .then((response) => {
@@ -475,9 +485,39 @@ export default function DisplayCamp() {
     return results;
   }
 
+  function deleteReview(id) {
+    // FireStoreService.deleteReview(id)
+    //   .then(() => {
+    //     window.location.reload(true);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+  }
+
   const columns = [
     {
-      selector: (row) => <li>{row.review}</li>,
+      name: "Review",
+      selector: (row) => (
+        <div className="row">
+          <li>{row.review}</li>
+        </div>
+      ),
+    },
+    {
+      name: "Delete",
+      selector: (row) => (
+        <>
+          {userType === "admin" ? (
+            <Button
+              className="btn btn-danger btn-sm"
+              onClick={deleteReview(row.id)}
+            >
+              <FaTrash />
+            </Button>
+          ) : null}
+        </>
+      ),
     },
   ];
 
@@ -1113,7 +1153,7 @@ export default function DisplayCamp() {
                         completed ? (
                           <div>
                             <div>
-                              <div className="row">
+                              <div className="row m-2">
                                 <div
                                   className="form-radio col-md-5"
                                   style={{ marginBottom: "15px" }}
@@ -1207,44 +1247,7 @@ export default function DisplayCamp() {
                             </div>
                             &nbsp; &nbsp; &nbsp; &nbsp;
                           </div>
-                        ) : (
-                          <form className="needs-validation">
-                            <div className="row">
-                              <div className="col-md-5">
-                                <button
-                                  className="btn btn-primary"
-                                  onClick={addCheckIn}
-                                >
-                                  Check In
-                                </button>
-                                &nbsp; &nbsp; &nbsp; &nbsp;
-                                {checkIn == "Waiting" ? (
-                                  <div
-                                    class="spinner-border text-primary "
-                                    role="status"
-                                  ></div>
-                                ) : null}
-                                {checkIn == "Success" ? (
-                                  <div
-                                    class="alert alert-success mt-4"
-                                    role="alert"
-                                  >
-                                    Change has been saved successfully. Please
-                                    referesh the page.
-                                  </div>
-                                ) : null}
-                                {checkIn == "Error" ? (
-                                  <div
-                                    class="alert alert-danger mt-4"
-                                    role="alert"
-                                  >
-                                    Error occurred! Please try again.
-                                  </div>
-                                ) : null}
-                              </div>
-                            </div>
-                          </form>
-                        ) /**display it as checked in */
+                        ) : null /**display it as checked in */
                       }
                     </Card>
                     {checkIn == "Waiting" ? (
@@ -1264,7 +1267,38 @@ export default function DisplayCamp() {
                       </div>
                     ) : null}
                   </>
-                ) : checkedIn == false ? null : (
+                ) : checkedIn == false ? (
+                  <form className="needs-validation">
+                    <div className="row">
+                      <div className="col-md-5">
+                        <button
+                          className="btn btn-primary"
+                          onClick={addCheckIn}
+                        >
+                          Check In
+                        </button>
+                        &nbsp; &nbsp; &nbsp; &nbsp;
+                        {checkIn == "Waiting" ? (
+                          <div
+                            class="spinner-border text-primary "
+                            role="status"
+                          ></div>
+                        ) : null}
+                        {checkIn == "Success" ? (
+                          <div class="alert alert-success mt-4" role="alert">
+                            Change has been saved successfully. Please referesh
+                            the page.
+                          </div>
+                        ) : null}
+                        {checkIn == "Error" ? (
+                          <div class="alert alert-danger mt-4" role="alert">
+                            Error occurred! Please try again.
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </form>
+                ) : (
                   <>
                     <button className="btn btn-secondary">Checked In</button>
                     &nbsp;&nbsp;
