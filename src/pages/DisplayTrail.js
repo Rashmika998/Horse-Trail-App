@@ -512,7 +512,7 @@ export default function DisplayTrail() {
       name: "Delete",
       selector: (row) => (
         <>
-          {userType === "user" ? (
+          {userType === "admin" ? (
             <>
               <Button
                 className="btn btn-danger btn-sm"
