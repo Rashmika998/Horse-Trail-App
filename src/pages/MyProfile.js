@@ -280,7 +280,7 @@ function MyProfile() {
               </div>
             </div>
           </div>
-          <div className="col-lg-6 mt-5">
+          <div className="col-lg-6 mt-5 mt-5">
             <div
               className="card  shadow shadow-intensity-xl  rounded"
               style={{ border: "none" }}

@@ -244,6 +244,7 @@ export default function AddCamp() {
                                           parseFloat(longitude)
                                         )
                                       ) {
+
                                         FireStoreService.addCamp(
                                           amenitiesCheck,
                                           banner.name,
