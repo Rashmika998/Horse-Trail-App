@@ -22,6 +22,19 @@ export function AuthProvider({ children }) {
     })
   }
 
+  async function signupAdmin(email, password, fName, lName, telNo) {
+    auth.createUserWithEmailAndPassword(email, password).then(cred=>{
+      db.collection('users').doc(cred.user.uid).set({
+        firstName:fName,
+        lastName: lName,
+        mobileNo: telNo,
+        type: 'admin'
+      }) 
+    })
+    await logout();
+  }
+
+
   function login(email, password) {
     return auth.signInWithEmailAndPassword(email, password)
   }
@@ -55,6 +68,7 @@ export function AuthProvider({ children }) {
     currentUser,
     login,
     signup,
+    signupAdmin,
     logout,
     resetPassword,
     updateEmail,

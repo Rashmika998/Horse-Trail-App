@@ -33,6 +33,7 @@ import EditTrail from "./pages/EditTrail";
 import EditCamp from "./pages/EditCamp";
 import Logout from "./pages/Logout";
 import Add from "./pages/Add";
+import RegisterAdmin from "./pages/RegisterAdmin";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -69,6 +70,7 @@ root.render(
             }
           />
           <Route path="/login" exact element={<Login />} />
+          <Route path="/login/:statusMsg" exact element={<Login />} />
           <Route path="/register" exact element={<Signup />} />
           <Route path="/forgotPassword" exact element={<ForgotPassword />} />
           <Route
@@ -83,6 +85,7 @@ root.render(
           <Route exact path="/edit-camp/:id" element={<EditCamp />} />
           <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>}></Route>
           <Route exact path="/add" element={<Add/>}></Route>
+          <Route exact path="/register-admin" element={<RegisterAdmin/>}></Route>
         </Routes>
         <Footer />
       </Router>
