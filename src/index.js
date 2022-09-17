@@ -85,7 +85,7 @@ root.render(
           <Route exact path="/edit-camp/:id" element={<EditCamp />} />
           <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>}></Route>
           <Route exact path="/add" element={<Add/>}></Route>
-          <Route exact path="/register-admin" element={<RegisterAdmin/>}></Route>
+          <Route exact path="/register-admin" element={<PrivateRoute><RegisterAdmin/></PrivateRoute>}></Route>
         </Routes>
         <Footer />
       </Router>

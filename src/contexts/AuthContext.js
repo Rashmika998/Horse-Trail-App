@@ -31,7 +31,6 @@ export function AuthProvider({ children }) {
         type: 'admin'
       }) 
     })
-    await logout();
   }
 
 

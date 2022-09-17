@@ -1,6 +1,7 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
+import { db } from "../utils/firestore";
 import { Link, useNavigate } from "react-router-dom";
 import "../components/AuthPages/Auth.css";
 
@@ -11,7 +12,8 @@ export default function RegisterAdmin() {
   const lNameRef = useRef();
   const telNoRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signupAdmin, logout} = useAuth();
+  const { signupAdmin, currentUser} = useAuth();
+  const [userType, setUserType] = useState();
   const [error, setError] = useState("");
   const [statusMsg, setStatusMsg] = useState("Account created successfully! Please log in to check");
   const [loading, setLoading] = useState(false);
@@ -19,6 +21,18 @@ export default function RegisterAdmin() {
   var rePhone = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
   /* Allowed phn number formats
   (123) 456-7890. (123)456-7890, 123-456-7890, 1234567890 */
+
+  useEffect(()=>{
+    db.collection("users")
+      .doc(currentUser.uid)
+      .get()
+      .then((doc) => {
+        setUserType(doc.data().type);
+      })
+      .catch(() => {
+        setError("Error fetching the user type");
+      });
+  },[userType])
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -38,7 +52,6 @@ export default function RegisterAdmin() {
         lNameRef.current.value,
         telNoRef.current.value
       );
-      await logout();
       navigate(`/login/${statusMsg}`);
     } catch {
       setError("Failed to create an account");
@@ -47,11 +60,9 @@ export default function RegisterAdmin() {
     setLoading(false);
   }
 
-  return (
-    <div className='hero-container'>
-      <br/><br/>
-      <Card style={{minWidth: '50vw',}} className='card'>
-        <Card.Body>
+  const AdminCard = () => {
+    return(
+      <Card.Body>
           <h4 className="text-center">Sign Up</h4>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={handleSubmit}>
@@ -88,6 +99,23 @@ export default function RegisterAdmin() {
         Already have an account? <Link to="/login">Sign In</Link>
       </div>
         </Card.Body>
+    )
+  }
+
+  const UserCard = () => {
+    return(
+      <Card.Body>
+          <h4 className="text-center">Sign in as admin to register new admins</h4>
+      </Card.Body>
+    )
+  }
+  
+
+  return (
+    <div className='hero-container'>
+      <br/><br/>
+      <Card style={{minWidth: '50vw',}} className='card'>
+        {(userType == 'admin')? <AdminCard/>:<UserCard/>}
       </Card>
       <br/>
     </div>
