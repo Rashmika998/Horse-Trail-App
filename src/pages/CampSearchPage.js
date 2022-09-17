@@ -2,7 +2,7 @@ import { React, useState, useEffect } from "react";
 import { BodyContent } from "../globalStyles";
 import { FaListUl, FaMapMarkedAlt } from "react-icons/fa";
 import FireStoreService from "../utils/services/camps/FireStoreService";
-import { Card,Col, Alert } from "react-bootstrap";
+import { Card, Col, Alert } from "react-bootstrap";
 import GoogleMapPage from "./GoogleMapCampsPage";
 import { useAuth } from "../contexts/AuthContext";
 import Background from "../components/AddPage/CampPage.jpg";
@@ -57,16 +57,16 @@ function SearchPage() {
       }
     });
 
-      await data.docs.map(async (doc) => {
-        const ImgURL = await getImageURL(
-          doc.data().campName,
-          doc.data().bannerName
-        );
-        setImageURL((imageURL) => ({
-          ...imageURL,
-          [doc.id]: ImgURL,
-        }));
-      });
+    await data.docs.map(async (doc) => {
+      const ImgURL = await getImageURL(
+        doc.data().campName,
+        doc.data().bannerName
+      );
+      setImageURL((imageURL) => ({
+        ...imageURL,
+        [doc.id]: ImgURL,
+      }));
+    });
   };
 
   const getImageURL = async (campName, bannerName) => {
@@ -91,7 +91,11 @@ function SearchPage() {
   };
 
   useEffect(() => {
-    if(currentUser){setError("");}else{setError("You are not logged in");}
+    if (currentUser) {
+      setError("");
+    } else {
+      setError("You are not logged in");
+    }
     getList();
   }, []);
 
@@ -324,7 +328,7 @@ function SearchPage() {
           </form>
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
-            <li className="nav-item col-6" role="presentation">
+            <li className="nav-item col-md-6 p-1" role="presentation">
               <button
                 className="btn active col-12"
                 id="home-tab"
@@ -343,7 +347,7 @@ function SearchPage() {
                 <FaMapMarkedAlt /> &nbsp;Map&nbsp;
               </button>
             </li>
-            <li className="nav-item col-6" role="presentation">
+            <li className="nav-item col-md-6 p-1" role="presentation">
               <button
                 className=" btn col-12"
                 id="profile-tab"

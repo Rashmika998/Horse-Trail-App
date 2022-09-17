@@ -475,7 +475,7 @@ export default function DisplayTrail() {
 
   const columns = [
     {
-      selector: (row) => row.review,
+      selector: (row) => <li>{row.review}</li>,
     },
   ];
 
@@ -1021,6 +1021,134 @@ export default function DisplayTrail() {
                     completed &&
                     !checkedIn ? (
                     <>
+                      <Card>
+                        {completed ? (
+                          <div>
+                            <div>
+                              <div className="row">
+                                <div
+                                  className="form-radio col-md-5"
+                                  style={{ marginBottom: "15px" }}
+                                >
+                                  <label style={{ marginBottom: "5px" }}>
+                                    <h4>Rate the Trail</h4>(submit the rate by
+                                    clicking the required stars)
+                                  </label>
+                                  <div style={styles.stars}>
+                                    {stars.map((_, index) => {
+                                      return (
+                                        <FaStar
+                                          key={index}
+                                          size={24}
+                                          onClick={() => handleClick(index + 1)}
+                                          onMouseOver={() =>
+                                            handleMouseOver(index + 1)
+                                          }
+                                          onMouseLeave={handleMouseLeave}
+                                          color={
+                                            (hoverValue || currentValue) > index
+                                              ? colors.orange
+                                              : colors.grey
+                                          }
+                                          style={{
+                                            marginRight: 10,
+                                            cursor: "pointer",
+                                          }}
+                                        />
+                                      );
+                                    })}
+                                  </div>
+                                  <br></br>
+                                  {rateResult ? (
+                                    <div class="alert alert-info" role="alert">
+                                      {rateResult}
+                                    </div>
+                                  ) : null}
+                                </div>
+
+                                <div className="col-md-7">
+                                  <form className="needs-validation">
+                                    <div
+                                      className="form-group"
+                                      style={{ marginBottom: "15px" }}
+                                    >
+                                      <label style={{ marginBottom: "5px" }}>
+                                        Add Review
+                                      </label>
+                                      <textarea
+                                        required
+                                        name="review"
+                                        className="form-control"
+                                        onChange={(e) => {
+                                          setReview(e.target.value);
+                                        }}
+                                      ></textarea>
+                                    </div>
+                                    {reviewResult ? (
+                                      <div
+                                        class="alert alert-info"
+                                        role="alert"
+                                      >
+                                        {reviewResult}
+                                      </div>
+                                    ) : null}
+                                    <div className="d-grid">
+                                      <button
+                                        className="btn btn-block"
+                                        type="submit"
+                                        style={{
+                                          marginTop: "15px",
+                                          backgroundColor: "#071c2f",
+                                          color: "white",
+                                        }}
+                                        onClick={submitReview}
+                                      >
+                                        Add Review
+                                      </button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <form className="needs-validation">
+                            <div className="row">
+                              <div className="col-md-5">
+                                <button
+                                  className="btn btn-primary"
+                                  onClick={addCheckIn}
+                                >
+                                  Check In
+                                </button>
+                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                {checkIn == "Waiting" ? (
+                                  <div
+                                    class="spinner-border text-primary "
+                                    role="status"
+                                  ></div>
+                                ) : null}
+                                {checkIn == "Success" ? (
+                                  <div
+                                    class="alert alert-success mt-4"
+                                    role="alert"
+                                  >
+                                    Change has been saved successfully.
+                                  </div>
+                                ) : null}
+                                {checkIn == "Error" ? (
+                                  <div
+                                    class="alert alert-danger mt-4"
+                                    role="alert"
+                                  >
+                                    Error occurred! Please try again.
+                                  </div>
+                                ) : null}
+                              </div>
+                            </div>
+                          </form>
+                        )}
+                      </Card>
                       <div
                         className="btn btn-outline-danger"
                         onClick={(event) => onClickAddFavourite(event, trailID)}
@@ -1046,133 +1174,7 @@ export default function DisplayTrail() {
                         </div>
                       ) : null}
                     </>
-                  ) : checkedIn == false ? (
-                    <div>
-                      {completed ? (
-                        <div>
-                          <div>
-                            <div className="row">
-                              <div
-                                className="form-radio col-md-5"
-                                style={{ marginBottom: "15px" }}
-                              >
-                                <label style={{ marginBottom: "5px" }}>
-                                  <h4>Rate the Trail</h4>(submit the rate by
-                                  clicking the required stars)
-                                </label>
-                                <div style={styles.stars}>
-                                  {stars.map((_, index) => {
-                                    return (
-                                      <FaStar
-                                        key={index}
-                                        size={24}
-                                        onClick={() => handleClick(index + 1)}
-                                        onMouseOver={() =>
-                                          handleMouseOver(index + 1)
-                                        }
-                                        onMouseLeave={handleMouseLeave}
-                                        color={
-                                          (hoverValue || currentValue) > index
-                                            ? colors.orange
-                                            : colors.grey
-                                        }
-                                        style={{
-                                          marginRight: 10,
-                                          cursor: "pointer",
-                                        }}
-                                      />
-                                    );
-                                  })}
-                                </div>
-                                <br></br>
-                                {rateResult ? (
-                                  <div class="alert alert-info" role="alert">
-                                    {rateResult}
-                                  </div>
-                                ) : null}
-                              </div>
-
-                              <div className="col-md-7">
-                                <form className="needs-validation">
-                                  <div
-                                    className="form-group"
-                                    style={{ marginBottom: "15px" }}
-                                  >
-                                    <label style={{ marginBottom: "5px" }}>
-                                      Add Review
-                                    </label>
-                                    <textarea
-                                      required
-                                      name="review"
-                                      className="form-control"
-                                      onChange={(e) => {
-                                        setReview(e.target.value);
-                                      }}
-                                    ></textarea>
-                                  </div>
-                                  {reviewResult ? (
-                                    <div class="alert alert-info" role="alert">
-                                      {reviewResult}
-                                    </div>
-                                  ) : null}
-                                  <div className="d-grid">
-                                    <button
-                                      className="btn btn-block"
-                                      type="submit"
-                                      style={{
-                                        marginTop: "15px",
-                                        backgroundColor: "#071c2f",
-                                        color: "white",
-                                      }}
-                                      onClick={submitReview}
-                                    >
-                                      Add Review
-                                    </button>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ) : (
-                        <form className="needs-validation">
-                          <div className="row">
-                            <div className="col-md-5">
-                              <button
-                                className="btn btn-primary"
-                                onClick={addCheckIn}
-                              >
-                                Check In
-                              </button>
-                              &nbsp; &nbsp; &nbsp; &nbsp;
-                              {checkIn == "Waiting" ? (
-                                <div
-                                  class="spinner-border text-primary "
-                                  role="status"
-                                ></div>
-                              ) : null}
-                              {checkIn == "Success" ? (
-                                <div
-                                  class="alert alert-success mt-4"
-                                  role="alert"
-                                >
-                                  Change has been saved successfully.
-                                </div>
-                              ) : null}
-                              {checkIn == "Error" ? (
-                                <div
-                                  class="alert alert-danger mt-4"
-                                  role="alert"
-                                >
-                                  Error occurred! Please try again.
-                                </div>
-                              ) : null}
-                            </div>
-                          </div>
-                        </form>
-                      )}
-                    </div>
-                  ) : (
+                  ) : checkedIn == false ? null : (
                     <>
                       <button className="btn btn-secondary">Checked In</button>
                       &nbsp;&nbsp;
