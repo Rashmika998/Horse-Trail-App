@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams  } from "react-router-dom";
 import { BodyContent } from "../globalStyles";
 import "../components/AuthPages/Auth.css";
 
@@ -12,6 +12,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
+  let { statusMsg } = useParams();
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -34,6 +35,7 @@ export default function Login() {
         <Card.Body>
           <h2 className="text-center mb-4">Sign In</h2>
           {error && <Alert variant="danger">{error}</Alert>}
+          {statusMsg && <Alert variant="success">{statusMsg}</Alert>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>

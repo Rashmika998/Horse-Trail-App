@@ -3,7 +3,7 @@ import { BodyContent } from "../globalStyles";
 import EditProfile from "../components/EditProfile/EditProfile";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../utils/firestore";
-
+import Button from 'react-bootstrap/Button';
 import {
   FaCheckCircle,
   FaHeart,
@@ -119,6 +119,7 @@ function MyProfile() {
     >
       <div className="container-fluid col-11" style={{ paddingTop: "40px" }}>
         <div className="row m-2">
+        {(userDetails.type=='admin')?<p className="m-2"><Button href="/register-admin" style={{width: "20vw"}}><FaPlusCircle /> Register new admin</Button></p>: null}
           <div className="col-lg-4 m-1">
             <div
               className=" card bg-white  shadow shadow-intensity-xl p-3 mb-5 rounded"
