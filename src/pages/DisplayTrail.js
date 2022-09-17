@@ -52,6 +52,7 @@ export default function DisplayTrail() {
   const [fav, setFav] = useState(false); //fav state
   const [bannerURL, setBannerURL] = useState("");
   const [userType, setUserType] = useState([]);
+  const [show, setShow] = useState(false);
 
   const handleClick = (value) => {
     setCurrentValue(value);
@@ -483,14 +484,19 @@ export default function DisplayTrail() {
     return results;
   }
 
-  function deleteReview(id) {
-    // FireStoreService.deleteReview(id)
-    //   .then(() => {
-    //     window.location.reload(true);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
+  const deleteReview = (id) => {
+    FireStoreService.deleteReview(id)
+      .then(() => {
+        window.location.reload(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const handleClose = () => setShow(false);
+  function handleShowDelete() {
+    setShow(true);
   }
 
   const columns = [
@@ -506,13 +512,38 @@ export default function DisplayTrail() {
       name: "Delete",
       selector: (row) => (
         <>
-          {userType === "user" ? (
-            <Button
-              className="btn btn-danger btn-sm"
-              onClick={deleteReview(row.id)}
-            >
-              <FaTrash />
-            </Button>
+          {userType === "admin" ? (
+            <>
+              <Button
+                className="btn btn-danger btn-sm"
+                onClick={handleShowDelete}
+              >
+                <FaTrash />
+                {console.log(show)}
+              </Button>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header
+                  closeButton
+                  style={{
+                    backgroundColor: "#C41E3A",
+                    color: "white",
+                  }}
+                >
+                  <Modal.Title> Delete Review</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ textAlign: "center" }}>
+                  Delete this review?
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="danger" onClick={() => deleteReview(row.id)}>
+                    Yes
+                  </Button>
+                  <Button variant="secondary" onClick={handleClose}>
+                    No
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </>
           ) : null}
         </>
       ),

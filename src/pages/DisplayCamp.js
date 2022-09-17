@@ -1,7 +1,7 @@
 import { React, useEffect, useState } from "react";
 import FireStoreService from "../utils/services/camps/FireStoreService";
 import UserFireStoreService from "../utils/services/user/FireStoreService";
-import { Card, Alert, Button } from "react-bootstrap";
+import { Card, Alert, Button, Modal } from "react-bootstrap";
 import { FaStar, FaCheckCircle, FaHeart } from "react-icons/fa";
 import DataTable from "react-data-table-component";
 import GetNearbyPlaces from "./GetNearbyPlaces";
@@ -53,6 +53,7 @@ export default function DisplayCamp() {
   const [fav, setFav] = useState(false); //fav state
   const [bannerURL, setBannerURL] = useState("");
   const [userType, setUserType] = useState([]);
+  const [show, setShow] = useState(false);
 
   const handleClick = (value) => {
     setCurrentValue(value);
@@ -485,14 +486,19 @@ export default function DisplayCamp() {
     return results;
   }
 
+  const handleClose = () => setShow(false);
+  function handleShowDelete() {
+    setShow(true);
+  }
+
   function deleteReview(id) {
-    // FireStoreService.deleteReview(id)
-    //   .then(() => {
-    //     window.location.reload(true);
-    //   })
-    //   .catch((e) => {
-    //     console.log(e);
-    //   });
+    FireStoreService.deleteReview(id)
+      .then(() => {
+        window.location.reload(true);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   const columns = [
@@ -509,12 +515,36 @@ export default function DisplayCamp() {
       selector: (row) => (
         <>
           {userType === "admin" ? (
-            <Button
-              className="btn btn-danger btn-sm"
-              onClick={deleteReview(row.id)}
-            >
-              <FaTrash />
-            </Button>
+            <>
+              <Button
+                className="btn btn-danger btn-sm"
+                onClick={deleteReview(row.id)}
+              >
+                <FaTrash />
+              </Button>
+              <Modal show={show} onHide={handleClose}>
+                <Modal.Header
+                  closeButton
+                  style={{
+                    backgroundColor: "#C41E3A",
+                    color: "white",
+                  }}
+                >
+                  <Modal.Title> Delete Review</Modal.Title>
+                </Modal.Header>
+                <Modal.Body style={{ textAlign: "center" }}>
+                  Delete this review?
+                </Modal.Body>
+                <Modal.Footer>
+                  <Button variant="danger" onClick={() => deleteReview(row.id)}>
+                    Yes
+                  </Button>
+                  <Button variant="secondary" onClick={handleClose}>
+                    No
+                  </Button>
+                </Modal.Footer>
+              </Modal>
+            </>
           ) : null}
         </>
       ),
