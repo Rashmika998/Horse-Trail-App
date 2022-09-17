@@ -65,11 +65,46 @@ function AddedTrails() {
     setShow(true);
   }
 
+  function filterData(trails, searchKey) {
+    const result = trails.filter(
+      (trail) =>
+        trail.trailName.toLowerCase().includes(searchKey) ||
+        trail.trailName.toUpperCase().includes(searchKey)
+    );
+    setTrailsList(result);
+  }
+
+  const handleSearchArea = (e) => {
+    const searchKey = e.target.value;
+    FireStoreService.getMyTrails(userID)
+      .then((res) => {
+        setTrailsList(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        filterData(
+          res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
+          searchKey
+        );
+      })
+      .catch((e) => {});
+  };
+
+  let SearchTrail = (
+    <div className="col-lg-3 mt-2 mb-2">
+      <input
+        className="form-control"
+        type="search"
+        placeholder="Search"
+        onChange={handleSearchArea}
+      ></input>
+    </div>
+  );
+
   return (
     <BodyContent
       style={{
         backgroundImage: `url(${Background})`,
         position: "absolute",
+        overflowY: "hidden",
+        backgroundAttachment: "fixed",
       }}
     >
       <div className="text-center">
@@ -86,14 +121,24 @@ function AddedTrails() {
 
         {loading == false && trails.length == 0 ? (
           <div className="mt-5 mx-5  text-center shadow p-2 mb-1 card font-weight-bold rounded">
-            No trails added
+            No trails found
           </div>
         ) : (
           ""
         )}
       </div>
 
-      <div className="row text-center mx-4">
+      <div
+        className="row text-center mx-4"
+        style={{
+          minWidth: "50vw",
+          overflowY: "auto",
+          height: "100%",
+          overflowX: "hidden",
+        }}
+      >
+        <div className="m-3">{SearchTrail}</div>
+        <br></br>
         {trails.map((trail) => {
           //   getImageURL(trail);
           return (
@@ -109,7 +154,7 @@ function AddedTrails() {
                     paddingTop: "20px",
                     paddingBottom: "20px",
                     width: "95%",
-                    margin:"auto"
+                    margin: "auto",
                   }}
                 />
                 <Card.Body>

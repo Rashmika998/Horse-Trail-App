@@ -65,11 +65,46 @@ function AddedCamps() {
     setShow(true);
   }
 
+  function filterData(camps, searchKey) {
+    const result = camps.filter(
+      (camp) =>
+        camp.campName.toLowerCase().includes(searchKey) ||
+        camp.campName.toUpperCase().includes(searchKey)
+    );
+    setCampsList(result);
+  }
+
+  const handleSearchArea = (e) => {
+    const searchKey = e.target.value;
+    FireStoreService.getMyCamps(userID)
+      .then((res) => {
+        setCampsList(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+        filterData(
+          res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
+          searchKey
+        );
+      })
+      .catch((e) => {});
+  };
+
+  let SearchCamp = (
+    <div className="col-lg-3 mt-2 mb-2">
+      <input
+        className="form-control"
+        type="search"
+        placeholder="Search"
+        onChange={handleSearchArea}
+      ></input>
+    </div>
+  );
+
   return (
     <BodyContent
       style={{
         backgroundImage: `url(${Background})`,
         position: "absolute",
+        overflowY: "hidden",
+        backgroundAttachment: "fixed",
       }}
     >
       <div className="text-center">
@@ -86,14 +121,24 @@ function AddedCamps() {
 
         {loading == false && camps.length == 0 ? (
           <div className="mt-3  mx-5  text-center shadow p-2 mb-1 card font-weight-bold rounded">
-            No camps added
+            No camps found
           </div>
         ) : (
           ""
         )}
       </div>
 
-      <div className="row text-center mx-4">
+      <div
+        className="row text-center mx-4"
+        style={{
+          minWidth: "50vw",
+          overflowY: "auto",
+          height: "100%",
+          overflowX: "hidden",
+        }}
+      >
+        <div className="m-3">{SearchCamp}</div>
+        <br></br>
         {camps.map((camp) => {
           return (
             <Col xs={12} md={6} lg={4} key={camp.id}>
