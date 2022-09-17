@@ -129,8 +129,9 @@ export default function AddCamp() {
 
   function onSubmit(e) {
     e.preventDefault();
+    console.log(banner);
     if (
-      banner.type === "text/jpeg" ||
+      banner.type === "image/jpeg" ||
       banner.type === "image/jpg" ||
       banner.type === "image/bmp" ||
       banner.type === "image/png" ||
@@ -280,9 +281,6 @@ export default function AddCamp() {
                                           website
                                         )
                                           .then(() => {
-                                            setCampAdded(
-                                              "Camp added successfully!"
-                                            );
                                             setCampDescription("");
                                             setCampName("");
                                             setCampNotes("");
@@ -319,6 +317,9 @@ export default function AddCamp() {
                                             setReservation("");
                                             setPaperworkRequired("Yes");
                                             setCampType();
+                                            setCampAdded(
+                                              "Camp added successfully!"
+                                            );
                                           })
                                           .catch((e) => {
                                             setError(
@@ -1223,6 +1224,7 @@ export default function AddCamp() {
               >
                 Add Camp
               </button>
+              <br></br>
               {campAdded ? (
                 <div className="alert alert-success" role="alert">
                   {campAdded}

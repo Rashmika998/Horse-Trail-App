@@ -111,13 +111,15 @@ function MyProfile() {
   return (
     <BodyContent
       style={{
-       background: "rgb(5,5,6)",
-background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,12,43,0.2511379551820728) 35%, rgba(20,53,60,0.19791666666666663) 100%)"
+        background: "rgb(5,5,6)",
+        background:
+          "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,12,43,0.2511379551820728) 35%, rgba(20,53,60,0.19791666666666663) 100%)",
+        overflowX: "hidden",
       }}
     >
       <div className="container-fluid col-11" style={{ paddingTop: "40px" }}>
-        <div className="row">
-          <div className="col-lg-4">
+        <div className="row m-2">
+          <div className="col-lg-4 m-1">
             <div
               className=" card bg-white  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -164,7 +166,7 @@ background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,1
               </div>
             </div>
           </div>
-          <div className="col-lg-8">
+          <div className="col-lg-7 m-1">
             <div
               className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -210,7 +212,7 @@ background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,1
           </div>
         </div>
 
-        <div className="row" style={{ paddingTop: "15px" }}>
+        <div className="row m-2" style={{ paddingTop: "15px" }}>
           <div className="col-lg-6">
             <div
               className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"

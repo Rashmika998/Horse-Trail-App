@@ -106,7 +106,11 @@ function SearchPage() {
   };
 
   useEffect(() => {
-    if(currentUser){setError("");}else{setError("You are not logged in");}
+    if (currentUser) {
+      setError("");
+    } else {
+      setError("You are not logged in");
+    }
     getList();
   }, []);
 
@@ -121,14 +125,11 @@ function SearchPage() {
     },
   ];
 
-  
-
   return (
     <>
       <BodyContent
         style={{
           backgroundImage: `url(${Background})`,
-          
         }}
       >
         <div
@@ -365,7 +366,7 @@ function SearchPage() {
           </form>
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
-            <li className="nav-item col-6" role="presentation">
+            <li className="nav-item col-md-6 p-1" role="presentation">
               <button
                 className="btn active col-12"
                 id="home-tab"
@@ -384,7 +385,7 @@ function SearchPage() {
                 <FaMapMarkedAlt /> &nbsp;Map&nbsp;
               </button>
             </li>
-            <li className="nav-item col-6" role="presentation">
+            <li className="nav-item col-md-6 p-1" role="presentation">
               <button
                 className=" btn col-12"
                 id="profile-tab"
@@ -475,7 +476,6 @@ function SearchPage() {
             </div>
           </div>
         </div>
-     
       </BodyContent>
     </>
   );
