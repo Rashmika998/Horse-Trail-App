@@ -83,29 +83,9 @@ root.render(
           ></Route>
           <Route exact path="/edit-trail/:id" element={<EditTrail />} />
           <Route exact path="/edit-camp/:id" element={<EditCamp />} />
-          <Route
-            path="/logout"
-            element={
-              <PrivateRoute>
-                <Logout />
-              </PrivateRoute>
-            }
-          ></Route>
-          <Route exact path="/add" element={<Add />}></Route>
-          <Route
-            exact
-            path="/register-admin"
-            element={<RegisterAdmin />}
-          ></Route>
-
-          <Route
-            path="/my-profile"
-            element={
-              <PrivateRoute>
-                <MyProfile />
-              </PrivateRoute>
-            }
-          ></Route>
+          <Route path="/logout" element={<PrivateRoute><Logout /></PrivateRoute>}></Route>
+          <Route exact path="/add" element={<Add/>}></Route>
+          <Route exact path="/register-admin" element={<PrivateRoute><RegisterAdmin/></PrivateRoute>}></Route>
         </Routes>
         <Footer />
       </Router>
