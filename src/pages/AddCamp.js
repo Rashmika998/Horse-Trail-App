@@ -130,7 +130,7 @@ export default function AddCamp() {
 
   function onSubmit(e) {
     e.preventDefault();
-    console.log(banner);
+    setLoading(true);
     if (
       banner.type === "image/jpeg" ||
       banner.type === "image/jpg" ||
@@ -1220,7 +1220,7 @@ export default function AddCamp() {
               </div>
             ) : null}
             <div className="d-grid">
-              {loading && !error ? (
+              {loading && error.length==0 && campAdded.length==0? (
                 <div className="mt-3 mx-auto text-center">
                   <div className="spinner-border" role="status"></div>
                 </div>

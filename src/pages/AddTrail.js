@@ -38,7 +38,6 @@ export default function AddTrail() {
   const [trailType, setTrailType] = useState("Loop");
   const [error, setError] = useState("");
   const [trailAdded, setTrailAdded] = useState("");
-
   const [trailHeadCheck, setTrailHead] = useState({
     trailHead: [],
   });
@@ -56,6 +55,7 @@ export default function AddTrail() {
   const [banner, setBanner] = useState("");
   const [parkingImage, setParkingImage] = useState("");
   const [trailMapImage, setTrailMapImage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   function validateLatLng(lat, lng) {
     let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
@@ -65,6 +65,8 @@ export default function AddTrail() {
 
   function onSubmit(e) {
     e.preventDefault();
+    setLoading(true);
+
     if (
       banner.type === "image/jpeg" ||
       banner.type === "image/jpg" ||
@@ -1029,6 +1031,11 @@ export default function AddTrail() {
               </div>
             ) : null}
             <div className="d-grid">
+              {loading && error.length == 0 && trailAdded.length == 0 ? (
+                <div className="mt-3 mx-auto text-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
+              ) : null}
               <button
                 className="btn btn-block"
                 type="submit"
