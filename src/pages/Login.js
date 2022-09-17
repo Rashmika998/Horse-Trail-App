@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect} from "react";
 import { Form, Button, Card, Alert } from "react-bootstrap";
 import { useAuth } from "../contexts/AuthContext";
 import { Link, useNavigate, useParams  } from "react-router-dom";
@@ -8,7 +8,7 @@ import "../components/AuthPages/Auth.css";
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth();
+  const { login, currentUser, logout } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
@@ -28,6 +28,12 @@ export default function Login() {
 
     setLoading(false);
   }
+
+  useEffect(()=>{
+    if (currentUser) {
+      logout();
+    }
+  },[])
 
   return (
     <div className='hero-container'>
