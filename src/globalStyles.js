@@ -93,6 +93,11 @@ export const BodyContent = styled.body`
   // }
 `;
 
+export const HomeContent = styled.body`
+  padding: ${({ padding }) => (padding ? padding : "80px 0 150px 0")};
+ 
+`;
+
 export const RowField = styled.div`
   display: flex;
   justify-content: ${({ justify }) => (justify ? justify : "")};

@@ -117,7 +117,7 @@ background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,1
     >
       <div className="container-fluid col-11" style={{ paddingTop: "40px" }}>
         <div className="row">
-          <div className="col-lg-4">
+          <div className="col-lg-4 mt-5">
             <div
               className=" card bg-white  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -164,7 +164,7 @@ background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,1
               </div>
             </div>
           </div>
-          <div className="col-lg-8">
+          <div className="col-lg-8 mt-5">
             <div
               className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -210,10 +210,10 @@ background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,1
           </div>
         </div>
 
-        <div className="row" style={{ paddingTop: "15px" }}>
-          <div className="col-lg-6">
+        <div className="row" >
+          <div className="col-lg-6 mt-5">
             <div
-              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              className="card  shadow shadow-intensity-xl rounded"
               style={{ border: "none" }}
             >
               <h3 className="mt-2 text-center font-weight-bold">
@@ -273,9 +273,9 @@ background: "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,1
               </div>
             </div>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-6 mt-5">
             <div
-              className="card  shadow shadow-intensity-xl p-3 mb-5 rounded"
+              className="card  shadow shadow-intensity-xl  rounded"
               style={{ border: "none" }}
             >
               <h3 className="mt-2 text-center font-weight-bold">

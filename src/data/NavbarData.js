@@ -7,14 +7,7 @@ export const data = [
     to: "/camps",
     text: "Camping",
   },
-  {
-    to: "/search",
-    text: "Search",
-  },
-  {
-    to: "/reviews",
-    text: "Reviews",
-  },
+
   {
     to: "/login",
     text: "SignIn",
@@ -23,6 +16,7 @@ export const data = [
     to: "/register",
     text: "SignUp",
   },
+  
 ];
 
 export const data2 = [
@@ -34,13 +28,10 @@ export const data2 = [
     to: "/camps",
     text: "Camping",
   },
+ 
   {
-    to: "/search",
-    text: "Search",
-  },
-  {
-    to: "/reviews",
-    text: "Reviews",
+    to: "/my-profile",
+    text: "Profile",
   },
   {
     to: "/logout",

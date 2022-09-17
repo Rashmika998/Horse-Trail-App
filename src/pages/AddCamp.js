@@ -61,6 +61,7 @@ export default function AddCamp() {
   const [banner, setBanner] = useState("");
   const [parkingImage, setParkingImage] = useState("");
 
+  const [loading, setLoading] = useState(false);
   const handleCheckChangeOne = (e) => {
     // Destructuring
     const { value, checked } = e.target;
@@ -130,7 +131,7 @@ export default function AddCamp() {
   function onSubmit(e) {
     e.preventDefault();
     if (
-      banner.type === "text/jpeg" ||
+      banner.type === "image/jpeg" ||
       banner.type === "image/jpg" ||
       banner.type === "image/bmp" ||
       banner.type === "image/png" ||
@@ -222,14 +223,16 @@ export default function AddCamp() {
                                   const amenitiesCheck = {};
                                   amenitiesCheck.amenities = tempObj;
 
-                                  var rePhone = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                                  var rePhone =
+                                    /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
                                   /* Allowed phn number formats
                                   (123) 456-7890. (123)456-7890, 123-456-7890, 1234567890 */
                                   if (
                                     rePhone.test(phone) &&
                                     rePhone.test(reservationCall)
                                   ) {
-                                    var reEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                                    var reEmail =
+                                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
                                     if (
                                       reEmail.test(email) &&
                                       reEmail.test(reservationEmail)
@@ -240,6 +243,7 @@ export default function AddCamp() {
                                           parseFloat(longitude)
                                         )
                                       ) {
+
                                         FireStoreService.addCamp(
                                           amenitiesCheck,
                                           banner.name,
@@ -280,6 +284,7 @@ export default function AddCamp() {
                                           website
                                         )
                                           .then(() => {
+                                            setError("");
                                             setCampAdded(
                                               "Camp added successfully!"
                                             );
@@ -1211,6 +1216,11 @@ export default function AddCamp() {
               </div>
             ) : null}
             <div className="d-grid">
+              {loading && !error ? (
+                <div className="mt-3 mx-auto text-center">
+                  <div className="spinner-border" role="status"></div>
+                </div>
+              ) : null}
               <button
                 className="btn btn-block"
                 type="submit"
