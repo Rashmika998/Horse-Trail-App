@@ -651,19 +651,28 @@ function check_Favourite(userID, trailID) {
 }
 
 function deleteCampChecksIn(id) {
-  return new Promise((resolve, reject) => {
-    var query = db.collection("campCheckIns");
-    query = query.where("campID", "==", id);
-    query
-      .doc(id)
-      .delete()
-      .then(() => {
-        resolve();
-      })
-      .catch((e) => {
-        reject(e);
-      });
-  });
+ return new Promise((resolve, reject) => {
+   var query = db.collection("campCheckIns");
+   query = query.where("campID", "==", id);
+   query
+     .get()
+     .then((querySnapshot) => {
+       querySnapshot.forEach((doc) => {
+         doc.ref
+           .delete()
+           .then(() => {
+             console.log("Deleted");
+           })
+           .catch((e) => {
+             reject(e);
+           });
+       });
+       resolve();
+     })
+     .catch((e) => {
+       reject(e);
+     });
+ });
 }
 
 function deleteReview(id) {

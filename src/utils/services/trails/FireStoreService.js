@@ -689,9 +689,18 @@ function deleteTrailChecksIn(id) {
     var query = db.collection("trailCheckIns");
     query = query.where("trailID", "==", id);
     query
-      .doc(id)
-      .delete()
-      .then(() => {
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          doc.ref
+            .delete()
+            .then(() => {
+              console.log("Deleted");
+            })
+            .catch((e) => {
+              reject(e);
+            });
+        });
         resolve();
       })
       .catch((e) => {
