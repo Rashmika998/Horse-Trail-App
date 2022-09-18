@@ -44,6 +44,7 @@ export default function EditCamp() {
   const [campGal3Updated, setCampGal3Updated] = useState("");
 
   const [campDetails, setCampDetails] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (currentUser) {
@@ -521,6 +522,8 @@ export default function EditCamp() {
 
   function onSubmitCampDetails(e) {
     e.preventDefault();
+    setLoading(true);
+
     const tempObj = {};
     let tempArr = amenitiesCheckTemp.amenities;
     tempObj.Corrals = false;
@@ -552,7 +555,8 @@ export default function EditCamp() {
     /* Allowed phn number formats
     (123) 456-7890. (123)456-7890, 123-456-7890, 1234567890 */
     if (rePhone.test(phone) && rePhone.test(reservationCall)) {
-      var reEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      var reEmail =
+        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       if (reEmail.test(email) && reEmail.test(reservationEmail)) {
         if (validateLatLng(parseFloat(latitude), parseFloat(longitude))) {
           FireStoreService.updateCampDetails(
@@ -650,6 +654,7 @@ export default function EditCamp() {
   }
 
   function onSubmitBannerImage(e) {
+
     e.preventDefault();
     if (
       banner.type === "image/jpeg" ||
@@ -1791,6 +1796,13 @@ export default function EditCamp() {
                     </div>
                   ) : null}
                   <div className="d-grid">
+                    {loading &&
+                    errorCampDetails.length == 0 &&
+                    campUpdated.length == 0 ? (
+                      <div className="mt-3 mx-auto text-center">
+                        <div className="spinner-border" role="status"></div>
+                      </div>
+                    ) : null}
                     <button
                       className="btn btn-block"
                       type="submit"

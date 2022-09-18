@@ -31,8 +31,10 @@ function EditProfile() {
         setFirstName(doc.data().firstName);
         console.log({ firstName });
         setLastName(doc.data().lastName);
-        setPhoneNumber(doc.data().phoneNumber);
-        setRidingLevel(doc.data().ridingLevel);
+        setPhoneNumber(doc.data().mobileNo);
+        if (doc.data().ridingLevel) {
+          setRidingLevel(doc.data().ridingLevel);
+        }
       })
       .catch((error) => {
         console.log("Error getting document:", error);
@@ -52,7 +54,7 @@ function EditProfile() {
           email: emailRef.current.value,
           firstName: firstName,
           lastName: lastName,
-          phoneNumber: phoneNumber,
+          mobileNo: phoneNumber,
           ridingLevel: ridingLevel,
         },
         { mergeFields: ["firstName", "lastName", "phoneNumber", "ridingLevel"] }
@@ -96,6 +98,7 @@ function EditProfile() {
     setLastName("");
     setPhoneNumber("");
     setRidingLevel("");
+    emailRef.current.value = "";
   };
   return (
     <div
