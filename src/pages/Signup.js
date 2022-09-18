@@ -23,6 +23,9 @@ export default function Signup() {
   async function handleSubmit(e) {
     e.preventDefault();
 
+    if (passwordRef.current.value.toString().length < 9) {
+      return setError("Password should contain at least 9 characters");
+    }
     if (passwordRef.current.value !== passwordConfirmRef.current.value) {
       return setError("Passwords do not match");
     }
@@ -52,8 +55,8 @@ export default function Signup() {
       <br/><br/>
       <Card style={{minWidth: '50vw',}} className='card'>
         <Card.Body>
-          <h4 className="text-center">Sign Up</h4>
-          {error && <Alert variant="danger">{error}</Alert>}
+          <h5 className="text-center">Sign Up</h5>
+          {error && <p style={{color: '#9e1b32'}}>{error}</p>}
           <Form onSubmit={handleSubmit}>
             <Form.Group id="fName">
               <Form.Label>First Name</Form.Label>
