@@ -111,12 +111,21 @@ function MyCampsList() {
       style={{
         backgroundImage: `url(${Background})`,
         position: "absolute",
+        backgroundAttachment: "fixed",
+        overflowY: "hidden",
       }}
     >
-      <div className="container">
+      <div
+        className="container"
+        style={{
+          minWidth: "50vw",
+          overflowY: "auto",
+          height: "100%",
+          overflowX: "hidden",
+        }}
+      >
         <div className="text-center">
           <div className="shadow p-2 mb-1 card font-weight-bold rounded">
-           
             {campsType == "checkedIn" ? <h3>Camps to Visit</h3> : ""}
             {campsType == "completed" ? <h3>Completed Camps</h3> : ""}
             {campsType == "favourites" ? <h3>Favourite Camps</h3> : ""}

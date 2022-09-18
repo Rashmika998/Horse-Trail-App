@@ -69,7 +69,8 @@ function AddedTrails() {
     const result = trails.filter(
       (trail) =>
         trail.trailName.toLowerCase().includes(searchKey) ||
-        trail.trailName.toUpperCase().includes(searchKey)
+        trail.trailName.toUpperCase().includes(searchKey) ||
+        trail.trailName.includes(searchKey)
     );
     setTrailsList(result);
   }

@@ -69,7 +69,8 @@ function AddedCamps() {
     const result = camps.filter(
       (camp) =>
         camp.campName.toLowerCase().includes(searchKey) ||
-        camp.campName.toUpperCase().includes(searchKey)
+        camp.campName.toUpperCase().includes(searchKey) ||
+        camp.campName.includes(searchKey)
     );
     setCampsList(result);
   }
