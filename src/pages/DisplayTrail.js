@@ -131,13 +131,15 @@ export default function DisplayTrail() {
     }
     setTrailID(id);
     setCheckInStates(id);
-    UserFireStoreService.getUserType(currentUser.uid)
-      .then((res) => {
-        setUserType(res.data().type);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    if (currentUser) {
+      UserFireStoreService.getUserType(currentUser.uid)
+        .then((res) => {
+          setUserType(res.data().type);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
     FireStoreService.getTrail(id)
       .then((response) => {
         setTrailDetails(response.data());
