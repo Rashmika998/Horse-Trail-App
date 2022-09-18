@@ -789,1377 +789,1403 @@ export default function EditCamp() {
   }
   return (
     <div
-      className="container"
-      style={{ paddingTop: "100px", paddingBottom: "100px" }}
+      style={{
+        background:
+          "linear-gradient(90deg, rgba(5,5,6,0.5760679271708684) 0%, rgba(12,12,43,0.2511379551820728) 35%, rgba(20,53,60,0.19791666666666663) 100%)",
+      }}
     >
-      <div className="accordion" id="accordionPanelsStayOpenExample">
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="panelsStayOpen-headingOne">
-            <button
-              className="accordion-button"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseOne"
-              aria-expanded="true"
-              aria-controls="panelsStayOpen-collapseOne"
+      <div
+        className="container"
+        style={{ paddingTop: "100px", paddingBottom: "100px" }}
+      >
+        <div className="accordion" id="accordionPanelsStayOpenExample">
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-headingOne">
+              <button
+                className="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseOne"
+                aria-expanded="true"
+                aria-controls="panelsStayOpen-collapseOne"
+              >
+                Update Camp Details
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseOne"
+              className="accordion-collapse collapse show"
+              aria-labelledby="panelsStayOpen-headingOne"
             >
-              Update Camp Details
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseOne"
-            className="accordion-collapse collapse show"
-            aria-labelledby="panelsStayOpen-headingOne"
-          >
-            <div className="accordion-body">
-              <form className="needs-validation" encType="multipart/form-data">
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Camp Type</label>
-                      <select
-                        className="form-control"
-                        name="campType"
-                        onChange={(e) => {
-                          setCampType(e.target.value);
-                        }}
+              <div className="accordion-body">
+                <form
+                  className="needs-validation"
+                  encType="multipart/form-data"
+                >
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
                       >
-                        <option value="Any Camp Type" id="anyCamp">
-                          Any Camp Type
-                        </option>
-                        <option value="Public Campground" id="publicCamp">
-                          Public Campground
-                        </option>
-                        <option value="Private Campground" id="privateCamp">
-                          Private Campground
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Road to Camp
-                      </label>
-                      <select
-                        className="form-control"
-                        name="roadToCamp"
-                        onChange={(e) => {
-                          setRoadToCamp(e.target.value);
-                        }}
-                        value={roadToCamp}
-                      >
-                        <option value="Paved Road to Camp" id="pavedRoad">
-                          Paved Road to Camp
-                        </option>
-                        <option
-                          value="Paved+ some dirt road"
-                          id="pavedDirtyRoad"
+                        <label style={{ marginBottom: "5px" }}>Camp Type</label>
+                        <select
+                          className="form-control"
+                          name="campType"
+                          onChange={(e) => {
+                            setCampType(e.target.value);
+                          }}
                         >
-                          Paved+ some dirt road
-                        </option>
-                        <option value="Lots of bumpy roads" id="bumpyRoad">
-                          Lots of bumpy roads
-                        </option>
-                      </select>
+                          <option value="Any Camp Type" id="anyCamp">
+                            Any Camp Type
+                          </option>
+                          <option value="Public Campground" id="publicCamp">
+                            Public Campground
+                          </option>
+                          <option value="Private Campground" id="privateCamp">
+                            Private Campground
+                          </option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Park Name</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="parkName"
-                        placeholder="Enter the Park name"
-                        onChange={(e) => {
-                          setParkName(e.target.value);
-                        }}
-                        value={parkName}
-                      ></input>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Camp Name</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="campName"
-                        placeholder="Enter the Camp name"
-                        onChange={(e) => {
-                          setCampName(e.target.value);
-                        }}
-                        value={campName}
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>City</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="city"
-                        placeholder="Enter the City"
-                        onChange={(e) => {
-                          setCity(e.target.value);
-                        }}
-                        value={city}
-                      ></input>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>State</label>
-                      <select
-                        className="form-control"
-                        name="state"
-                        onChange={(e) => {
-                          setState(e.target.value);
-                        }}
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
                       >
-                        <option id="Alabama" value="Alabama">
-                          Alabama
-                        </option>
-                        <option id="Alaska" value="Alaska">
-                          Alaska
-                        </option>
-                        <option id="Arizona" value="Arizona">
-                          Arizona
-                        </option>
-                        <option id="Arkansas" value="Arkansas">
-                          Arkansas
-                        </option>
-                        <option id="California" value="California">
-                          California
-                        </option>
-                        <option id="Colorado" value="Colorado">
-                          Colorado
-                        </option>
-                        <option id="Connecticut" value="Connecticut">
-                          Connecticut
-                        </option>
-                        <option id="Delaware" value="Delaware">
-                          Delaware
-                        </option>
-                        <option
-                          id="District of Columbia"
-                          value="District of Columbia"
+                        <label style={{ marginBottom: "5px" }}>
+                          Road to Camp
+                        </label>
+                        <select
+                          className="form-control"
+                          name="roadToCamp"
+                          onChange={(e) => {
+                            setRoadToCamp(e.target.value);
+                          }}
+                          value={roadToCamp}
                         >
-                          District of Columbia
-                        </option>
-                        <option id="Florida" value="Florida">
-                          Florida
-                        </option>
-                        <option id="Geogia" value="Geogia">
-                          Geogia
-                        </option>
-                        <option id="Hawaii" value="Hawaii">
-                          Hawaii
-                        </option>
-                        <option id="Idaho" value="Idaho">
-                          Idaho
-                        </option>
-                        <option id="Illinois" value="Illinois">
-                          Illinois
-                        </option>
-                        <option id="Indiana" value="Indiana">
-                          Indiana
-                        </option>
-                        <option id="Iowa" value="Iowa">
-                          Iowa
-                        </option>
-                        <option id="Kansas" value="Kansas">
-                          Kansas
-                        </option>
-                        <option id="Kentucky" value="Kentucky">
-                          Kentucky
-                        </option>
-                        <option id="Lousiana" value="Lousiana">
-                          Lousiana
-                        </option>
-                        <option id="Geogia" value="Geogia">
-                          Geogia
-                        </option>
-                        <option id="Maine" value="Maine">
-                          Maine
-                        </option>
-                        <option id="Maryland" value="Maryland">
-                          Maryland
-                        </option>
-                        <option id="Massachusetts" value="Massachusetts">
-                          Massachusetts
-                        </option>
-                        <option id="Michigan" value="Michigan">
-                          Michigan
-                        </option>
-                        <option id="Minnesota" value="Minnesota">
-                          Minnesota
-                        </option>
-                        <option id="Mississippi" value="Mississippi">
-                          Mississippi
-                        </option>
-                        <option id="Missouri" value="Missouri">
-                          Missouri
-                        </option>
-                        <option id="Montana" value="Montana">
-                          Montana
-                        </option>
-                        <option id="Nebraska" value="Nebraska">
-                          Nebraska
-                        </option>
-                        <option id="Nevada" value="Nevada">
-                          Nevada
-                        </option>
-                        <option id="New Hampshire" value="New Hampshire">
-                          New Hampshire
-                        </option>
-                        <option id="New Jersey" value="New Jersey">
-                          New Jersey
-                        </option>
-                        <option id="New Mexico" value="New Mexico">
-                          New Mexico
-                        </option>
-                        <option id="New York" value="New York">
-                          New York
-                        </option>
-                        <option id="North Carolina" value="North Carolina">
-                          North Carolina
-                        </option>
-                        <option id="North Dakota" value="North Dakota">
-                          North Dakota
-                        </option>
-                        <option id="Ohio" value="Ohio">
-                          Ohio
-                        </option>
-                        <option id="Oklahoma" value="Oklahoma">
-                          Oklahoma
-                        </option>
-                        <option id="Oregon" value="Oregon">
-                          Oregon
-                        </option>
-                        <option id="Pennsylvania" value="Pennsylvania">
-                          Pennsylvania
-                        </option>
-                        <option id="Rhode Island" value="Rhode Island">
-                          Rhode Island
-                        </option>
-                        <option id="South Carolina" value="South Carolina">
-                          South Carolina
-                        </option>
-                        <option id="South Dakota" value="South Dakota">
-                          South Dakota
-                        </option>
-                        <option id="Tennessee" value="Tennessee">
-                          Tennessee
-                        </option>
-                        <option id="Texas" value="Texas">
-                          Texas
-                        </option>
-                        <option id="Utah" value="Utah">
-                          Utah
-                        </option>
-                        <option id="Vermont" value="Vermont">
-                          Vermont
-                        </option>
-                        <option id="Virginia" value="Virginia">
-                          Virginia
-                        </option>
-                        <option id="Washington" value="Washington">
-                          Washington
-                        </option>
-                        <option id="West Virginia" value="West Virginia">
-                          West Virginia
-                        </option>
-                        <option id="Wesconsin" value="Wesconsin">
-                          Wesconsin
-                        </option>
-                        <option id="Wyoming" value="Wyoming">
-                          Wyoming
-                        </option>
-                      </select>
+                          <option value="Paved Road to Camp" id="pavedRoad">
+                            Paved Road to Camp
+                          </option>
+                          <option
+                            value="Paved+ some dirt road"
+                            id="pavedDirtyRoad"
+                          >
+                            Paved+ some dirt road
+                          </option>
+                          <option value="Lots of bumpy roads" id="bumpyRoad">
+                            Lots of bumpy roads
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Phone</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="phone"
-                        placeholder="Enter the Phone Number"
-                        onChange={(e) => {
-                          setPhone(e.target.value);
-                        }}
-                        value={phone}
-                      ></input>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Paperwork Required
-                      </label>
-                      <select
-                        className="form-control"
-                        name="paperworkRequired"
-                        onChange={(e) => {
-                          setPaperworkRequired(e.target.value);
-                        }}
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
                       >
-                        <option value="Yes" id="paperworkRequiredYes">
-                          Yes
-                        </option>
-                        <option value="No" id="paperworkRequiredNo">
-                          No
-                        </option>
-                      </select>
+                        <label style={{ marginBottom: "5px" }}>Park Name</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="parkName"
+                          placeholder="Enter the Park name"
+                          onChange={(e) => {
+                            setParkName(e.target.value);
+                          }}
+                          value={parkName}
+                        ></input>
+                      </div>
                     </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Email</label>
-                      <input
-                        required={true}
-                        type="email"
-                        className="form-control"
-                        name="email"
-                        placeholder="Enter the Email Address"
-                        onChange={(e) => {
-                          setEmail(e.target.value);
-                        }}
-                        value={email}
-                      ></input>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Pet Policy</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="petPolicy"
-                        placeholder="Enter the Pet Policy"
-                        onChange={(e) => {
-                          setPetPolicy(e.target.value);
-                        }}
-                        value={petPolicy}
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Website</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="website"
-                        placeholder="Enter the Website"
-                        onChange={(e) => {
-                          setWebsite(e.target.value);
-                        }}
-                        value={website}
-                      ></input>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Restrictions
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="restrictions"
-                        placeholder="Enter the Restrictions"
-                        onChange={(e) => {
-                          setRestrictions(e.target.value);
-                        }}
-                        value={restrictions}
-                      ></input>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Facebook</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="facebook"
-                        placeholder="Enter the Facebook Link"
-                        onChange={(e) => {
-                          setFacebook(e.target.value);
-                        }}
-                        value={facebook}
-                      ></input>
-                    </div>
-                  </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Reservation</label>
-                      <select
-                        className="form-control"
-                        name="reservation"
-                        onChange={(e) => {
-                          setReservation(e.target.value);
-                        }}
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
                       >
-                        <option value="Yes" id="reservationYes">
-                          Yes
-                        </option>
-                        <option value="No" id="reservationNo">
-                          No
-                        </option>
-                      </select>
+                        <label style={{ marginBottom: "5px" }}>Camp Name</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="campName"
+                          placeholder="Enter the Camp name"
+                          onChange={(e) => {
+                            setCampName(e.target.value);
+                          }}
+                          value={campName}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Twitter</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="twitter"
-                        placeholder="Enter the Twitter Link"
-                        onChange={(e) => {
-                          setTwitter(e.target.value);
-                        }}
-                        value={twitter}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>City</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="city"
+                          placeholder="Enter the City"
+                          onChange={(e) => {
+                            setCity(e.target.value);
+                          }}
+                          value={city}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>State</label>
+                        <select
+                          className="form-control"
+                          name="state"
+                          onChange={(e) => {
+                            setState(e.target.value);
+                          }}
+                        >
+                          <option id="Alabama" value="Alabama">
+                            Alabama
+                          </option>
+                          <option id="Alaska" value="Alaska">
+                            Alaska
+                          </option>
+                          <option id="Arizona" value="Arizona">
+                            Arizona
+                          </option>
+                          <option id="Arkansas" value="Arkansas">
+                            Arkansas
+                          </option>
+                          <option id="California" value="California">
+                            California
+                          </option>
+                          <option id="Colorado" value="Colorado">
+                            Colorado
+                          </option>
+                          <option id="Connecticut" value="Connecticut">
+                            Connecticut
+                          </option>
+                          <option id="Delaware" value="Delaware">
+                            Delaware
+                          </option>
+                          <option
+                            id="District of Columbia"
+                            value="District of Columbia"
+                          >
+                            District of Columbia
+                          </option>
+                          <option id="Florida" value="Florida">
+                            Florida
+                          </option>
+                          <option id="Geogia" value="Geogia">
+                            Geogia
+                          </option>
+                          <option id="Hawaii" value="Hawaii">
+                            Hawaii
+                          </option>
+                          <option id="Idaho" value="Idaho">
+                            Idaho
+                          </option>
+                          <option id="Illinois" value="Illinois">
+                            Illinois
+                          </option>
+                          <option id="Indiana" value="Indiana">
+                            Indiana
+                          </option>
+                          <option id="Iowa" value="Iowa">
+                            Iowa
+                          </option>
+                          <option id="Kansas" value="Kansas">
+                            Kansas
+                          </option>
+                          <option id="Kentucky" value="Kentucky">
+                            Kentucky
+                          </option>
+                          <option id="Lousiana" value="Lousiana">
+                            Lousiana
+                          </option>
+                          <option id="Geogia" value="Geogia">
+                            Geogia
+                          </option>
+                          <option id="Maine" value="Maine">
+                            Maine
+                          </option>
+                          <option id="Maryland" value="Maryland">
+                            Maryland
+                          </option>
+                          <option id="Massachusetts" value="Massachusetts">
+                            Massachusetts
+                          </option>
+                          <option id="Michigan" value="Michigan">
+                            Michigan
+                          </option>
+                          <option id="Minnesota" value="Minnesota">
+                            Minnesota
+                          </option>
+                          <option id="Mississippi" value="Mississippi">
+                            Mississippi
+                          </option>
+                          <option id="Missouri" value="Missouri">
+                            Missouri
+                          </option>
+                          <option id="Montana" value="Montana">
+                            Montana
+                          </option>
+                          <option id="Nebraska" value="Nebraska">
+                            Nebraska
+                          </option>
+                          <option id="Nevada" value="Nevada">
+                            Nevada
+                          </option>
+                          <option id="New Hampshire" value="New Hampshire">
+                            New Hampshire
+                          </option>
+                          <option id="New Jersey" value="New Jersey">
+                            New Jersey
+                          </option>
+                          <option id="New Mexico" value="New Mexico">
+                            New Mexico
+                          </option>
+                          <option id="New York" value="New York">
+                            New York
+                          </option>
+                          <option id="North Carolina" value="North Carolina">
+                            North Carolina
+                          </option>
+                          <option id="North Dakota" value="North Dakota">
+                            North Dakota
+                          </option>
+                          <option id="Ohio" value="Ohio">
+                            Ohio
+                          </option>
+                          <option id="Oklahoma" value="Oklahoma">
+                            Oklahoma
+                          </option>
+                          <option id="Oregon" value="Oregon">
+                            Oregon
+                          </option>
+                          <option id="Pennsylvania" value="Pennsylvania">
+                            Pennsylvania
+                          </option>
+                          <option id="Rhode Island" value="Rhode Island">
+                            Rhode Island
+                          </option>
+                          <option id="South Carolina" value="South Carolina">
+                            South Carolina
+                          </option>
+                          <option id="South Dakota" value="South Dakota">
+                            South Dakota
+                          </option>
+                          <option id="Tennessee" value="Tennessee">
+                            Tennessee
+                          </option>
+                          <option id="Texas" value="Texas">
+                            Texas
+                          </option>
+                          <option id="Utah" value="Utah">
+                            Utah
+                          </option>
+                          <option id="Vermont" value="Vermont">
+                            Vermont
+                          </option>
+                          <option id="Virginia" value="Virginia">
+                            Virginia
+                          </option>
+                          <option id="Washington" value="Washington">
+                            Washington
+                          </option>
+                          <option id="West Virginia" value="West Virginia">
+                            West Virginia
+                          </option>
+                          <option id="Wesconsin" value="Wesconsin">
+                            Wesconsin
+                          </option>
+                          <option id="Wyoming" value="Wyoming">
+                            Wyoming
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Reservation Link
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="reservationLink"
-                        placeholder="Enter the Reservation Link"
-                        onChange={(e) => {
-                          setReservationLink(e.target.value);
-                        }}
-                        value={reservationLink}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Phone</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="phone"
+                          placeholder="Enter the Phone Number"
+                          onChange={(e) => {
+                            setPhone(e.target.value);
+                          }}
+                          value={phone}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Paperwork Required
+                        </label>
+                        <select
+                          className="form-control"
+                          name="paperworkRequired"
+                          onChange={(e) => {
+                            setPaperworkRequired(e.target.value);
+                          }}
+                        >
+                          <option value="Yes" id="paperworkRequiredYes">
+                            Yes
+                          </option>
+                          <option value="No" id="paperworkRequiredNo">
+                            No
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Instagram</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="instagram"
-                        placeholder="Enter the Instagram Link"
-                        onChange={(e) => {
-                          setInstagram(e.target.value);
-                        }}
-                        value={instagram}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Email</label>
+                        <input
+                          required={true}
+                          type="email"
+                          className="form-control"
+                          name="email"
+                          placeholder="Enter the Email Address"
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                          }}
+                          value={email}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Pet Policy
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="petPolicy"
+                          placeholder="Enter the Pet Policy"
+                          onChange={(e) => {
+                            setPetPolicy(e.target.value);
+                          }}
+                          value={petPolicy}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Reservation Call
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="reservationCall"
-                        placeholder="Enter the Reservation Call"
-                        onChange={(e) => {
-                          setReservationCall(e.target.value);
-                        }}
-                        value={reservationCall}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Website</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="website"
+                          placeholder="Enter the Website"
+                          onChange={(e) => {
+                            setWebsite(e.target.value);
+                          }}
+                          value={website}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Restrictions
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="restrictions"
+                          placeholder="Enter the Restrictions"
+                          onChange={(e) => {
+                            setRestrictions(e.target.value);
+                          }}
+                          value={restrictions}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Reservation Description
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="reservationDescription"
-                        placeholder="Enter the Total Site"
-                        onChange={(e) => {
-                          setReservationDescription(e.target.value);
-                        }}
-                        value={reservationDescription}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Facebook</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="facebook"
+                          placeholder="Enter the Facebook Link"
+                          onChange={(e) => {
+                            setFacebook(e.target.value);
+                          }}
+                          value={facebook}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Reservation
+                        </label>
+                        <select
+                          className="form-control"
+                          name="reservation"
+                          onChange={(e) => {
+                            setReservation(e.target.value);
+                          }}
+                        >
+                          <option value="Yes" id="reservationYes">
+                            Yes
+                          </option>
+                          <option value="No" id="reservationNo">
+                            No
+                          </option>
+                        </select>
+                      </div>
                     </div>
                   </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Reservation Email
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="reservationEmail"
-                        placeholder="Enter the Reservation Email"
-                        onChange={(e) => {
-                          setReservationEmail(e.target.value);
-                        }}
-                        value={reservationEmail}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Twitter</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="twitter"
+                          placeholder="Enter the Twitter Link"
+                          onChange={(e) => {
+                            setTwitter(e.target.value);
+                          }}
+                          value={twitter}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Reservation Link
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="reservationLink"
+                          placeholder="Enter the Reservation Link"
+                          onChange={(e) => {
+                            setReservationLink(e.target.value);
+                          }}
+                          value={reservationLink}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Horse Site</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="horseSite"
-                        placeholder="Enter the Horse Site"
-                        onChange={(e) => {
-                          setHorseSite(e.target.value);
-                        }}
-                        value={horseSite}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Instagram</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="instagram"
+                          placeholder="Enter the Instagram Link"
+                          onChange={(e) => {
+                            setInstagram(e.target.value);
+                          }}
+                          value={instagram}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Reservation Call
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="reservationCall"
+                          placeholder="Enter the Reservation Call"
+                          onChange={(e) => {
+                            setReservationCall(e.target.value);
+                          }}
+                          value={reservationCall}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>
-                        Cost per Night
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="costPerNight"
-                        placeholder="Enter the Cost Per Night"
-                        onChange={(e) => {
-                          setCostPerNight(e.target.value);
-                        }}
-                        value={costPerNight}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Reservation Description
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="reservationDescription"
+                          placeholder="Enter the Total Site"
+                          onChange={(e) => {
+                            setReservationDescription(e.target.value);
+                          }}
+                          value={reservationDescription}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Reservation Email
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="reservationEmail"
+                          placeholder="Enter the Reservation Email"
+                          onChange={(e) => {
+                            setReservationEmail(e.target.value);
+                          }}
+                          value={reservationEmail}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Longitude</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="longitude"
-                        placeholder="Enter the Longitude"
-                        onChange={(e) => {
-                          setLongitude(e.target.value);
-                        }}
-                        value={longitude}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Horse Site
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="horseSite"
+                          placeholder="Enter the Horse Site"
+                          onChange={(e) => {
+                            setHorseSite(e.target.value);
+                          }}
+                          value={horseSite}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Cost per Night
+                        </label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="costPerNight"
+                          placeholder="Enter the Cost Per Night"
+                          onChange={(e) => {
+                            setCostPerNight(e.target.value);
+                          }}
+                          value={costPerNight}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                  <div className="col md-6">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
-                    >
-                      <label style={{ marginBottom: "5px" }}>Latitude</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="latitude"
-                        placeholder="Enter the Latitude"
-                        onChange={(e) => {
-                          setLatitude(e.target.value);
-                        }}
-                        value={latitude}
-                      ></input>
+                  <div className="row">
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Longitude</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="longitude"
+                          placeholder="Enter the Longitude"
+                          onChange={(e) => {
+                            setLongitude(e.target.value);
+                          }}
+                          value={longitude}
+                        ></input>
+                      </div>
+                    </div>
+                    <div className="col md-6">
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Latitude</label>
+                        <input
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="latitude"
+                          placeholder="Enter the Latitude"
+                          onChange={(e) => {
+                            setLatitude(e.target.value);
+                          }}
+                          value={latitude}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="form-check" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>Camp Site Types</label>
+                  <div className="form-check" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>
+                      Camp Site Types
+                    </label>
+                    <div className="row">
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Dispersed"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="campSiteTypes"
+                            value="Dispersed"
+                            onChange={handleCheckChangeOne}
+                          />
+                          &nbsp;Dispersed
+                        </label>
+                      </div>
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Tent Site"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="campSiteTypes"
+                            value="Tent Site"
+                            onChange={handleCheckChangeOne}
+                          />
+                          &nbsp;Tent Site
+                        </label>
+                      </div>
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Rv Site"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="campSiteTypes"
+                            value="Rv Site"
+                            onChange={handleCheckChangeOne}
+                          />
+                          &nbsp;Rv Site
+                        </label>
+                      </div>
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Cabins"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="campSiteTypes"
+                            value="Cabins"
+                            onChange={handleCheckChangeOne}
+                          />
+                          &nbsp;Cabins
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-check" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>Amenities</label>
+                    <div className="row">
+                      <div className="col md-2">
+                        <label>
+                          <input
+                            id="Corrals"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="amenities"
+                            value="Corrals"
+                            onChange={handleCheckChangeTwo}
+                          />
+                          &nbsp;Corrals
+                        </label>
+                      </div>
+                      <div className="col md-2">
+                        <label>
+                          <input
+                            id="Water"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="amenities"
+                            value="Water"
+                            onChange={handleCheckChangeTwo}
+                          />
+                          &nbsp;Water
+                        </label>
+                      </div>
+                      <div className="col md-2">
+                        <label>
+                          <input
+                            id="Restrooms"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="amenities"
+                            value="Restrooms"
+                            onChange={handleCheckChangeTwo}
+                          />
+                          &nbsp;Restrooms
+                        </label>
+                      </div>
+                      <div className="col md-2">
+                        <label>
+                          <input
+                            id="Restaurants"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="amenities"
+                            value="Restaurants"
+                            onChange={handleCheckChangeTwo}
+                          />
+                          &nbsp;Restaurants
+                        </label>
+                      </div>
+                      <div className="col md-2">
+                        <label>
+                          <input
+                            id="Hookup"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="amenities"
+                            value="Hookup"
+                            onChange={handleCheckChangeTwo}
+                          />
+                          &nbsp;Hookup
+                        </label>
+                      </div>
+                      <div className="col md-2">
+                        <label>
+                          <input
+                            id="None"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="amenities"
+                            value="None"
+                            onChange={handleCheckChangeTwo}
+                          />
+                          &nbsp;None
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="form-check" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>Best Seasons</label>
+                    <div className="row">
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Spring"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="bestSeasons"
+                            value="Spring"
+                            onChange={handleCheckChangeThree}
+                          />
+                          &nbsp;Spring
+                        </label>
+                      </div>
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Summer"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="bestSeasons"
+                            value="Summer"
+                            onChange={handleCheckChangeThree}
+                          />
+                          &nbsp;Summer
+                        </label>
+                      </div>
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Fall"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="bestSeasons"
+                            value="Fall"
+                            onChange={handleCheckChangeThree}
+                          />
+                          &nbsp;Fall
+                        </label>
+                      </div>
+                      <div className="col md-3">
+                        <label>
+                          <input
+                            id="Winter"
+                            type="checkbox"
+                            className="form-check-input"
+                            name="bestSeasons"
+                            value="Winter"
+                            onChange={handleCheckChangeThree}
+                          />
+                          &nbsp;Winter
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                   <div className="row">
                     <div className="col md-3">
-                      <label>
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Camp Notes
+                        </label>
                         <input
-                          id="Dispersed"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="campSiteTypes"
-                          value="Dispersed"
-                          onChange={handleCheckChangeOne}
-                        />
-                        &nbsp;Dispersed
-                      </label>
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="campNotes"
+                          placeholder="Enter the Camp Notes"
+                          onChange={(e) => {
+                            setCampNotes(e.target.value);
+                          }}
+                          value={campNotes}
+                        ></input>
+                      </div>
                     </div>
                     <div className="col md-3">
-                      <label>
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Reservation and Pricing
+                        </label>
                         <input
-                          id="Tent Site"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="campSiteTypes"
-                          value="Tent Site"
-                          onChange={handleCheckChangeOne}
-                        />
-                        &nbsp;Tent Site
-                      </label>
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="resOrPricing"
+                          placeholder="Reservation or Pricing"
+                          onChange={(e) => {
+                            setResOrPricing(e.target.value);
+                          }}
+                          value={resOrPricing}
+                        ></input>
+                      </div>
                     </div>
                     <div className="col md-3">
-                      <label>
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>
+                          Camp Description
+                        </label>
                         <input
-                          id="Rv Site"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="campSiteTypes"
-                          value="Rv Site"
-                          onChange={handleCheckChangeOne}
-                        />
-                        &nbsp;Rv Site
-                      </label>
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="campDescription"
+                          placeholder="Camp Description"
+                          onChange={(e) => {
+                            setCampDescription(e.target.value);
+                          }}
+                          value={campDescription}
+                        ></input>
+                      </div>
                     </div>
                     <div className="col md-3">
-                      <label>
+                      <div
+                        className="form-group"
+                        style={{ marginBottom: "15px" }}
+                      >
+                        <label style={{ marginBottom: "5px" }}>Keywords</label>
                         <input
-                          id="Cabins"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="campSiteTypes"
-                          value="Cabins"
-                          onChange={handleCheckChangeOne}
-                        />
-                        &nbsp;Cabins
-                      </label>
+                          required={true}
+                          type="text"
+                          className="form-control"
+                          name="keywords"
+                          placeholder="Keywords"
+                          onChange={(e) => {
+                            setKeywords(e.target.value);
+                          }}
+                          value={keywords}
+                        ></input>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="form-check" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>Amenities</label>
-                  <div className="row">
-                    <div className="col md-2">
-                      <label>
-                        <input
-                          id="Corrals"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="amenities"
-                          value="Corrals"
-                          onChange={handleCheckChangeTwo}
-                        />
-                        &nbsp;Corrals
-                      </label>
+                  {errorCampDetails ? (
+                    <div className="alert alert-danger" role="alert">
+                      {errorCampDetails}
                     </div>
-                    <div className="col md-2">
-                      <label>
-                        <input
-                          id="Water"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="amenities"
-                          value="Water"
-                          onChange={handleCheckChangeTwo}
-                        />
-                        &nbsp;Water
-                      </label>
-                    </div>
-                    <div className="col md-2">
-                      <label>
-                        <input
-                          id="Restrooms"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="amenities"
-                          value="Restrooms"
-                          onChange={handleCheckChangeTwo}
-                        />
-                        &nbsp;Restrooms
-                      </label>
-                    </div>
-                    <div className="col md-2">
-                      <label>
-                        <input
-                          id="Restaurants"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="amenities"
-                          value="Restaurants"
-                          onChange={handleCheckChangeTwo}
-                        />
-                        &nbsp;Restaurants
-                      </label>
-                    </div>
-                    <div className="col md-2">
-                      <label>
-                        <input
-                          id="Hookup"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="amenities"
-                          value="Hookup"
-                          onChange={handleCheckChangeTwo}
-                        />
-                        &nbsp;Hookup
-                      </label>
-                    </div>
-                    <div className="col md-2">
-                      <label>
-                        <input
-                          id="None"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="amenities"
-                          value="None"
-                          onChange={handleCheckChangeTwo}
-                        />
-                        &nbsp;None
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="form-check" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>Best Seasons</label>
-                  <div className="row">
-                    <div className="col md-3">
-                      <label>
-                        <input
-                          id="Spring"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="bestSeasons"
-                          value="Spring"
-                          onChange={handleCheckChangeThree}
-                        />
-                        &nbsp;Spring
-                      </label>
-                    </div>
-                    <div className="col md-3">
-                      <label>
-                        <input
-                          id="Summer"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="bestSeasons"
-                          value="Summer"
-                          onChange={handleCheckChangeThree}
-                        />
-                        &nbsp;Summer
-                      </label>
-                    </div>
-                    <div className="col md-3">
-                      <label>
-                        <input
-                          id="Fall"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="bestSeasons"
-                          value="Fall"
-                          onChange={handleCheckChangeThree}
-                        />
-                        &nbsp;Fall
-                      </label>
-                    </div>
-                    <div className="col md-3">
-                      <label>
-                        <input
-                          id="Winter"
-                          type="checkbox"
-                          className="form-check-input"
-                          name="bestSeasons"
-                          value="Winter"
-                          onChange={handleCheckChangeThree}
-                        />
-                        &nbsp;Winter
-                      </label>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col md-3">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
+                  ) : null}
+                  <div className="d-grid">
+                    <button
+                      className="btn btn-block"
+                      type="submit"
+                      style={{
+                        marginTop: "15px",
+                        backgroundColor: "#071c2f",
+                        color: "white",
+                      }}
+                      onClick={onSubmitCampDetails}
                     >
-                      <label style={{ marginBottom: "5px" }}>Camp Notes</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="campNotes"
-                        placeholder="Enter the Camp Notes"
-                        onChange={(e) => {
-                          setCampNotes(e.target.value);
-                        }}
-                        value={campNotes}
-                      ></input>
-                    </div>
+                      Update Camp Details
+                    </button>
+                    <br></br>
+                    {campUpdated ? (
+                      <div class="alert alert-success" role="alert">
+                        {campUpdated}
+                      </div>
+                    ) : null}
                   </div>
-                  <div className="col md-3">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
+                </form>
+              </div>
+            </div>
+          </div>
+          <br></br>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseTwo"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseTwo"
+              >
+                Update Banner Image
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseTwo"
+              className="accordion-collapse collapse"
+              aria-labelledby="panelsStayOpen-headingTwo"
+            >
+              <div className="accordion-body">
+                <form
+                  className="needs-validation"
+                  encType="multipart/form-data"
+                >
+                  <div className="form-group" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>
+                      Main Banner Photo
+                    </label>
+                    <a
+                      id="banner"
+                      target="_blank"
+                      style={{ textDecoration: "none", fontSize: "12px" }}
                     >
-                      <label style={{ marginBottom: "5px" }}>
-                        Reservation and Pricing
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="resOrPricing"
-                        placeholder="Reservation or Pricing"
-                        onChange={(e) => {
-                          setResOrPricing(e.target.value);
-                        }}
-                        value={resOrPricing}
-                      ></input>
-                    </div>
+                      &nbsp;&nbsp;View uploaded image
+                    </a>
+                    <input
+                      required={true}
+                      type="file"
+                      className="form-control"
+                      name="banner"
+                      onChange={(e) => {
+                        setBanner(e.target.files[0]);
+                      }}
+                    ></input>
+                    <span style={{ fontSize: "12px" }}>
+                      Only jpeg, jpg, bmp, png and webp files are allowed
+                    </span>
                   </div>
-                  <div className="col md-3">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
+                  {errorCampDetails ? (
+                    <div class="alert alert-danger" role="alert">
+                      {errorCampDetails}
+                    </div>
+                  ) : null}
+                  <div className="d-grid">
+                    <button
+                      className="btn btn-block"
+                      type="submit"
+                      style={{
+                        marginTop: "15px",
+                        backgroundColor: "#071c2f",
+                        color: "white",
+                      }}
+                      onClick={onSubmitBannerImage}
                     >
-                      <label style={{ marginBottom: "5px" }}>
-                        Camp Description
-                      </label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="campDescription"
-                        placeholder="Camp Description"
-                        onChange={(e) => {
-                          setCampDescription(e.target.value);
-                        }}
-                        value={campDescription}
-                      ></input>
-                    </div>
+                      Update Banner Photo
+                    </button>
+                    <br></br>
+                    {campBannerUpdated ? (
+                      <div class="alert alert-success" role="alert">
+                        {campBannerUpdated}
+                      </div>
+                    ) : null}
                   </div>
-                  <div className="col md-3">
-                    <div
-                      className="form-group"
-                      style={{ marginBottom: "15px" }}
+                </form>
+              </div>
+            </div>
+          </div>
+          <br></br>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-headingThree">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseThree"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseThree"
+              >
+                Update Parking Image
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseThree"
+              className="accordion-collapse collapse"
+              aria-labelledby="panelsStayOpen-headingThree"
+            >
+              <div className="accordion-body">
+                <form
+                  className="needs-validation"
+                  encType="multipart/form-data"
+                >
+                  <div className="form-group" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>Parking Image</label>
+                    <a
+                      id="parkingImage"
+                      target="_blank"
+                      style={{ textDecoration: "none", fontSize: "12px" }}
                     >
-                      <label style={{ marginBottom: "5px" }}>Keywords</label>
-                      <input
-                        required={true}
-                        type="text"
-                        className="form-control"
-                        name="keywords"
-                        placeholder="Keywords"
-                        onChange={(e) => {
-                          setKeywords(e.target.value);
-                        }}
-                        value={keywords}
-                      ></input>
-                    </div>
+                      &nbsp;&nbsp;View uploaded image
+                    </a>
+                    <input
+                      required={true}
+                      type="file"
+                      className="form-control"
+                      name="parkingImage"
+                      onChange={(e) => {
+                        setParkingImage(e.target.files[0]);
+                      }}
+                    ></input>
+                    <span style={{ fontSize: "12px" }}>
+                      Only jpeg, jpg and png files are allowed
+                    </span>
                   </div>
-                </div>
-                {errorCampDetails ? (
-                  <div className="alert alert-danger" role="alert">
-                    {errorCampDetails}
-                  </div>
-                ) : null}
-                <div className="d-grid">
-                  <button
-                    className="btn btn-block"
-                    type="submit"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "#071c2f",
-                      color: "white",
-                    }}
-                    onClick={onSubmitCampDetails}
-                  >
-                    Update Camp Details
-                  </button>
                   <br></br>
-                  {campUpdated ? (
-                    <div class="alert alert-success" role="alert">
-                      {campUpdated}
+                  {errorCampDetails ? (
+                    <div class="alert alert-danger" role="alert">
+                      {errorCampDetails}
                     </div>
                   ) : null}
-                </div>
-              </form>
+                  <div className="d-grid">
+                    <button
+                      className="btn btn-block"
+                      type="submit"
+                      style={{
+                        marginTop: "15px",
+                        backgroundColor: "#071c2f",
+                        color: "white",
+                      }}
+                      onClick={onSubmitParkingImage}
+                    >
+                      Update Parking Photo
+                    </button>
+                    {campParkingUpdated ? (
+                      <div class="alert alert-success" role="alert">
+                        {campParkingUpdated}
+                      </div>
+                    ) : null}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-        <br></br>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="panelsStayOpen-headingTwo">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseTwo"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseTwo"
+          <br></br>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-headingFour">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseFour"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseFour"
+              >
+                Update Gallery Image 01
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseFour"
+              className="accordion-collapse collapse"
+              aria-labelledby="panelsStayOpen-headingFour"
             >
-              Update Banner Image
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseTwo"
-            className="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingTwo"
-          >
-            <div className="accordion-body">
-              <form className="needs-validation" encType="multipart/form-data">
-                <div className="form-group" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>
-                    Main Banner Photo
-                  </label>
-                  <a
-                    id="banner"
-                    target="_blank"
-                    style={{ textDecoration: "none", fontSize: "12px" }}
-                  >
-                    &nbsp;&nbsp;View uploaded image
-                  </a>
-                  <input
-                    required={true}
-                    type="file"
-                    className="form-control"
-                    name="banner"
-                    onChange={(e) => {
-                      setBanner(e.target.files[0]);
-                    }}
-                  ></input>
-                  <span style={{ fontSize: "12px" }}>
-                    Only jpeg, jpg, bmp, png and webp files are allowed
-                  </span>
-                </div>
-                {errorCampDetails ? (
-                  <div class="alert alert-danger" role="alert">
-                    {errorCampDetails}
+              <div className="accordion-body">
+                <form>
+                  <div className="form-group" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>
+                      Image 1 for Gallery
+                    </label>
+                    <a
+                      id="imageGal1"
+                      target="_blank"
+                      style={{ textDecoration: "none", fontSize: "12px" }}
+                    >
+                      &nbsp;&nbsp;View uploaded image
+                    </a>
+                    <input
+                      required={true}
+                      type="file"
+                      className="form-control"
+                      name="imageGal1"
+                      onChange={(e) => {
+                        setImageGal1(e.target.files[0]);
+                      }}
+                    ></input>
+                    <span style={{ fontSize: "12px" }}>
+                      Only jpeg, jpg and png files are allowed
+                    </span>
                   </div>
-                ) : null}
-                <div className="d-grid">
-                  <button
-                    className="btn btn-block"
-                    type="submit"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "#071c2f",
-                      color: "white",
-                    }}
-                    onClick={onSubmitBannerImage}
-                  >
-                    Update Banner Photo
-                  </button>
-                  <br></br>
-                  {campBannerUpdated ? (
-                    <div class="alert alert-success" role="alert">
-                      {campBannerUpdated}
+                  {errorCampDetails ? (
+                    <div class="alert alert-danger" role="alert">
+                      {errorCampDetails}
                     </div>
                   ) : null}
-                </div>
-              </form>
+                  <div className="d-grid">
+                    <button
+                      className="btn btn-block"
+                      type="submit"
+                      style={{
+                        marginTop: "15px",
+                        backgroundColor: "#071c2f",
+                        color: "white",
+                      }}
+                      onClick={onSubmitGallery1Image}
+                    >
+                      Update Gallery Image
+                    </button>
+                    <br></br>
+                    {campGal1Updated ? (
+                      <div class="alert alert-success" role="alert">
+                        {campGal1Updated}
+                      </div>
+                    ) : null}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-        <br></br>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="panelsStayOpen-headingThree">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseThree"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseThree"
+          <br></br>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-headingFive">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseFive"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseFive"
+              >
+                Update Gallery Image 02
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseFive"
+              className="accordion-collapse collapse"
+              aria-labelledby="panelsStayOpen-headingFive"
             >
-              Update Parking Image
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseThree"
-            className="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingThree"
-          >
-            <div className="accordion-body">
-              <form className="needs-validation" encType="multipart/form-data">
-                <div className="form-group" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>Parking Image</label>
-                  <a
-                    id="parkingImage"
-                    target="_blank"
-                    style={{ textDecoration: "none", fontSize: "12px" }}
-                  >
-                    &nbsp;&nbsp;View uploaded image
-                  </a>
-                  <input
-                    required={true}
-                    type="file"
-                    className="form-control"
-                    name="parkingImage"
-                    onChange={(e) => {
-                      setParkingImage(e.target.files[0]);
-                    }}
-                  ></input>
-                  <span style={{ fontSize: "12px" }}>
-                    Only jpeg, jpg and png files are allowed
-                  </span>
-                </div>
-                <br></br>
-                {errorCampDetails ? (
-                  <div class="alert alert-danger" role="alert">
-                    {errorCampDetails}
+              <div className="accordion-body">
+                <form>
+                  <div className="form-group" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>
+                      Image 2 for Gallery
+                    </label>
+                    <a
+                      id="imageGal2"
+                      target="_blank"
+                      style={{ textDecoration: "none", fontSize: "12px" }}
+                    >
+                      &nbsp;&nbsp;View uploaded image
+                    </a>
+                    <input
+                      required={true}
+                      type="file"
+                      className="form-control"
+                      name="imageGal2"
+                      onChange={(e) => {
+                        setImageGal2(e.target.files[0]);
+                      }}
+                    ></input>
+                    <span style={{ fontSize: "12px" }}>
+                      Only jpeg, jpg and png files are allowed
+                    </span>
                   </div>
-                ) : null}
-                <div className="d-grid">
-                  <button
-                    className="btn btn-block"
-                    type="submit"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "#071c2f",
-                      color: "white",
-                    }}
-                    onClick={onSubmitParkingImage}
-                  >
-                    Update Parking Photo
-                  </button>
-                  {campParkingUpdated ? (
-                    <div class="alert alert-success" role="alert">
-                      {campParkingUpdated}
+                  {errorCampDetails ? (
+                    <div class="alert alert-danger" role="alert">
+                      {errorCampDetails}
                     </div>
                   ) : null}
-                </div>
-              </form>
+                  <div className="d-grid">
+                    <button
+                      className="btn btn-block"
+                      type="submit"
+                      style={{
+                        marginTop: "15px",
+                        backgroundColor: "#071c2f",
+                        color: "white",
+                      }}
+                      onClick={onSubmitGallery2Image}
+                    >
+                      Update Gallery Image
+                    </button>
+                    <br></br>
+                    {campGal2Updated ? (
+                      <div class="alert alert-success" role="alert">
+                        {campGal2Updated}
+                      </div>
+                    ) : null}
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-        <br></br>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="panelsStayOpen-headingFour">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseFour"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseFour"
+          <br></br>
+          <div className="accordion-item">
+            <h2 className="accordion-header" id="panelsStayOpen-headingSix">
+              <button
+                className="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#panelsStayOpen-collapseSix"
+                aria-expanded="false"
+                aria-controls="panelsStayOpen-collapseSix"
+              >
+                Update Gallery Image 03
+              </button>
+            </h2>
+            <div
+              id="panelsStayOpen-collapseSix"
+              className="accordion-collapse collapse"
+              aria-labelledby="panelsStayOpen-headingSix"
             >
-              Update Gallery Image 01
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseFour"
-            className="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingFour"
-          >
-            <div className="accordion-body">
-              <form>
-                <div className="form-group" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>
-                    Image 1 for Gallery
-                  </label>
-                  <a
-                    id="imageGal1"
-                    target="_blank"
-                    style={{ textDecoration: "none", fontSize: "12px" }}
-                  >
-                    &nbsp;&nbsp;View uploaded image
-                  </a>
-                  <input
-                    required={true}
-                    type="file"
-                    className="form-control"
-                    name="imageGal1"
-                    onChange={(e) => {
-                      setImageGal1(e.target.files[0]);
-                    }}
-                  ></input>
-                  <span style={{ fontSize: "12px" }}>
-                    Only jpeg, jpg and png files are allowed
-                  </span>
-                </div>
-                {errorCampDetails ? (
-                  <div class="alert alert-danger" role="alert">
-                    {errorCampDetails}
+              <div className="accordion-body">
+                <form>
+                  <div className="form-group" style={{ marginBottom: "15px" }}>
+                    <label style={{ marginBottom: "5px" }}>
+                      Image 3 for Gallery
+                    </label>
+                    <a
+                      id="imageGal3"
+                      target="_blank"
+                      style={{ textDecoration: "none", fontSize: "12px" }}
+                    >
+                      &nbsp;&nbsp;View uploaded image
+                    </a>
+                    <input
+                      required={true}
+                      type="file"
+                      className="form-control"
+                      name="imageGal3"
+                      onChange={(e) => {
+                        setImageGal3(e.target.files[0]);
+                      }}
+                    ></input>
+                    <span style={{ fontSize: "12px" }}>
+                      Only jpeg, jpg and png files are allowed
+                    </span>
                   </div>
-                ) : null}
-                <div className="d-grid">
-                  <button
-                    className="btn btn-block"
-                    type="submit"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "#071c2f",
-                      color: "white",
-                    }}
-                    onClick={onSubmitGallery1Image}
-                  >
-                    Update Gallery Image
-                  </button>
-                  <br></br>
-                  {campGal1Updated ? (
-                    <div class="alert alert-success" role="alert">
-                      {campGal1Updated}
+                  {errorCampDetails ? (
+                    <div class="alert alert-danger" role="alert">
+                      {errorCampDetails}
                     </div>
                   ) : null}
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <br></br>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="panelsStayOpen-headingFive">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseFive"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseFive"
-            >
-              Update Gallery Image 02
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseFive"
-            className="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingFive"
-          >
-            <div className="accordion-body">
-              <form>
-                <div className="form-group" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>
-                    Image 2 for Gallery
-                  </label>
-                  <a
-                    id="imageGal2"
-                    target="_blank"
-                    style={{ textDecoration: "none", fontSize: "12px" }}
-                  >
-                    &nbsp;&nbsp;View uploaded image
-                  </a>
-                  <input
-                    required={true}
-                    type="file"
-                    className="form-control"
-                    name="imageGal2"
-                    onChange={(e) => {
-                      setImageGal2(e.target.files[0]);
-                    }}
-                  ></input>
-                  <span style={{ fontSize: "12px" }}>
-                    Only jpeg, jpg and png files are allowed
-                  </span>
-                </div>
-                {errorCampDetails ? (
-                  <div class="alert alert-danger" role="alert">
-                    {errorCampDetails}
+                  <div className="d-grid">
+                    <button
+                      className="btn btn-block"
+                      type="submit"
+                      style={{
+                        marginTop: "15px",
+                        backgroundColor: "#071c2f",
+                        color: "white",
+                      }}
+                      onClick={onSubmitGallery3Image}
+                    >
+                      Update Gallery Image
+                    </button>
+                    <br></br>
+                    {campGal3Updated ? (
+                      <div class="alert alert-success" role="alert">
+                        {campGal3Updated}
+                      </div>
+                    ) : null}
                   </div>
-                ) : null}
-                <div className="d-grid">
-                  <button
-                    className="btn btn-block"
-                    type="submit"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "#071c2f",
-                      color: "white",
-                    }}
-                    onClick={onSubmitGallery2Image}
-                  >
-                    Update Gallery Image
-                  </button>
-                  <br></br>
-                  {campGal2Updated ? (
-                    <div class="alert alert-success" role="alert">
-                      {campGal2Updated}
-                    </div>
-                  ) : null}
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-        <br></br>
-        <div className="accordion-item">
-          <h2 className="accordion-header" id="panelsStayOpen-headingSix">
-            <button
-              className="accordion-button collapsed"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseSix"
-              aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseSix"
-            >
-              Update Gallery Image 03
-            </button>
-          </h2>
-          <div
-            id="panelsStayOpen-collapseSix"
-            className="accordion-collapse collapse"
-            aria-labelledby="panelsStayOpen-headingSix"
-          >
-            <div className="accordion-body">
-              <form>
-                <div className="form-group" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>
-                    Image 3 for Gallery
-                  </label>
-                  <a
-                    id="imageGal3"
-                    target="_blank"
-                    style={{ textDecoration: "none", fontSize: "12px" }}
-                  >
-                    &nbsp;&nbsp;View uploaded image
-                  </a>
-                  <input
-                    required={true}
-                    type="file"
-                    className="form-control"
-                    name="imageGal3"
-                    onChange={(e) => {
-                      setImageGal3(e.target.files[0]);
-                    }}
-                  ></input>
-                  <span style={{ fontSize: "12px" }}>
-                    Only jpeg, jpg and png files are allowed
-                  </span>
-                </div>
-                {errorCampDetails ? (
-                  <div class="alert alert-danger" role="alert">
-                    {errorCampDetails}
-                  </div>
-                ) : null}
-                <div className="d-grid">
-                  <button
-                    className="btn btn-block"
-                    type="submit"
-                    style={{
-                      marginTop: "15px",
-                      backgroundColor: "#071c2f",
-                      color: "white",
-                    }}
-                    onClick={onSubmitGallery3Image}
-                  >
-                    Update Gallery Image
-                  </button>
-                  <br></br>
-                  {campGal3Updated ? (
-                    <div class="alert alert-success" role="alert">
-                      {campGal3Updated}
-                    </div>
-                  ) : null}
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
         </div>
