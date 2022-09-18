@@ -8,7 +8,7 @@ import Background from "../components/AddPage/TrailSearchPage.jpg";
 
 function MyTrailsList() {
   const [pageLoading, setPageLoading] = useState(true);
-  const { currentUser} = useAuth();
+  const { currentUser } = useAuth();
   const [userID, setUserID] = useState(null);
   const [trailsType, setTrailsType] = useState(null);
   const [trailIDs, setTrailIDsList] = useState([]);
@@ -57,7 +57,6 @@ function MyTrailsList() {
     setTrailsList(trailsArr);
     setfavTrailsList(favourites);
     setPageLoading(false);
-
   };
 
   const getImageURL = async (trailName, bannerName) => {
@@ -118,9 +117,19 @@ function MyTrailsList() {
       style={{
         backgroundImage: `url(${Background})`,
         position: "absolute",
+        backgroundAttachment: "fixed",
+        overflowY: "hidden",
       }}
     >
-      <div className="container">
+      <div
+        className="container"
+        style={{
+          minWidth: "50vw",
+          overflowY: "auto",
+          height: "100%",
+          overflowX: "hidden",
+        }}
+      >
         <div className="text-center ">
           <div className="shadow p-2 mb-1 card font-weight-bold rounded">
             {trailsType == "checkedIn" ? <h3>Trails to Ride</h3> : ""}
@@ -208,7 +217,6 @@ function MyTrailsList() {
                       paddingRight: "20px",
                       paddingTop: "20px",
                       paddingBottom: "20px",
-                     
                     }}
                   />
                   <Card.Body>
