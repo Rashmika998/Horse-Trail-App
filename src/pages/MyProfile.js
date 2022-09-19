@@ -153,10 +153,12 @@ function MyProfile() {
                       <th>Phone Number</th>
                       <td>{userDetails.mobileNo}</td>
                     </tr>
-                    <tr>
-                      <th>Riding Level</th>
-                      <td>{userDetails.ridingLevel}</td>
-                    </tr>
+                    {userDetails.type != "admin" ? (
+                      <tr>
+                        <th>Riding Level</th>
+                        <td>{userDetails.ridingLevel}</td>
+                      </tr>
+                    ) : null}
                   </tbody>
                 </table>
                 <button
