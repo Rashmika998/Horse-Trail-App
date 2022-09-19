@@ -73,25 +73,40 @@ export default function RegisterAdmin() {
             <Form.Label>First Name</Form.Label>
             <Form.Control type="text" ref={fNameRef} required />
           </Form.Group>
+          <br />
           <Form.Group id="lName">
             <Form.Label>Last Name</Form.Label>
             <Form.Control type="text" ref={lNameRef} required />
           </Form.Group>
+          <br />
           <Form.Group id="email">
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" ref={emailRef} required />
           </Form.Group>
+          <br />
           <Form.Group id="telNo">
             <Form.Label>Contact No</Form.Label>
             <Form.Control type="text" ref={telNoRef} required />
           </Form.Group>
+          <br />
           <Form.Group id="password">
             <Form.Label>Password</Form.Label>
-            <Form.Control type="password" ref={passwordRef} required />
+            <Form.Control
+              type="password"
+              ref={passwordRef}
+              required
+              placeholder="Password should contain at least 9 characters"
+            />
           </Form.Group>
+          <br />
           <Form.Group id="password-confirm">
             <Form.Label>Password Confirmation</Form.Label>
-            <Form.Control type="password" ref={passwordConfirmRef} required />
+            <Form.Control
+              type="password"
+              ref={passwordConfirmRef}
+              required
+              placeholder="Re-enter password"
+            />
           </Form.Group>
           <br />
           <Button
