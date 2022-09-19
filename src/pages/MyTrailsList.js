@@ -70,7 +70,6 @@ function MyTrailsList() {
     } else {
       setUserID(null);
     }
-    console.log();
     var url = document.location.href;
     var type = url.toString().split("/")[4];
     setTrailsType(type);

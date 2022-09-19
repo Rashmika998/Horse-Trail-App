@@ -51,48 +51,80 @@ export default function Signup() {
   }
 
   return (
-    <div className='hero-container'>
-      <br/><br/>
-      <Card style={{minWidth: '50vw',}} className='card'>
+    <div className="hero-container">
+      <br />
+      <br />
+      {error && (
+        <Alert
+          variant="danger"
+          style={{ minWidth: "50vw" }}
+          className="text-center"
+        >
+          {error}
+        </Alert>
+      )}
+      <Card
+        style={{ minWidth: "50vw", overflowY: "auto", height: "70vh" }}
+        className="card"
+      >
         <Card.Body>
-          <h5 className="text-center">Sign Up</h5>
-          {error && <p style={{color: '#9e1b32'}}>{error}</p>}
+          <h4 className="text-center">Sign Up</h4>
           <Form onSubmit={handleSubmit}>
             <Form.Group id="fName">
               <Form.Label>First Name</Form.Label>
               <Form.Control type="text" ref={fNameRef} required />
             </Form.Group>
+            <br />
             <Form.Group id="lName">
               <Form.Label>Last Name</Form.Label>
               <Form.Control type="text" ref={lNameRef} required />
             </Form.Group>
+            <br />
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
             </Form.Group>
+            <br />
             <Form.Group id="telNo">
               <Form.Label>Contact No</Form.Label>
               <Form.Control type="text" ref={telNoRef} required />
             </Form.Group>
+            <br />
             <Form.Group id="password">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" ref={passwordRef} required />
-            </Form.Group>
-            <Form.Group id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type="password" ref={passwordConfirmRef} required />
+              <Form.Control
+                type="password"
+                ref={passwordRef}
+                required
+                placeholder="Password should contain at least 9 characters"
+              />
             </Form.Group>
             <br />
-            <Button disabled={loading} style={{background:'#071c2f'}} className="w-100" type="submit">
+            <Form.Group id="password-confirm">
+              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Control
+                type="password"
+                ref={passwordConfirmRef}
+                required
+                placeholder="Re-enter password"
+              />
+            </Form.Group>
+            <br />
+            <Button
+              disabled={loading}
+              style={{ background: "#071c2f" }}
+              className="w-100"
+              type="submit"
+            >
               Sign Up
             </Button>
           </Form>
-          <div className="w-100 text-center mt-2" style={{color: 'black'}}>
-        Already have an account? <Link to="/login">Sign In</Link>
-      </div>
+          <div className="w-100 text-center mt-2" style={{ color: "black" }}>
+            Already have an account? <Link to="/login">Sign In</Link>
+          </div>
         </Card.Body>
       </Card>
-      <br/>
+      <br />
     </div>
   );
 }

@@ -244,7 +244,6 @@ export default function AddCamp() {
                                           parseFloat(longitude)
                                         )
                                       ) {
-
                                         FireStoreService.addCamp(
                                           amenitiesCheck,
                                           banner.name,
@@ -1220,7 +1219,7 @@ export default function AddCamp() {
               </div>
             ) : null}
             <div className="d-grid">
-              {loading && error.length==0 && campAdded.length==0? (
+              {loading && error.length == 0 && campAdded.length == 0 ? (
                 <div className="mt-3 mx-auto text-center">
                   <div className="spinner-border" role="status"></div>
                 </div>

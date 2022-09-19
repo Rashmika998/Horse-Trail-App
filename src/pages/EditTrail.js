@@ -1711,7 +1711,6 @@ export default function EditTrail() {
                       onChange={(e) => {
                         setParkingImage(
                           e.target.files[0],
-                          console.log(e.target.files)
                         );
                       }}
                     ></input>
