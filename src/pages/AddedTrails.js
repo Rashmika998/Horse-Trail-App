@@ -76,14 +76,12 @@ function AddedTrails() {
   }
 
   const handleSearchArea = (e) => {
+    console.log("SSS");
     const searchKey = e.target.value;
     FireStoreService.getMyTrails(userID)
       .then((res) => {
         setTrailsList(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-        filterData(
-          res.docs.map((doc) => ({ ...doc.data(), id: doc.id })),
-          searchKey
-        );
+        filterData(trails, searchKey.toLowerCase());
       })
       .catch((e) => {});
   };

@@ -148,7 +148,7 @@ function MyProfile() {
                     </tr>
                     <tr>
                       <th>Phone Number</th>
-                      <td>{userDetails.phoneNumber}</td>
+                      <td>{userDetails.mobileNo}</td>
                     </tr>
                     <tr>
                       <th>Riding Level</th>
@@ -157,7 +157,7 @@ function MyProfile() {
                   </tbody>
                 </table>
                 <button
-                  className="btn btn-primary w-50 mt-5 "
+                  className="btn btn-primary w-60 mt-5 "
                   data-bs-toggle="modal"
                   data-bs-target="#staticBackdrop"
                   onClick={handleClick}

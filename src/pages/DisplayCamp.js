@@ -131,14 +131,15 @@ export default function DisplayCamp() {
     }
     setCampID(id);
     setCheckInStates(id);
-    UserFireStoreService.getUserType(currentUser.uid)
-      .then((res) => {
-        setUserType(res.data().type);
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-
+    if (currentUser) {
+      UserFireStoreService.getUserType(currentUser.uid)
+        .then((res) => {
+          setUserType(res.data().type);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
     FireStoreService.getCamp(id)
       .then((response) => {
         setCampDetails(response.data());

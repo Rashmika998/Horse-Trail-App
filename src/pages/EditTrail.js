@@ -34,6 +34,7 @@ export default function EditTrail() {
   const [trailGal1Updated, setTrailGal1Updated] = useState("");
   const [trailGal2Updated, setTrailGal2Updated] = useState("");
   const [trailGal3Updated, setTrailGal3Updated] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [trailHeadCheck, setTrailHead] = useState({
     trailHead: [],
@@ -505,6 +506,7 @@ export default function EditTrail() {
 
   function onSubmitTrailDetails(e) {
     e.preventDefault();
+    setLoading(true);
     if (validateLatLng(parseFloat(latitude), parseFloat(longitude))) {
       FireStoreService.updateTrailDetails(
         trailID,
@@ -1563,6 +1565,13 @@ export default function EditTrail() {
                     </div>
                   ) : null}
                   <div className="d-grid">
+                    {loading &&
+                    errorTrailDetails.length == 0 &&
+                    trailUpdated.length == 0 ? (
+                      <div className="mt-3 mx-auto text-center">
+                        <div className="spinner-border" role="status"></div>
+                      </div>
+                    ) : null}
                     <button
                       className="btn btn-block"
                       type="submit"
