@@ -29,7 +29,6 @@ function EditProfile() {
       .then((doc) => {
         setUserDetails(doc.data());
         setFirstName(doc.data().firstName);
-        console.log({ firstName });
         setLastName(doc.data().lastName);
         setPhoneNumber(doc.data().mobileNo);
         if (doc.data().ridingLevel) {
@@ -44,9 +43,7 @@ function EditProfile() {
   const submitHandler = (e) => {
     e.preventDefault();
     setLoader(true);
-    console.log(userDetails);
 
-    console.log(phoneNumber);
     db.collection("users")
       .doc(currentUser.uid)
       .update(
@@ -62,10 +59,7 @@ function EditProfile() {
       .then(() => {
         setLoader(false);
         setAlerts("Your details have been submitted👍");
-        console.log({ firstName });
-        console.log({ lastName });
-        console.log({ phoneNumber });
-        console.log({ ridingLevel });
+      
       })
       .catch((error) => {
         alert(error.message);
@@ -84,7 +78,6 @@ function EditProfile() {
     Promise.all(promises)
       .then(() => {
         setSuccess("Profile is updated");
-        console.log(currentUser.email);
       })
       .catch((error) => {
         if (error.code === "auth/requires-recent-login")

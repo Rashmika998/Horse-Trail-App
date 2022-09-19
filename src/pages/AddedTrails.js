@@ -76,7 +76,6 @@ function AddedTrails() {
   }
 
   const handleSearchArea = (e) => {
-    console.log("SSS");
     const searchKey = e.target.value;
     FireStoreService.getMyTrails(userID)
       .then((res) => {

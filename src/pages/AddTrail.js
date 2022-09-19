@@ -51,7 +51,6 @@ export default function AddTrail() {
   const [imageGal1, setImageGal1] = useState("");
   const [imageGal2, setImageGal2] = useState("");
   const [imageGal3, setImageGal3] = useState("");
-  const [gpx, setGpx] = useState("");
   const [banner, setBanner] = useState("");
   const [parkingImage, setParkingImage] = useState("");
   const [trailMapImage, setTrailMapImage] = useState("");
@@ -75,202 +74,179 @@ export default function AddTrail() {
       banner.type === "image/webp"
     ) {
       if (
-        gpx.type === "text/plain" ||
-        gpx.type === "text/xml" ||
-        gpx.type === ""
+        imageGal1.type === "image/png" ||
+        imageGal1.type === "image/jpg" ||
+        imageGal1.type === "image/jpeg"
       ) {
         if (
-          imageGal1.type === "image/png" ||
-          imageGal1.type === "image/jpg" ||
-          imageGal1.type === "image/jpeg"
+          imageGal2.type === "image/png" ||
+          imageGal2.type === "image/jpg" ||
+          imageGal2.type === "image/jpeg"
         ) {
           if (
-            imageGal2.type === "image/png" ||
-            imageGal2.type === "image/jpg" ||
-            imageGal2.type === "image/jpeg"
+            imageGal3.type === "image/png" ||
+            imageGal3.type === "image/jpg" ||
+            imageGal3.type === "image/jpeg"
           ) {
             if (
-              imageGal3.type === "image/png" ||
-              imageGal3.type === "image/jpg" ||
-              imageGal3.type === "image/jpeg"
+              parkingImage.type === "image/png" ||
+              parkingImage.type === "image/jpg" ||
+              parkingImage.type === "image/jpeg"
             ) {
               if (
-                parkingImage.type === "image/png" ||
-                parkingImage.type === "image/jpg" ||
-                parkingImage.type === "image/jpeg"
+                trailMapImage.type === "image/png" ||
+                trailMapImage.type === "image/jpg" ||
+                trailMapImage.type === "image/jpeg"
               ) {
-                if (
-                  trailMapImage.type === "image/png" ||
-                  trailMapImage.type === "image/jpg" ||
-                  trailMapImage.type === "image/jpeg"
-                ) {
-                  FireStoreService.addTrailImages(
-                    "banners/" + trailName,
-                    banner
-                  )
-                    .then(() => {
-                      FireStoreService.addGpxFiles(trailName, gpx)
-                        .then(() => {
-                          FireStoreService.addTrailImages(
-                            "gallery/" + trailName,
-                            imageGal1
-                          )
-                            .then(() => {
-                              FireStoreService.addTrailImages(
-                                "gallery/" + trailName,
-                                imageGal2
-                              )
-                                .then(() => {
-                                  FireStoreService.addTrailImages(
-                                    "gallery/" + trailName,
-                                    imageGal3
-                                  )
-                                    .then(() => {
-                                      FireStoreService.addTrailImages(
-                                        "parking/" + trailName,
-                                        parkingImage
-                                      )
-                                        .then(() => {
-                                          FireStoreService.addTrailImages(
-                                            "trailMap/" + trailName,
-                                            trailMapImage
+                FireStoreService.addTrailImages("banners/" + trailName, banner)
+                  .then(() => {
+                    FireStoreService.addTrailImages(
+                      "gallery/" + trailName,
+                      imageGal1
+                    )
+                      .then(() => {
+                        FireStoreService.addTrailImages(
+                          "gallery/" + trailName,
+                          imageGal2
+                        )
+                          .then(() => {
+                            FireStoreService.addTrailImages(
+                              "gallery/" + trailName,
+                              imageGal3
+                            )
+                              .then(() => {
+                                FireStoreService.addTrailImages(
+                                  "parking/" + trailName,
+                                  parkingImage
+                                )
+                                  .then(() => {
+                                    FireStoreService.addTrailImages(
+                                      "trailMap/" + trailName,
+                                      trailMapImage
+                                    )
+                                      .then(() => {
+                                        if (
+                                          validateLatLng(
+                                            parseFloat(latitude),
+                                            parseFloat(longitude)
+                                          )
+                                        ) {
+                                          FireStoreService.addTrail(
+                                            atvOrOffroad,
+                                            banner.name,
+                                            bestSeasonsCheck,
+                                            bikers,
+                                            city,
+                                            country,
+                                            description,
+                                            dogs,
+                                            elevationGain,
+                                            hikers,
+                                            imageGal1.name,
+                                            imageGal2.name,
+                                            imageGal3.name,
+                                            keywords,
+                                            longitude,
+                                            latitude,
+                                            miles,
+                                            obstaclesCheck,
+                                            parkName,
+                                            parkingImage.name,
+                                            parkingNotes,
+                                            parkingSpots,
+                                            restrictions,
+                                            state,
+                                            trailHeadCheck,
+                                            trailMap,
+                                            trailMapImage.name,
+                                            trailName,
+                                            trailNotes,
+                                            trailType,
+                                            userId
                                           )
                                             .then(() => {
-                                              if (
-                                                validateLatLng(
-                                                  parseFloat(latitude),
-                                                  parseFloat(longitude)
-                                                )
-                                              ) {
-                                                FireStoreService.addTrail(
-                                                  atvOrOffroad,
-                                                  banner.name,
-                                                  bestSeasonsCheck,
-                                                  bikers,
-                                                  city,
-                                                  country,
-                                                  description,
-                                                  dogs,
-                                                  elevationGain,
-                                                  gpx.name,
-                                                  hikers,
-                                                  imageGal1.name,
-                                                  imageGal2.name,
-                                                  imageGal3.name,
-                                                  keywords,
-                                                  longitude,
-                                                  latitude,
-                                                  miles,
-                                                  obstaclesCheck,
-                                                  parkName,
-                                                  parkingImage.name,
-                                                  parkingNotes,
-                                                  parkingSpots,
-                                                  restrictions,
-                                                  state,
-                                                  trailHeadCheck,
-                                                  trailMap,
-                                                  trailMapImage.name,
-                                                  trailName,
-                                                  trailNotes,
-                                                  trailType,
-                                                  userId
-                                                )
-                                                  .then(() => {
-                                                    setTrailAdded(
-                                                      "Trail added successfully!"
-                                                    );
-                                                    setAtvOrOffroad("Yes");
-                                                    setBanner("");
-                                                    setBestSeasons({});
-                                                    setBikers("Yes");
-                                                    setCity("");
-                                                    setCountry("");
-                                                    setDescription("");
-                                                    setDogs("Yes");
-                                                    setElevationGain("");
-                                                    setHikers("Yes");
-                                                    setImageGal1("");
-                                                    setImageGal2("");
-                                                    setImageGal3("");
-                                                    setKeywords("");
-                                                    setLongitude("");
-                                                    setLatitude("");
-                                                    setMiles("");
-                                                    setObstacles({});
-                                                    setParkName("");
-                                                    setParkingImage("");
-                                                    setParkingNotes("");
-                                                    setParkingSpots("");
-                                                    setRestrictions("");
-                                                    setState("");
-                                                    setTrailHead({});
-                                                    setTrailMap("");
-                                                    setTrailMapImage("");
-                                                    setTrailName("");
-                                                    setTrailNotes("");
-                                                    setTrailType("");
-                                                  })
-                                                  .catch((e) => {
-                                                    setError(
-                                                      "Error occured: " +
-                                                        e.message
-                                                    );
-                                                  });
-                                              } else {
-                                                setError(
-                                                  "Error! Entered longitude and latitude values are invalid"
-                                                );
-                                              }
+                                              setTrailAdded(
+                                                "Trail added successfully!"
+                                              );
+                                              setAtvOrOffroad("Yes");
+                                              setBanner("");
+                                              setBestSeasons({});
+                                              setBikers("Yes");
+                                              setCity("");
+                                              setCountry("");
+                                              setDescription("");
+                                              setDogs("Yes");
+                                              setElevationGain("");
+                                              setHikers("Yes");
+                                              setImageGal1("");
+                                              setImageGal2("");
+                                              setImageGal3("");
+                                              setKeywords("");
+                                              setLongitude("");
+                                              setLatitude("");
+                                              setMiles("");
+                                              setObstacles({});
+                                              setParkName("");
+                                              setParkingImage("");
+                                              setParkingNotes("");
+                                              setParkingSpots("");
+                                              setRestrictions("");
+                                              setState("");
+                                              setTrailHead({});
+                                              setTrailMap("");
+                                              setTrailMapImage("");
+                                              setTrailName("");
+                                              setTrailNotes("");
+                                              setTrailType("");
                                             })
                                             .catch((e) => {
                                               setError(
                                                 "Error occured: " + e.message
                                               );
                                             });
-                                        })
-                                        .catch((e) => {
+                                        } else {
                                           setError(
-                                            "Error occured: " + e.message
+                                            "Error! Entered longitude and latitude values are invalid"
                                           );
-                                        });
-                                    })
-                                    .catch((e) => {
-                                      setError("Error occured: " + e.message);
-                                    });
-                                })
-                                .catch((e) => {
-                                  setError("Error occured: " + e.message);
-                                });
-                            })
-                            .catch((e) => {
-                              setError("Error occured: " + e.message);
-                            });
-                        })
-                        .catch((e) => {
-                          setError("Error occured: " + e.message);
-                        });
-                    })
-                    .catch((e) => {
-                      setError("Error occured: " + e.message);
-                    });
-                } else {
-                  setError("Uploaded parking image format is invalid!");
-                }
+                                        }
+                                      })
+                                      .catch((e) => {
+                                        setError("Error occured: " + e.message);
+                                      });
+                                  })
+                                  .catch((e) => {
+                                    setError("Error occured: " + e.message);
+                                  });
+                              })
+                              .catch((e) => {
+                                setError("Error occured: " + e.message);
+                              });
+                          })
+                          .catch((e) => {
+                            setError("Error occured: " + e.message);
+                          });
+                      })
+                      .catch((e) => {
+                        setError("Error occured: " + e.message);
+                      });
+                  })
+                  .catch((e) => {
+                    setError("Error occured: " + e.message);
+                  });
               } else {
-                setError("Uploaded trail map image format is invalid!");
+                setError("Uploaded parking image format is invalid!");
               }
             } else {
-              setError("Uploaded galllery image format is invalid!");
+              setError("Uploaded trail map image format is invalid!");
             }
           } else {
-            setError("Uploaded gallery format is invalid!");
+            setError("Uploaded galllery image format is invalid!");
           }
         } else {
           setError("Uploaded gallery format is invalid!");
         }
       } else {
-        setError("Uploaded gpx format is invalid!");
+        setError("Uploaded gallery format is invalid!");
       }
     } else {
       setError("Uploaded banner image format is invalid!");
@@ -856,22 +832,6 @@ export default function AddTrail() {
                       setParkingSpots(e.target.value);
                     }}
                   ></input>
-                </div>
-              </div>
-              <div className="col md-6">
-                <div className="form-group" style={{ marginBottom: "15px" }}>
-                  <label style={{ marginBottom: "5px" }}>GPX File</label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    name="gpx"
-                    onChange={(e) => {
-                      setGpx(e.target.files[0]);
-                    }}
-                  ></input>
-                  <span style={{ fontSize: "12px" }}>
-                    Only txt, gpx and xml files are allowed
-                  </span>
                 </div>
               </div>
             </div>

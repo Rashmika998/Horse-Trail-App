@@ -3,7 +3,7 @@ import { BodyContent } from "../globalStyles";
 import EditProfile from "../components/EditProfile/EditProfile";
 import { useAuth } from "../contexts/AuthContext";
 import { db } from "../utils/firestore";
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 import {
   FaCheckCircle,
   FaHeart,
@@ -95,7 +95,6 @@ function MyProfile() {
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log("Document data:", doc.data());
           const mapUserDetails = doc.data();
           setUserDetails(mapUserDetails);
         } else {
@@ -118,11 +117,15 @@ function MyProfile() {
       }}
     >
       <div className="container-fluid col-11" style={{ paddingTop: "40px" }}>
-        
         <div className="row mt-2">
-        {(userDetails.type=='admin')?<p className="m-2"><Button href="/register-admin" style={{width: "20vw"}}><FaPlusCircle /> Register new admin</Button></p>: null}
+          {userDetails.type == "admin" ? (
+            <p className="m-2">
+              <Button href="/register-admin" style={{ width: "20vw" }}>
+                <FaPlusCircle /> Register new admin
+              </Button>
+            </p>
+          ) : null}
           <div className="col-lg-4 mt-5 ">
-       
             <div
               className=" card bg-white  shadow shadow-intensity-xl p-3 mb-5 rounded"
               style={{ height: "100%", border: "none" }}
@@ -170,7 +173,6 @@ function MyProfile() {
             </div>
           </div>
           <div className="col-lg-8 mt-5">
-
             <div
               className="card  shadow shadow-intensity-xl p-3 mb-5 rounded "
               style={{ height: "100%", border: "none" }}
@@ -189,7 +191,6 @@ function MyProfile() {
 
                       var lng = state.longitude;
                       var lat = state.latitude;
-                      console.log(lng);
                       bounds.extend({ lat: lat, lng: lng });
 
                       // map.fitBounds(bounds);
@@ -216,8 +217,7 @@ function MyProfile() {
           </div>
         </div>
 
-
-        <div className="row" >
+        <div className="row">
           <div className="col-lg-6 mt-5">
             <div
               className="card  shadow shadow-intensity-xl rounded"
@@ -225,37 +225,39 @@ function MyProfile() {
             >
               <h3 className="mt-2 text-center font-weight-bold">
                 <FaMountain /> Trails
-              </h3>{" "}
+              </h3>
               <div className="card-body">
-                <div className="row text-center ml-4 mr-4 mt-2">
-                  <div className="col-md-4" style={{ marginTop: "5px" }}>
-                    <Link
-                      to="/my-trails-list/checkedIn"
-                      className="btn btn-warning"
-                      style={{ width: "100%" }}
-                    >
-                      <FaMountain /> Trails to Ride
-                    </Link>
+                {userDetails.type != "admin" ? (
+                  <div className="row text-center ml-4 mr-4 mt-2">
+                    <div className="col-md-4" style={{ marginTop: "5px" }}>
+                      <Link
+                        to="/my-trails-list/checkedIn"
+                        className="btn btn-warning"
+                        style={{ width: "100%" }}
+                      >
+                        <FaMountain /> Trails to Ride
+                      </Link>
+                    </div>
+                    <div className="col-md-4" style={{ marginTop: "5px" }}>
+                      <Link
+                        to="/my-trails-list/completed"
+                        className="btn btn-success"
+                        style={{ width: "100%" }}
+                      >
+                        <FaCheckCircle /> Completed Trails
+                      </Link>
+                    </div>
+                    <div className="col-md-4" style={{ marginTop: "5px" }}>
+                      <Link
+                        to="/my-trails-list/favourites"
+                        className="btn btn-danger"
+                        style={{ width: "100%" }}
+                      >
+                        <FaHeart /> Favourite Trails
+                      </Link>
+                    </div>
                   </div>
-                  <div className="col-md-4" style={{ marginTop: "5px" }}>
-                    <Link
-                      to="/my-trails-list/completed"
-                      className="btn btn-success"
-                      style={{ width: "100%" }}
-                    >
-                      <FaCheckCircle /> Completed Trails
-                    </Link>
-                  </div>
-                  <div className="col-md-4" style={{ marginTop: "5px" }}>
-                    <Link
-                      to="/my-trails-list/favourites"
-                      className="btn btn-danger"
-                      style={{ width: "100%" }}
-                    >
-                      <FaHeart /> Favourite Trails
-                    </Link>
-                  </div>
-                </div>
+                ) : null}
 
                 <div className="row text-center mt-2">
                   <div className="col-md-6" style={{ marginTop: "5px" }}>
@@ -289,35 +291,37 @@ function MyProfile() {
                 <FaCampground /> Camps
               </h3>
               <div className="card-body">
-                <div className="row text-center ml-4 mr-4 mt-2">
-                  <div className="col-md-4" style={{ marginTop: "5px" }}>
-                    <Link
-                      to="/my-camps-list/checkedIn"
-                      className="btn btn-warning"
-                      style={{ width: "100%" }}
-                    >
-                      <FaCampground /> Camps to Ride
-                    </Link>
+                {userDetails.type != "admin" ? (
+                  <div className="row text-center ml-4 mr-4 mt-2">
+                    <div className="col-md-4" style={{ marginTop: "5px" }}>
+                      <Link
+                        to="/my-camps-list/checkedIn"
+                        className="btn btn-warning"
+                        style={{ width: "100%" }}
+                      >
+                        <FaCampground /> Camps to Ride
+                      </Link>
+                    </div>
+                    <div className="col-md-4" style={{ marginTop: "5px" }}>
+                      <Link
+                        to="/my-camps-list/completed"
+                        className="btn btn-success"
+                        style={{ width: "100%" }}
+                      >
+                        <FaCheckCircle /> Visited Camps
+                      </Link>
+                    </div>
+                    <div className="col-md-4" style={{ marginTop: "5px" }}>
+                      <Link
+                        to="/my-camps-list/favourites"
+                        className="btn btn-danger"
+                        style={{ width: "100%" }}
+                      >
+                        <FaHeart /> Favourite Camps
+                      </Link>
+                    </div>
                   </div>
-                  <div className="col-md-4" style={{ marginTop: "5px" }}>
-                    <Link
-                      to="/my-camps-list/completed"
-                      className="btn btn-success"
-                      style={{ width: "100%" }}
-                    >
-                      <FaCheckCircle /> Visited Camps
-                    </Link>
-                  </div>
-                  <div className="col-md-4" style={{ marginTop: "5px" }}>
-                    <Link
-                      to="/my-camps-list/favourites"
-                      className="btn btn-danger"
-                      style={{ width: "100%" }}
-                    >
-                      <FaHeart /> Favourite Camps
-                    </Link>
-                  </div>
-                </div>
+                ) : null}
 
                 <div className="row text-center mt-2">
                   <div className="col-md-6" style={{ marginTop: "5px" }}>

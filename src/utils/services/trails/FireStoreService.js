@@ -14,19 +14,7 @@ import "firebase/auth";
 const storage = firebase.storage();
 const trailsRef = db.collection("trails");
 
-function addGpxFiles(name, file) {
-  return new Promise((resolve, reject) => {
-    storage
-      .ref(`trails/gpx/${name}/${file.name}`)
-      .put(file)
-      .then((docRef) => {
-        resolve(docRef);
-      })
-      .catch((e) => {
-        reject(e);
-      });
-  });
-}
+
 
 function addTrailImages(name, file) {
   return new Promise((resolve, reject) => {
@@ -52,7 +40,6 @@ function addTrail(
   description,
   dogs,
   elevationGain,
-  gpxName,
   hikers,
   imageGal1Name,
   imageGal2Name,
@@ -87,7 +74,6 @@ function addTrail(
       description: description,
       dogs: dogs,
       elevationGain: elevationGain,
-      gpxName: gpxName,
       hikers: hikers,
       imageGal1Name: imageGal1Name,
       imageGal2Name: imageGal2Name,
@@ -135,20 +121,7 @@ function getAllTrails() {
   });
 }
 
-//get gpx file as a url to download
-function getGpxFiles(name, fileName) {
-  return new Promise((resolve, reject) => {
-    storage
-      .ref(`trails/gpx/${name}/${fileName}`)
-      .getDownloadURL()
-      .then((url) => {
-        resolve(url);
-      })
-      .catch((e) => {
-        reject(e);
-      });
-  });
-}
+
 
 //get image file as a url to download
 function getTrailImageURL(name, imageName) {
@@ -728,12 +701,10 @@ export default {
   addRatings,
   addTrail,
   addTrailImages,
-  addGpxFiles,
   deleteReview,
   deleteTrail,
   deleteTrailChecksIn,
   getAllTrails,
-  getGpxFiles,
   getRating,
   getReviews,
   addReview,
