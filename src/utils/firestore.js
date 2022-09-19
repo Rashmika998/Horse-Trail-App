@@ -28,13 +28,22 @@ import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyC70zbjFtiPPpkg99wDi_50ztKmNRu_XZU",
+//   authDomain: "newone-2fdde.firebaseapp.com",
+//   projectId: "newone-2fdde",
+//   storageBucket: "newone-2fdde.appspot.com",
+//   messagingSenderId: "424758278980",
+//   appId: "1:424758278980:web:0bb6f68b4b0f8684c73511",
+// };
+
 const firebaseConfig = {
-  apiKey: "AIzaSyC70zbjFtiPPpkg99wDi_50ztKmNRu_XZU",
-  authDomain: "newone-2fdde.firebaseapp.com",
-  projectId: "newone-2fdde",
-  storageBucket: "newone-2fdde.appspot.com",
-  messagingSenderId: "424758278980",
-  appId: "1:424758278980:web:0bb6f68b4b0f8684c73511",
+  apiKey: "AIzaSyCR5M5rkm2D4cIwE5cGBj1idbx0qHqdVx0",
+  authDomain: "horse-trail-eeb14.firebaseapp.com",
+  projectId: "horse-trail-eeb14",
+  storageBucket: "horse-trail-eeb14.appspot.com",
+  messagingSenderId: "525455864596",
+  appId: "1:525455864596:web:73a46d32948cc7251ec801",
 };
 
 // Initialize Firebase
