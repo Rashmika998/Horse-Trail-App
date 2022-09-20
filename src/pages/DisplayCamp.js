@@ -161,6 +161,8 @@ export default function DisplayCamp() {
           twitter.setAttribute("href", response.data().twitter);
           const insta = document.getElementById("insta");
           insta.setAttribute("href", response.data().instagram);
+          const horseSite = document.getElementById("horseSite");
+          horseSite.setAttribute("href", response.data().horseSite);
         }
 
         const pathBanner = response.data().campName;
@@ -921,7 +923,11 @@ export default function DisplayCamp() {
                   <Card.Body>
                     <Card.Title>HORSE SITE</Card.Title>
                     {currentUser ? (
-                      <div>{campDetails.horseSite}</div>
+                      <div>
+                        <a id="horseSite" style={{ textDecoration: "none" }}>
+                          {campDetails.horseSite}
+                        </a>
+                      </div>
                     ) : (
                       logInButton
                     )}
@@ -986,9 +992,22 @@ export default function DisplayCamp() {
               <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
-                    <Card.Title>CAMP NOTES</Card.Title>
+                    <Card.Title>Keywords/Tags</Card.Title>
                     {currentUser ? (
-                      <div>{campDetails.campNotes}</div>
+                      <div>
+                        {campDetails.keywords
+                          ? campDetails.keywords.split(",").map((keyword) => {
+                              return (
+                                <span
+                                  className="btn btn-info m-2"
+                                  style={{ borderRadius: "30px" }}
+                                >
+                                  {keyword}
+                                </span>
+                              );
+                            })
+                          : null}
+                      </div>
                     ) : (
                       logInButton
                     )}
@@ -1014,22 +1033,16 @@ export default function DisplayCamp() {
               <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
-                    <Card.Title>Keywords/Tags</Card.Title>
+                    <Card.Title>CAMP NOTES</Card.Title>
                     {currentUser ? (
-                      <div>
-                        {campDetails.keywords
-                          ? campDetails.keywords.split(",").map((keyword) => {
-                              return (
-                                <span
-                                  className="btn btn-info m-2"
-                                  style={{ borderRadius: "30px" }}
-                                >
-                                  {keyword}
-                                </span>
-                              );
-                            })
-                          : null}
-                     
+                      <div
+                        style={{
+                          overflowY: "auto",
+                          height: "200px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {campDetails.campNotes}
                       </div>
                     ) : (
                       logInButton
@@ -1057,8 +1070,8 @@ export default function DisplayCamp() {
                   </Card.Body>
                 </Card>
               </div>
-              <br></br>
             </div>
+            <br></br>
             <div className="row text-center">
               <div className="col md-3">
                 <Card style={{ border: "none" }}>
