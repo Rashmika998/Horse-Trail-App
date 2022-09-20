@@ -887,16 +887,18 @@ export default function DisplayTrail() {
                   <Card.Body>
                     <Card.Title>Keywords/Trail Tags</Card.Title>
                     <div>
-                      {trailDetails.keywords.split(",").map((keyword) => {
-                        return (
-                          <span
-                            className="btn btn-info m-2"
-                            style={{ borderRadius: "30px" }}
-                          >
-                            {keyword}
-                          </span>
-                        );
-                      })}
+                      {trailDetails.keywords
+                        ? trailDetails.keywords.split(",").map((keyword) => {
+                            return (
+                              <span
+                                className="btn btn-info m-2"
+                                style={{ borderRadius: "30px" }}
+                              >
+                                {keyword}
+                              </span>
+                            );
+                          })
+                        : null}
                     </div>
                   </Card.Body>
                 </Card>
