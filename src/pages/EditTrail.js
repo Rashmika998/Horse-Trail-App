@@ -891,6 +891,7 @@ export default function EditTrail() {
                           Trail Name
                         </label>
                         <input
+                          disabled={true}
                           required={true}
                           type="text"
                           className="form-control"

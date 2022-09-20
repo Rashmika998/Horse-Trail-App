@@ -382,7 +382,11 @@ function SearchPage() {
                 ) : (
                   ""
                 )}
-                {camps.length == 0 && retrived == true ? "No Camps Found" : ""}
+                {camps.length == 0 && retrived == true ? (
+                  <p className="text-center">No Camps Found</p>
+                ) : (
+                  ""
+                )}
                 {camps.length > 0 ? (
                   <GoogleMapPage markers={markers} camps={camps} />
                 ) : (
@@ -396,7 +400,7 @@ function SearchPage() {
               role="tabpanel"
               aria-labelledby="profile-tab"
             >
-              {camps.length == 0 ? "No Camps Found" : ""}
+              {camps.length == 0 ? <p className="text-center mt-5 pt-5 mb-5">No Camps Found</p> : ""}
               <div className="row text-center">
                 {camps.map((camp) => {
                   // getImageURL(camp);

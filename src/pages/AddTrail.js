@@ -63,6 +63,7 @@ export default function AddTrail() {
   }
 
   function onSubmit(e) {
+    setError("");
     e.preventDefault();
     setLoading(true);
 
