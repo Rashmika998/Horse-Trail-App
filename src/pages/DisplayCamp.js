@@ -928,7 +928,7 @@ export default function DisplayCamp() {
                   </Card.Body>
                 </Card>
               </div>
-              <div className="col md-3">
+              <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
                     <Card.Title>COST PER NIGHT</Card.Title>
@@ -943,7 +943,7 @@ export default function DisplayCamp() {
             </div>
             <br></br>
             <div className="row text-center">
-              <div className="col md-4">
+              <div className="col md-4 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
                     <Card.Title>LINKS</Card.Title>
@@ -983,7 +983,7 @@ export default function DisplayCamp() {
                   </Card.Body>
                 </Card>
               </div>
-              <div className="col md-3">
+              <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
                     <Card.Title>CAMP NOTES</Card.Title>
@@ -995,20 +995,8 @@ export default function DisplayCamp() {
                   </Card.Body>
                 </Card>
               </div>
-              <div className="col md-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
-                    <Card.Title>CAMP DESCRIPTION</Card.Title>
-                    {currentUser ? (
-                      <div>{campDetails.campDescription}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
 
-              <div className="col md-3">
+              <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
                     <Card.Title>RESERVATION & PRICING</Card.Title>
@@ -1022,6 +1010,52 @@ export default function DisplayCamp() {
               </div>
             </div>
             <br></br>
+            <div className="row text-center">
+              <div className="col md-3 m-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title>Keywords/Tags</Card.Title>
+                    {currentUser ? (
+                      <div>
+                        {campDetails.keywords.split(",").map((keyword) => {
+                          return (
+                            <span
+                              className="btn btn-info m-2"
+                              style={{ borderRadius: "30px" }}
+                            >
+                              {keyword}
+                            </span>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      logInButton
+                    )}
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3 m-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title>CAMP DESCRIPTION</Card.Title>
+                    {currentUser ? (
+                      <div
+                        style={{
+                          overflowY: "auto",
+                          height: "200px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {campDetails.campDescription}
+                      </div>
+                    ) : (
+                      logInButton
+                    )}
+                  </Card.Body>
+                </Card>
+              </div>
+              <br></br>
+            </div>
             <div className="row text-center">
               <div className="col md-3">
                 <Card style={{ border: "none" }}>
