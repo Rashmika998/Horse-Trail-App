@@ -422,9 +422,12 @@ function SearchPage() {
                 ) : (
                   ""
                 )}
-                {trails.length == 0 && retrived == true
-                  ? "No Trails Found"
-                  : ""}
+                {trails.length == 0 ? (
+                  <p className="text-center mt-5 pt-5 mb-5">No Trails Found</p>
+                ) : (
+                  ""
+                )}
+
                 {trails.length > 0 ? (
                   <GoogleMapPage markers={markers} trails={trails} />
                 ) : (
@@ -438,10 +441,12 @@ function SearchPage() {
               role="tabpanel"
               aria-labelledby="profile-tab"
             >
-              {trails.length == 0 ? "No Trails Found" : ""}
+              {trails.length == 0 ? (
+                <p className="text-center mt-5 pt-5 mb-5">No Trails Found</p>
+              ) : (
+                ""
+              )}
               <div className="row text-center">
-               
-
                 {trails.map((trail) => {
                   return (
                     <Col xs={12} md={6} lg={4} key={trail.id}>

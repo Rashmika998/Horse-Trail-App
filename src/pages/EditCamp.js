@@ -654,7 +654,6 @@ export default function EditCamp() {
   }
 
   function onSubmitBannerImage(e) {
-
     e.preventDefault();
     if (
       banner.type === "image/jpeg" ||
@@ -912,6 +911,7 @@ export default function EditCamp() {
                       >
                         <label style={{ marginBottom: "5px" }}>Camp Name</label>
                         <input
+                          disabled={true}
                           required={true}
                           type="text"
                           className="form-control"
