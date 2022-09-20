@@ -166,6 +166,7 @@ export default function AddTrail() {
                                             userId
                                           )
                                             .then(() => {
+                                              setError("");
                                               setTrailAdded(
                                                 "Trail added successfully!"
                                               );
