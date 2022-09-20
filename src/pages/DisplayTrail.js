@@ -814,26 +814,6 @@ export default function DisplayTrail() {
               <div className="col md-4 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
-                    <Card.Title>Trail Description</Card.Title>
-                    {currentUser ? (
-                      <div
-                        style={{
-                          overflowY: "auto",
-                          height: "200px",
-                          textAlign: "left",
-                        }}
-                      >
-                        {trailDetails.description}
-                      </div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-4 m-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
                     <Card.Title>Trail Notes</Card.Title>
                     {currentUser ? (
                       <div>{trailDetails.trailNotes}</div>
@@ -873,18 +853,6 @@ export default function DisplayTrail() {
               <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
-                    <Card.Title>Parking Notes</Card.Title>
-                    {currentUser ? (
-                      <div>{trailDetails.parkingNotes}</div>
-                    ) : (
-                      logInButton
-                    )}
-                  </Card.Body>
-                </Card>
-              </div>
-              <div className="col md-3 m-3">
-                <Card style={{ border: "none" }}>
-                  <Card.Body>
                     <Card.Title>Keywords/Trail Tags</Card.Title>
                     <div>
                       {trailDetails.keywords
@@ -903,6 +871,7 @@ export default function DisplayTrail() {
                   </Card.Body>
                 </Card>
               </div>
+
               <div className="col md-3 m-3">
                 <Card style={{ border: "none" }}>
                   <Card.Body>
@@ -916,6 +885,49 @@ export default function DisplayTrail() {
                         >
                           Click Here
                         </a>
+                      </div>
+                    ) : (
+                      logInButton
+                    )}
+                  </Card.Body>
+                </Card>
+              </div>
+            </div>
+            <br></br>
+            <div className="row text-center">
+              <div className="col md-4 m-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title>Trail Description</Card.Title>
+                    {currentUser ? (
+                      <div
+                        style={{
+                          overflowY: "auto",
+                          height: "200px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {trailDetails.description}
+                      </div>
+                    ) : (
+                      logInButton
+                    )}
+                  </Card.Body>
+                </Card>
+              </div>
+              <div className="col md-3 m-3">
+                <Card style={{ border: "none" }}>
+                  <Card.Body>
+                    <Card.Title>Parking Notes</Card.Title>
+                    {currentUser ? (
+                      <div
+                        style={{
+                          overflowY: "auto",
+                          height: "200px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {trailDetails.parkingNotes}
                       </div>
                     ) : (
                       logInButton
