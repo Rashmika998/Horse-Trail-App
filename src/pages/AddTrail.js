@@ -56,10 +56,13 @@ export default function AddTrail() {
   const [trailMapImage, setTrailMapImage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  function validateLatLng(lat, lng) {
-    let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
-
-    return pattern.test(lat) && pattern.test(lng);
+  function validateLatLng(lng, lat) {
+    return (
+      isFinite(lat) &&
+      Math.abs(lat) <= 90 &&
+      isFinite(lng) &&
+      Math.abs(lng) <= 180
+    );
   }
 
   function onSubmit(e) {
@@ -127,10 +130,7 @@ export default function AddTrail() {
                                     )
                                       .then(() => {
                                         if (
-                                          validateLatLng(
-                                            parseFloat(latitude),
-                                            parseFloat(longitude)
-                                          )
+                                          validateLatLng(longitude, latitude)
                                         ) {
                                           FireStoreService.addTrail(
                                             atvOrOffroad,
@@ -207,7 +207,7 @@ export default function AddTrail() {
                                             });
                                         } else {
                                           setError(
-                                            "Error! Entered longitude and latitude values are invalid"
+                                            "Error! Entered longitude or latitude values are invalid"
                                           );
                                         }
                                       })
@@ -972,6 +972,9 @@ export default function AddTrail() {
                   setKeywords(e.target.value);
                 }}
               ></input>
+              <span style={{ fontSize: "12px" }}>
+                Add keywords in comma separated
+              </span>
             </div>
             <div className="form-group" style={{ marginBottom: "15px" }}>
               <label style={{ marginBottom: "5px" }}>

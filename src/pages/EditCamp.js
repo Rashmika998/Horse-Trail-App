@@ -240,9 +240,12 @@ export default function EditCamp() {
   };
 
   function validateLatLng(lat, lng) {
-    let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
-
-    return pattern.test(lat) && pattern.test(lng);
+    return (
+      isFinite(lat) &&
+      Math.abs(lat) <= 90 &&
+      isFinite(lng) &&
+      Math.abs(lng) <= 180
+    );
   }
 
   function setSelects() {
@@ -555,10 +558,9 @@ export default function EditCamp() {
     /* Allowed phn number formats
     (123) 456-7890. (123)456-7890, 123-456-7890, 1234567890 */
     if (rePhone.test(phone) && rePhone.test(reservationCall)) {
-      var reEmail =
-        /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+      var reEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
       if (reEmail.test(email) && reEmail.test(reservationEmail)) {
-        if (validateLatLng(parseFloat(latitude), parseFloat(longitude))) {
+        if (validateLatLng(latitude, longitude)) {
           FireStoreService.updateCampDetails(
             campID,
             amenitiesCheck,
@@ -640,7 +642,7 @@ export default function EditCamp() {
             });
         } else {
           setErrorCampDetails(
-            "Error! Entered longitude and latitude values are invalid"
+            "Error! Entered longitude or latitude values are invalid"
           );
         }
       } else {

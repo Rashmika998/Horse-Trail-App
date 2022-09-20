@@ -816,7 +816,15 @@ export default function DisplayTrail() {
                   <Card.Body>
                     <Card.Title>Trail Description</Card.Title>
                     {currentUser ? (
-                      <div>{trailDetails.description}</div>
+                      <div
+                        style={{
+                          overflowY: "auto",
+                          height: "200px",
+                          textAlign: "left",
+                        }}
+                      >
+                        {trailDetails.description}
+                      </div>
                     ) : (
                       logInButton
                     )}
@@ -878,7 +886,18 @@ export default function DisplayTrail() {
                 <Card style={{ border: "none" }}>
                   <Card.Body>
                     <Card.Title>Keywords/Trail Tags</Card.Title>
-                    <div>{trailDetails.keywords}</div>
+                    <div>
+                      {trailDetails.keywords.split(",").map((keyword) => {
+                        return (
+                          <span
+                            className="btn btn-info m-2"
+                            style={{ borderRadius: "30px" }}
+                          >
+                            {keyword}
+                          </span>
+                        );
+                      })}
+                    </div>
                   </Card.Body>
                 </Card>
               </div>

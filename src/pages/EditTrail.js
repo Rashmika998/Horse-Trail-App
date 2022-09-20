@@ -181,9 +181,12 @@ export default function EditTrail() {
   }, [stateChange]);
 
   function validateLatLng(lat, lng) {
-    let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
-
-    return pattern.test(lat) && pattern.test(lng);
+    return (
+      isFinite(lat) &&
+      Math.abs(lat) <= 90 &&
+      isFinite(lng) &&
+      Math.abs(lng) <= 180
+    );
   }
 
   const handleCheckChangeOne = (e) => {
@@ -507,7 +510,7 @@ export default function EditTrail() {
   function onSubmitTrailDetails(e) {
     e.preventDefault();
     setLoading(true);
-    if (validateLatLng(parseFloat(latitude), parseFloat(longitude))) {
+    if (validateLatLng(latitude, longitude)) {
       FireStoreService.updateTrailDetails(
         trailID,
         atvOrOffroad,
@@ -576,7 +579,7 @@ export default function EditTrail() {
         });
     } else {
       setErrorTrailDetails(
-        "Error! Entered longitude and latitude values are invalid"
+        "Error! Entered longitude or latitude values are invalid"
       );
     }
   }
@@ -1710,9 +1713,7 @@ export default function EditTrail() {
                       className="form-control"
                       name="parkingImage"
                       onChange={(e) => {
-                        setParkingImage(
-                          e.target.files[0],
-                        );
+                        setParkingImage(e.target.files[0]);
                       }}
                     ></input>
                     <span style={{ fontSize: "12px" }}>

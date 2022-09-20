@@ -123,9 +123,12 @@ export default function AddCamp() {
   };
 
   function validateLatLng(lat, lng) {
-    let pattern = new RegExp("^-?([1-8]?[1-9]|[1-9]0)\\.{1}\\d{1,6}");
-
-    return pattern.test(lat) && pattern.test(lng);
+    return (
+      isFinite(lat) &&
+      Math.abs(lat) <= 90 &&
+      isFinite(lng) &&
+      Math.abs(lng) <= 180
+    );
   }
 
   function onSubmit(e) {
@@ -224,26 +227,19 @@ export default function AddCamp() {
                                   const amenitiesCheck = {};
                                   amenitiesCheck.amenities = tempObj;
 
-                                  var rePhone =
-                                    /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+                                  var rePhone = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
                                   /* Allowed phn number formats
                                   (123) 456-7890. (123)456-7890, 123-456-7890, 1234567890 */
                                   if (
                                     rePhone.test(phone) &&
                                     rePhone.test(reservationCall)
                                   ) {
-                                    var reEmail =
-                                      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+                                    var reEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
                                     if (
                                       reEmail.test(email) &&
                                       reEmail.test(reservationEmail)
                                     ) {
-                                      if (
-                                        validateLatLng(
-                                          parseFloat(latitude),
-                                          parseFloat(longitude)
-                                        )
-                                      ) {
+                                      if (validateLatLng(latitude, longitude)) {
                                         FireStoreService.addCamp(
                                           amenitiesCheck,
                                           banner.name,
@@ -336,7 +332,7 @@ export default function AddCamp() {
                                           });
                                       } else {
                                         setError(
-                                          "Error! Entered longitude and latitude values are invalid"
+                                          "Error! Entered longitude or latitude values are invalid"
                                         );
                                       }
                                     } else {
@@ -1210,6 +1206,9 @@ export default function AddCamp() {
                       setKeywords(e.target.value);
                     }}
                   ></input>
+                  <span style={{ fontSize: "12px" }}>
+                    Add keywords in comma separated
+                  </span>
                 </div>
               </div>
             </div>
