@@ -1017,16 +1017,19 @@ export default function DisplayCamp() {
                     <Card.Title>Keywords/Tags</Card.Title>
                     {currentUser ? (
                       <div>
-                        {campDetails.keywords.split(",").map((keyword) => {
-                          return (
-                            <span
-                              className="btn btn-info m-2"
-                              style={{ borderRadius: "30px" }}
-                            >
-                              {keyword}
-                            </span>
-                          );
-                        })}
+                        {campDetails.keywords
+                          ? campDetails.keywords.split(",").map((keyword) => {
+                              return (
+                                <span
+                                  className="btn btn-info m-2"
+                                  style={{ borderRadius: "30px" }}
+                                >
+                                  {keyword}
+                                </span>
+                              );
+                            })
+                          : null}
+                     
                       </div>
                     ) : (
                       logInButton
