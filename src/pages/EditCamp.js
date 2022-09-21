@@ -16,7 +16,7 @@ export default function EditCamp() {
   const [horseSite, setHorseSite] = useState("");
   const [instagram, setInstagram] = useState("");
   const [reservation, setReservation] = useState("Yes");
-  const [keywords, setKeywords] = useState("");
+  const [keywords, setKeywords] = useState([]);
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [paperworkRequired, setPaperworkRequired] = useState("Yes");
@@ -613,7 +613,7 @@ export default function EditCamp() {
               setImageGal1("");
               setImageGal2("");
               setImageGal3("");
-              setKeywords("");
+              setKeywords([]);
               setLongitude("");
               setLatitude("");
               setReservation("Yes");
@@ -1785,7 +1785,7 @@ export default function EditCamp() {
                           name="keywords"
                           placeholder="Keywords"
                           onChange={(e) => {
-                            setKeywords(e.target.value);
+                            setKeywords(e.target.value.split(","));
                           }}
                           value={keywords}
                         ></input>
