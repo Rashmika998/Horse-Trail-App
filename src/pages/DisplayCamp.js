@@ -996,10 +996,10 @@ export default function DisplayCamp() {
                     {currentUser ? (
                       <div>
                         {campDetails.keywords
-                          ? campDetails.keywords.split(",").map((keyword) => {
+                          ? campDetails.keywords.map((keyword) => {
                               return (
                                 <span
-                                  className="btn btn-info m-2"
+                                  className="btn btn-info  m-1"
                                   style={{ borderRadius: "30px" }}
                                 >
                                   {keyword}

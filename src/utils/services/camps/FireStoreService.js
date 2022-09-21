@@ -224,7 +224,6 @@ function searchCamps(
         season
       );
     }
-
     if (camp_park_name != "") {
       if (inputParkOrCamp == "park") {
         query = query.where("parkName", "==", camp_park_name);

@@ -17,7 +17,7 @@ function SearchPage() {
     inputCampParkName: "",
     inputRVHookUps: "Any",
     inputState: "Any",
-    inputParkOrTrail: "trail",
+    inputParkOrCamp: "camp",
   });
   const [camps, setCampsList] = useState([]);
   const [retrived, setRetrived] = useState(false);
@@ -80,7 +80,7 @@ function SearchPage() {
       inputs.inputSeason,
       inputs.inputCampParkName,
       inputs.inputState,
-      inputs.inputParkOrTrail,
+      inputs.inputParkOrCamp,
       inputs.inputRVHookUps,
       inputs.inputCorrals
     );
@@ -122,9 +122,9 @@ function SearchPage() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="inputParkOrTrail"
+                    name="inputParkOrCamp"
                     id="inlineRadio1"
-                    value="trail"
+                    value="camp"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -136,7 +136,7 @@ function SearchPage() {
                   <input
                     className="form-check-input"
                     type="radio"
-                    name="inputParkOrTrail"
+                    name="inputParkOrCamp"
                     id="inlineRadio2"
                     value="park"
                     onChange={(e) => {

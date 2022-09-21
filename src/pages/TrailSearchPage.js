@@ -19,7 +19,7 @@ function SearchPage() {
     inputTrailType: "Any",
     inputSeason: "Any",
     inputTrailParkName: "",
-    inputTag: "",
+    inputTag: [],
     inputBikes: "Any",
     inputState: "Any",
     inputRange: [1, 25],
@@ -39,9 +39,16 @@ function SearchPage() {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
-
     setInputs((values) => ({ ...values, [name]: value }));
   };
+
+
+  const handleTagChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value.split(",");
+    setInputs((values) => ({ ...values, [name]: value }));
+  };
+
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -247,10 +254,10 @@ function SearchPage() {
                   type="text"
                   name="inputTag"
                   className="form-control"
-                  placeholder="Tags"
-                  value={inputs.inputTag || ""}
+                  placeholder="Tags (comma seperated)"
+                  value={inputs.inputTag || []}
                   onChange={(e) => {
-                    handleChange(e);
+                    handleTagChange(e);
                   }}
                 />
               </div>

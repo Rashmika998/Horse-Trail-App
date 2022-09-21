@@ -4,6 +4,7 @@ import FireStoreService from "../utils/services/trails/FireStoreService";
 import { useAuth } from "../contexts/AuthContext";
 import "../components/AuthPages/Auth.css";
 import { Card } from "react-bootstrap";
+import { compose } from "@mui/system";
 
 export default function AddTrail() {
   const { currentUser } = useAuth();
@@ -23,7 +24,7 @@ export default function AddTrail() {
   const [dogs, setDogs] = useState("Yes");
   const [elevationGain, setElevationGain] = useState("");
   const [hikers, setHikers] = useState("Yes");
-  const [keywords, setKeywords] = useState("");
+  const [keywords, setKeywords] = useState([]);
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [miles, setMiles] = useState("");
@@ -183,7 +184,7 @@ export default function AddTrail() {
                                               setImageGal1("");
                                               setImageGal2("");
                                               setImageGal3("");
-                                              setKeywords("");
+                                              setKeywords([]);
                                               setLongitude("");
                                               setLatitude("");
                                               setMiles("");
@@ -970,7 +971,8 @@ export default function AddTrail() {
                 name="keywords"
                 placeholder="Keywords"
                 onChange={(e) => {
-                  setKeywords(e.target.value);
+                  
+                  setKeywords(e.target.value.split(","));
                 }}
               ></input>
               <span style={{ fontSize: "12px" }}>

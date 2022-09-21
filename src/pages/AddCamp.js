@@ -26,7 +26,7 @@ export default function AddCamp() {
   const [horseSite, setHorseSite] = useState("");
   const [instagram, setInstagram] = useState("Yes");
   const [reservation, setReservation] = useState("Yes");
-  const [keywords, setKeywords] = useState("");
+  const [keywords, setKeywords] = useState([]);
   const [longitude, setLongitude] = useState("");
   const [latitude, setLatitude] = useState("");
   const [paperworkRequired, setPaperworkRequired] = useState("Yes");
@@ -298,7 +298,7 @@ export default function AddCamp() {
                                             setImageGal1("");
                                             setImageGal2("");
                                             setImageGal3("");
-                                            setKeywords("");
+                                            setKeywords([]);
                                             setLongitude("");
                                             setLatitude("");
                                             setReservation("Yes");
@@ -1203,7 +1203,7 @@ export default function AddCamp() {
                     name="keywords"
                     placeholder="Keywords"
                     onChange={(e) => {
-                      setKeywords(e.target.value);
+                      setKeywords(e.target.value.split(","));
                     }}
                   ></input>
                   <span style={{ fontSize: "12px" }}>
