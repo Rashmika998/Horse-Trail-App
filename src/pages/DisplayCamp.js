@@ -54,6 +54,7 @@ export default function DisplayCamp() {
   const [bannerURL, setBannerURL] = useState("");
   const [userType, setUserType] = useState([]);
   const [show, setShow] = useState(false);
+  const [showCamp, setShowCamp] = useState(false);
 
   const handleClick = (value) => {
     setCurrentValue(value);
@@ -502,6 +503,27 @@ export default function DisplayCamp() {
       .catch((e) => {
         console.log(e);
       });
+  }
+
+  const deleteCamp = () => {
+    FireStoreService.deleteCamp(campID)
+      .then(() => {
+        FireStoreService.deleteCampChecksIn(campID)
+          .then(() => {
+            window.location.replace("/camps");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const handleCloseCamp = () => setShowCamp(false);
+  function handleShowDeleteCamp() {
+    setShowCamp(true);
   }
 
   const columnsUser = [
@@ -1425,6 +1447,43 @@ export default function DisplayCamp() {
                 ) : null
               ) : null}
             </div>
+            {userType === "user" ? (
+              <>
+                <br></br>
+                <Card style={{ border: "none" }}>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleShowDeleteCamp}
+                  >
+                    Delete Camp&nbsp;
+                    <FaTrash />
+                  </button>
+                  <Modal show={showCamp} onHide={handleCloseCamp}>
+                    <Modal.Header
+                      closeButton
+                      style={{
+                        backgroundColor: "#C41E3A",
+                        color: "white",
+                      }}
+                    >
+                      <Modal.Title> Delete Camp</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body style={{ textAlign: "center" }}>
+                      Delete this camp?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="danger" onClick={deleteCamp}>
+                        Yes
+                      </Button>
+                      <Button variant="secondary" onClick={handleCloseCamp}>
+                        No
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Card>
+              </>
+            ) : null}
           </div>
         ) : (
           <div className="mt-5">

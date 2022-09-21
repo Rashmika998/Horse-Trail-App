@@ -53,6 +53,7 @@ export default function DisplayTrail() {
   const [bannerURL, setBannerURL] = useState("");
   const [userType, setUserType] = useState([]);
   const [show, setShow] = useState(false);
+  const [showTrail, setShowTrail] = useState(false);
 
   const handleClick = (value) => {
     setCurrentValue(value);
@@ -499,6 +500,27 @@ export default function DisplayTrail() {
   const handleClose = () => setShow(false);
   function handleShowDelete() {
     setShow(true);
+  }
+
+  const deleteTrail = () => {
+    FireStoreService.deleteTrail(trailID)
+      .then(() => {
+        FireStoreService.deleteTrailChecksIn(trailID)
+          .then(() => {
+            window.location.replace("/trails");
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
+
+  const handleCloseTrail = () => setShowTrail(false);
+  function handleShowDeleteTrail() {
+    setShowTrail(true);
   }
 
   const columnsUser = [
@@ -1311,6 +1333,43 @@ export default function DisplayTrail() {
                 ) : null
               ) : null}
             </div>
+            {userType === "user" ? (
+              <>
+                <br></br>
+                <Card style={{ border: "none" }}>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={handleShowDeleteTrail}
+                  >
+                    Delete Trail&nbsp;
+                    <FaTrash />
+                  </button>
+                  <Modal show={showTrail} onHide={handleCloseTrail}>
+                    <Modal.Header
+                      closeButton
+                      style={{
+                        backgroundColor: "#C41E3A",
+                        color: "white",
+                      }}
+                    >
+                      <Modal.Title> Delete Trail</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body style={{ textAlign: "center" }}>
+                      Delete this trail?
+                    </Modal.Body>
+                    <Modal.Footer>
+                      <Button variant="danger" onClick={deleteTrail}>
+                        Yes
+                      </Button>
+                      <Button variant="secondary" onClick={handleCloseTrail}>
+                        No
+                      </Button>
+                    </Modal.Footer>
+                  </Modal>
+                </Card>
+              </>
+            ) : null}
           </div>
         ) : (
           <div className="mt-5">
