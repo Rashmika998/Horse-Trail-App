@@ -212,7 +212,7 @@ function searchTrails(
 ) {
   return new Promise((resolve, reject) => {
     var query = db.collection("trails");
-    query = query.where("miles", ">=", range[0]);
+    query = query.where("miles", ">=", range[0]).where("miles", "<=", range[1]);
 
     if (trailType != "Any") {
       query = query.where("trailType", "==", trailType);
@@ -238,8 +238,8 @@ function searchTrails(
         query = query.where("parkName", "==", trail_park_name);
       }
     }
-    if (tag != "") {
-      query = query.where("keywords", "==", tag);
+    if (tag.length>0) {
+      query = query.where("keywords", "array-contains-any", tag);
     }
     query
       .get()
