@@ -75,7 +75,7 @@ const Navbar = () => {
       <Nav>
         <NavbarContainer>
           <NavLogo to="/" style={{ width: "100%" }}>
-            Top Horse Trails
+            Hoof Paths
           </NavLogo>
           <MobileIcon onClick={handleClick}>
             {show ? <FaTimes /> : <CgMenuRight />}

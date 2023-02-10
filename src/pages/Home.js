@@ -56,6 +56,22 @@ const Home = () => {
               </Carousel.Caption>{" "}
             </Carousel.Item>
           </Carousel>
+          <br></br>
+          <h2 style={{ textAlign: "center" }}>About Us</h2>
+          <div style={{ padding: "10px" }}>
+            California has hundreds of camps and thousands of trails open to
+            horses. Finding trails to ride and places to camp with your horse
+            shouldn't be difficult. Hoof-it is a crowd source app where
+            equestrians can share their favorite places to ride. The goal is to
+            create a comprehensive list that makes it easy to search for your
+            next adventure and share the most current information.
+          </div>
+          <br></br>
+          <h2 style={{ textAlign: "center" }}>Mission</h2>
+          <div style={{ textAlign: "center" }}>
+            "To enable more people to use the trails so they can be maintained
+            and sustained  for the future."
+          </div>
         </div>
       </HomeContent>
     </>
